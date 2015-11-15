@@ -1,6 +1,8 @@
 #pragma once
 
-#include "EntityManager.h"
+class EntityManager;
+
+typedef unsigned short EntityID;
 
 /**
  * @brief Entity class to be used for all game objects

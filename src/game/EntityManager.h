@@ -1,12 +1,7 @@
 #pragma once
-#include <list>
-#include <climits>
-
-typedef unsigned short EntityID;
-//#define EID_MAX USHRT_MAX
-#define EID_MAX 100	// The maximum number of entities allowed
-
-class Entity;
+#include <vector>
+#include "ComponentManager.h"
+#include "Entity.h"
 
 /**
  * @brief Handles all the Entity-related functionality (creation,
@@ -15,9 +10,11 @@ class Entity;
 class EntityManager
 {
 public:
+	static void Initialize();
 	static EntityID CreateEntity();
-	template <class T> static void AddComponent(EntityID Entity, T Component);
-	template <class T> static T& GetComponent(EntityID Entity);
+	template <class T> static void AddComponent(Entity entity, T& component);
+	template <class T> static void AddComponent(Entity entity, T&& component);
+	template <class T> static T& GetComponent(Entity entity);
 	static void DestroyEntity(Entity& Entity);
 
 private:
@@ -26,6 +23,24 @@ private:
 
 	// List of open EntityIDs 
 	// (stored as inclusive ranges of free numbers)
-	static std::list<std::pair<EntityID,EntityID>> s_freeIDs;
+	static EntityID s_StartID;
+	static EntityID s_EndID;
+	static std::vector<EntityID> s_freeIDs;
+	static const EntityID FREE_RESERVE;
 };
+
+template <class T> void EntityManager::AddComponent(Entity entity, T& component)
+{
+	ComponentManager<T>::CreateFor(entity, component);
+}
+
+template <class T> void EntityManager::AddComponent(Entity entity, T&& component)
+{
+	ComponentManager<T>::CreateFor(entity, component);
+}
+
+template <class T> T& EntityManager::GetComponent(Entity entity)
+{
+	return ComponentManager<T>::GetFor(entity);
+}
 

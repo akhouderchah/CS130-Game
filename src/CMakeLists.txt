@@ -41,10 +41,14 @@ set(CMAKE_CXX_STANDARD 11)
 ## Header and Source files
 file(GLOB_RECURSE GAME_SRC "./game/*.cpp")
 file(GLOB_RECURSE GAME_HEADER "./game/*.h")
+file(GLOB_RECURSE CONTENT_SRC "./content/*.cpp")
+file(GLOB_RECURSE CONTENT_HEADER "./content/*.h")
 
 add_executable(Iterate_2
 					${GAME_SRC}
 					${GAME_HEADER}
+					${CONTENT_SRC}
+					${CONTENT_HEADER}
 					main.cpp )
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
@@ -61,4 +65,6 @@ endif()
 ## Setting up Visual Studio filters
 source_group(Game\\Source FILES ${GAME_SRC})
 source_group(Game\\Headers FILES ${GAME_HEADER})
+source_group(Content\\Source FILES ${CONTENT_SOURCE})
+source_group(Content\\Headers FILES ${CONTENT_HEADER})
 
