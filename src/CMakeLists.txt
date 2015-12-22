@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.6)
-project(Iterate_2)
+project(tetrad-game)
 
 # Version Number
 set(VERSION_MAJOR 1)
@@ -44,7 +44,7 @@ file(GLOB_RECURSE GAME_HEADER "./game/*.h")
 file(GLOB_RECURSE CONTENT_SRC "./content/*.cpp")
 file(GLOB_RECURSE CONTENT_HEADER "./content/*.h")
 
-add_executable(Iterate_2
+add_executable(tetrad-game
 					${GAME_SRC}
 					${GAME_HEADER}
 					${CONTENT_SRC}
@@ -59,7 +59,7 @@ if(SFML_FOUND)
 		${PROJECT_SOURCE_DIR}
 		${PROJECT_SOURCE_DIR}/game
 		.)
-	target_link_libraries(Iterate_2 ${SFML_LIBRARIES})
+	target_link_libraries(tetrad-game ${SFML_LIBRARIES})
 endif()
 
 ## Setting up Visual Studio filters
