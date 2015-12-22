@@ -23,7 +23,7 @@ int main()
 		EntityManager::AddComponent(temp, TestComponent());
 	}
 
-	TestComponent test = EntityManager::GetComponent<TestComponent>(1);
+	TestComponent test = *EntityManager::GetComponent<TestComponent>(1);
 	test.Tick();
 
 	for(size_t i = 5; i < 12; ++i)

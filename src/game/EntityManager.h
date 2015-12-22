@@ -12,9 +12,9 @@ class EntityManager
 public:
 	static void Initialize();
 	static EntityID CreateEntity();
-	template <class T> static void AddComponent(Entity entity, T& component);
-	template <class T> static void AddComponent(Entity entity, T&& component);
-	template <class T> static T& GetComponent(Entity entity);
+	template <class T> static bool AddComponent(Entity entity, T& component);
+	template <class T> static bool AddComponent(Entity entity, T&& component);
+	template <class T> static T* GetComponent(Entity entity);
 	static void DestroyEntity(Entity& Entity);
 
 private:
@@ -29,17 +29,17 @@ private:
 	static const EntityID FREE_RESERVE;
 };
 
-template <class T> void EntityManager::AddComponent(Entity entity, T& component)
+template <class T> bool EntityManager::AddComponent(Entity entity, T& component)
 {
-	ComponentManager<T>::CreateFor(entity, component);
+	return ComponentManager<T>::CreateFor(entity, component);
 }
 
-template <class T> void EntityManager::AddComponent(Entity entity, T&& component)
+template <class T> bool EntityManager::AddComponent(Entity entity, T&& component)
 {
-	ComponentManager<T>::CreateFor(entity, component);
+	return ComponentManager<T>::CreateFor(entity, component);
 }
 
-template <class T> T& EntityManager::GetComponent(Entity entity)
+template <class T> T* EntityManager::GetComponent(Entity entity)
 {
 	return ComponentManager<T>::GetFor(entity);
 }
