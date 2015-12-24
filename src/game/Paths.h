@@ -1,5 +1,4 @@
-#ifndef PATHS_H
-#define PATHS_H
+#pragma once
 
 #include <string>
 
@@ -15,4 +14,3 @@ const std::string STANDARD_FONT_PATH = AssetPath + "Standard.ttf";
 
 const std::string HIGH_SCORE_PATH = AssetPath + "HighScores.dat";
 
-#endif //PATHS_H

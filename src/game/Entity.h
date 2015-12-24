@@ -1,8 +1,5 @@
 #pragma once
-
-class EntityManager;
-
-typedef unsigned short EntityID;
+#include "EntityManager.h"
 
 /**
  * @brief Entity class to be used for all game objects
@@ -20,6 +17,21 @@ class Entity
 public:
 	Entity(EntityID ID) : m_UID(ID){}
 	operator EntityID(){ return m_UID; }
+
+	template <class T> T* GetAs()
+	{ 
+		return EntityManager::GetComponent<T>(m_UID);
+	}
+
+	template <class T> bool AddComponent(T& component)
+	{
+		return EntityManager::AddComponent<T>(*this, component);
+	}
+
+	template <class T> bool AddComponent(T&& component)
+	{
+		return EntityManager::AddComponent(*this, component);
+	}
 	
 private:
 	friend class EntityManager;

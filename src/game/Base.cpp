@@ -1,8 +1,18 @@
 #include "Base.h"
 
+/**
+ * Random class static definitions
+ */
 std::default_random_engine Random::RandomEngine;
-
 int Random::RangePrecision = 1000;
+/**/
+
+/**
+ * GUID class family static definitions
+ */
+template <class T, class IDType>
+IDType GUID<T, IDType>::s_currentID = 1;
+/**/
 
 void Random::SetSeed(unsigned long Seed)
 {

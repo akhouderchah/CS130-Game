@@ -1,7 +1,11 @@
 #pragma once
 #include <vector>
 #include "ComponentManager.h"
-#include "Entity.h"
+#include "IComponentManager.h"
+#include "Base.h"
+
+//class Entity;
+//typedef uint16 EntityID;
 
 /**
  * @brief Handles all the Entity-related functionality (creation,
@@ -11,15 +15,18 @@ class EntityManager
 {
 public:
 	static void Initialize();
+	static void Shutdown();
 	static EntityID CreateEntity();
-	template <class T> static void AddComponent(Entity entity, T& component);
-	template <class T> static void AddComponent(Entity entity, T&& component);
-	template <class T> static T& GetComponent(Entity entity);
+	template <class T> static bool AddComponent(EntityID entity, T& component);
+	template <class T> static bool AddComponent(EntityID entity, T&& component);
+	template <class T> static T* GetComponent(EntityID entity);
 	static void DestroyEntity(Entity& Entity);
 
 private:
 	// No need to have EntityManager instances (at least for this project)
 	EntityManager();
+
+	friend class GUID<IComponentManager, ManagerID>;
 
 	// List of open EntityIDs 
 	// (stored as inclusive ranges of free numbers)
@@ -27,19 +34,21 @@ private:
 	static EntityID s_EndID;
 	static std::vector<EntityID> s_freeIDs;
 	static const EntityID FREE_RESERVE;
+
+	static std::vector<IComponentManager*> s_pComponentManagers;
 };
 
-template <class T> void EntityManager::AddComponent(Entity entity, T& component)
+template <class T> bool EntityManager::AddComponent(EntityID entity, T& component)
 {
-	ComponentManager<T>::CreateFor(entity, component);
+	return ComponentManager<T>::CreateFor(entity, component);
 }
 
-template <class T> void EntityManager::AddComponent(Entity entity, T&& component)
+template <class T> bool EntityManager::AddComponent(EntityID entity, T&& component)
 {
-	ComponentManager<T>::CreateFor(entity, component);
+	return ComponentManager<T>::CreateFor(entity, component);
 }
 
-template <class T> T& EntityManager::GetComponent(Entity entity)
+template <class T> T* EntityManager::GetComponent(EntityID entity)
 {
 	return ComponentManager<T>::GetFor(entity);
 }

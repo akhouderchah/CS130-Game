@@ -1,5 +1,4 @@
-#ifndef ISYSTEM_H
-#define ISYSTEM_H
+#pragma once
 
 /**
  * @brief Interface for all systems
@@ -8,4 +7,3 @@ class ISystem
 {
 };
 
-#endif //ISYSTEM_H

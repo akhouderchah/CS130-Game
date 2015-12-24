@@ -1,5 +1,4 @@
-#ifndef CONSTANTS_H
-#define CONSTANTS_H
+#pragma once
 
 #include <string>
 
@@ -23,4 +22,3 @@ const float PLAYER_INVINCIBLE_TIME = 1.f;
 const std::string PAUSE_STRING = "Paused";
 const std::string OVER_STRING = "Press any key to restart";
 
-#endif //CONSTANTS_H

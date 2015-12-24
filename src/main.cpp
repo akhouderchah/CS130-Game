@@ -3,6 +3,7 @@
 #include <iostream>
 #include "game/Base.h"
 #include "game/EntityManager.h"
+#include "game/Entity.h"
 #include "content/TestComp.h"
 
 using namespace std;
@@ -20,10 +21,10 @@ int main()
 	for(size_t i = 0; i < 20; ++i)
 	{
 		Entity temp(EntityManager::CreateEntity());
-		EntityManager::AddComponent(temp, TestComponent());
+		temp.AddComponent(TestComponent());
 	}
 
-	TestComponent test = EntityManager::GetComponent<TestComponent>(1);
+	TestComponent test = *Entity(1).GetAs<TestComponent>();
 	test.Tick();
 
 	for(size_t i = 5; i < 12; ++i)
@@ -39,5 +40,8 @@ int main()
 
 	cout << endl;
 
+	EntityManager::Shutdown();
+
 	return 0;
 }
+
