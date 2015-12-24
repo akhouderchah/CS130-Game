@@ -2,27 +2,72 @@
 
 #include <vector>
 #include <unordered_map>
-#include "Entity.h"
 #include "IComponentManager.h"
+#include "Base.h"
 
+class Entity;
+
+/**
+ * @brief Creates, deletes, and retrieves components of type T
+ *
+ * Used mainly by the EntityManager. The user will rarely have a need to
+ * use any ComponentManager directly.
+ *
+ * @note Due to the implementation of DeleteFor(entity), components will be moved around
+ * at runtime, and therefore the user should NOT store pointers or references to components.
+ * This could be changed by having s_CompList store elements of T* rather than T, but further
+ * profiling must be done to see if that would have a significant performance effect.
+ *
+ * @TODO - Profile s_CompList storing T vs storing T*
+ */
 template <class T>
 class ComponentManager : public IComponentManager
 {
 public:
-	static T* GetFor(Entity entity);
+	virtual ~ComponentManager(){}
+	static T* GetFor(EntityID entity);
 	static std::vector<T>& GetAll();	//NOTE - We REALLY don't want a user to add or delete elements of this array!
-	// @TODO - Create some sort of private array class built over vectors
-	static bool CreateFor(Entity entity, T& component);
-	static bool CreateFor(Entity entity, T&& component);
-	static void DeleteFor(Entity entity);
-	static void DeleteAll();
+										// @TODO - Create some sort of private array class built over vectors
+	static bool CreateFor(EntityID entity, T& component);
+	static bool CreateFor(EntityID entity, T&& component);
+	virtual void DeleteFor(EntityID entity);
+	virtual void DeleteAll();
 
 private:
-	ComponentManager();
-
 	static std::vector<std::pair<T, EntityID>> s_CompList;
 	static std::unordered_map<EntityID, size_t> s_IDtoIndex;
+	static ManagerID s_ID;
 };
+
+/**
+ * @brief Full specialization of the GUID class so as to allow for the compile-time adding of
+ * ComponentManagers to EntityManager::s_pComponentManagers;
+ */
+template <>
+class GUID<IComponentManager, ManagerID>
+{
+public:
+	template <class T>
+	static ManagerID GenerateID();
+
+private:
+	static void AddManager(IComponentManager* pManager);
+
+	static ManagerID s_CurrentID;
+	GUID();
+	~GUID();
+};
+
+template <class T>
+ManagerID GUID<IComponentManager, ManagerID>::GenerateID()
+{
+	assert(s_CurrentID+1 > s_CurrentID);
+
+	// Add ComponentManager<T> to EntityManager::s_pComponentManagers
+	AddManager(new ComponentManager<T>());
+	
+	return s_CurrentID++;
+}
 
 template <class T>
 std::vector<std::pair<T, EntityID>> ComponentManager<T>::s_CompList;
@@ -31,8 +76,12 @@ template <class T>
 std::unordered_map<EntityID, size_t> ComponentManager<T>::s_IDtoIndex;
 
 template <class T>
-T* ComponentManager<T>::GetFor(Entity entity)
+ManagerID ComponentManager<T>::s_ID = GUID<IComponentManager,ManagerID>::GenerateID<T>();
+
+template <class T>
+T* ComponentManager<T>::GetFor(EntityID entity)
 {
+	assert(s_ID);
 	auto iter = s_IDtoIndex.find(entity);
 	if(iter == s_IDtoIndex.end())
 	{
@@ -45,12 +94,14 @@ T* ComponentManager<T>::GetFor(Entity entity)
 template <class T>
 std::vector<T>& ComponentManager<T>::GetAll()
 {
+	assert(s_ID);
 	return s_CompList;
 }
 
 template <class T>
-bool ComponentManager<T>::CreateFor(Entity entity, T& component)
+bool ComponentManager<T>::CreateFor(EntityID entity, T& component)
 {
+	assert(s_ID);
 	if(s_IDtoIndex.find(entity) != s_IDtoIndex.end())
 	{
 		return false;
@@ -62,8 +113,9 @@ bool ComponentManager<T>::CreateFor(Entity entity, T& component)
 }
 
 template <class T>
-bool ComponentManager<T>::CreateFor(Entity entity, T&& component)
+bool ComponentManager<T>::CreateFor(EntityID entity, T&& component)
 {
+	assert(s_ID);
 	if(s_IDtoIndex.find(entity) != s_IDtoIndex.end())
 	{
 		return false;
@@ -75,8 +127,9 @@ bool ComponentManager<T>::CreateFor(Entity entity, T&& component)
 }
 
 template <class T>
-void ComponentManager<T>::DeleteFor(Entity entity)
+void ComponentManager<T>::DeleteFor(EntityID entity)
 {
+	assert(s_ID);
 	auto iter = s_IDtoIndex.find(entity);
 	if(iter == s_IDtoIndex.end())
 		return;
@@ -92,9 +145,10 @@ void ComponentManager<T>::DeleteFor(Entity entity)
 template <class T>
 void ComponentManager<T>::DeleteAll()
 {
+	assert(s_ID);
 	s_CompList.clear();
 	s_IDtoIndex.clear();
 
-	//@TODO - Should we get rid of the preallocations after clearing?
+	// Should we get rid of the preallocations after clearing?
 }
 
