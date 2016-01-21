@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../base/Base.h"
+
 /*
  * @brief Base class for all components
  *
@@ -7,9 +9,10 @@
  * as its respective ComponentManager may rearrange components in
  * memory during program execution.
  */
-class Component
+class IComponent
 {
 public:
-	virtual void Tick() = 0;
+	virtual ~IComponent(){}
+	virtual void Tick(deltaTime_t dt) = 0;
 };
 

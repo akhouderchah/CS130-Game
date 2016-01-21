@@ -3,7 +3,8 @@
 #include <vector>
 #include <unordered_map>
 #include "IComponentManager.h"
-#include "Base.h"
+#include "../base/Base.h"
+#include "../base/ConstVector.h"
 
 class Entity;
 
@@ -26,12 +27,14 @@ class ComponentManager : public IComponentManager
 public:
 	virtual ~ComponentManager(){}
 	static T* GetFor(EntityID entity);
-	static std::vector<T>& GetAll();	//NOTE - We REALLY don't want a user to add or delete elements of this array!
+	static ConstVector<std::pair<T, EntityID>> GetAll();	//NOTE - We REALLY don't want a user to add or delete elements of this array!
 										// @TODO - Create some sort of private array class built over vectors
 	static bool CreateFor(EntityID entity, T& component);
 	static bool CreateFor(EntityID entity, T&& component);
 	virtual void DeleteFor(EntityID entity);
 	virtual void DeleteAll();
+
+	virtual bool HasEntity(EntityID entity);
 
 private:
 	static std::vector<std::pair<T, EntityID>> s_CompList;
@@ -92,7 +95,7 @@ T* ComponentManager<T>::GetFor(EntityID entity)
 }
 
 template <class T>
-std::vector<T>& ComponentManager<T>::GetAll()
+ConstVector<std::pair<T,EntityID>> ComponentManager<T>::GetAll()
 {
 	assert(s_ID);
 	return s_CompList;
@@ -150,5 +153,12 @@ void ComponentManager<T>::DeleteAll()
 	s_IDtoIndex.clear();
 
 	// Should we get rid of the preallocations after clearing?
+}
+
+template <class T>
+bool ComponentManager<T>::HasEntity(EntityID entity)
+{
+	assert(s_ID);
+	return (s_IDtoIndex.find(entity) != s_IDtoIndex.end());
 }
 

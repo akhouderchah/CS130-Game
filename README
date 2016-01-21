@@ -1,0 +1,17 @@
+Copyright 2016 Alex Khouderchah
+
+
+This project builds a simple game on top of an Entity System, implemented as a system to work for any game of small to medium scale.
+
+The file GENERAL.todo contains the most important changes to be made, ranking the needed changes from Priority 1 (absolutely essential) and working its way down to Priority 3. While GENERAL.todo will not contain all of the "TODOs" in the codebase, it will contain those that demand immediate attention.
+
+The folder structure is designed as such:
+	/src - contains the entire code-base
+		/src/base - "Base" code, that is, code that the game system relies on but is not necessarily related to the game system itself (data structures, functions/typedefs for platform independance, etc)
+		/src/system - the code for the base game system (Entity/Component managers, base Systems, memory manangers, resource managers, etc)
+		/src/game - code that builds the actual game on top of the game system (specific Components, Systems, etc)
+		/src/external - code from APIs, libraries, etc
+	/content - parent folder for specific asset sub-folders
+		/content/audio - folder for sound files
+		/content/textures - folder for texture files
+

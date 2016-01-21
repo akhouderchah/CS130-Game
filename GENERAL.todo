@@ -1,0 +1,10 @@
+--PRIORITY 1--
+- Thorough-ass testing of Entity System!
+- Create the family of System classes to operate on Components
+
+--PRIORITY 2--
+- Create logging system
+- Log following errors: Failed to create Entity, failed to create Component, 
+
+--PRIORITY 3--
+- Custom vector class that allows access of elements, but not deletion/insertion (for use by the ComponentManager classes)

@@ -9,8 +9,9 @@ using namespace std;
  */
 std::vector<EntityID> EntityManager::s_freeIDs;
 const EntityID EntityManager::FREE_RESERVE = 10;
+const EntityID EntityManager::MAX_IDS = 100;
 EntityID EntityManager::s_StartID = 1;
-EntityID EntityManager::s_EndID = 100;
+EntityID EntityManager::s_EndID = MAX_IDS;
 std::vector<IComponentManager*> EntityManager::s_pComponentManagers;
 /**/
 
@@ -73,5 +74,17 @@ void EntityManager::DestroyEntity(Entity& Entity)
 	
 	// @TODO (performance) Perhaps create some sort of
 	// unix-like free-list memory scheme?
+}
+
+void EntityManager::DestroyAll()
+{
+	for(size_t i = 0; i < s_pComponentManagers.size(); ++i)
+	{
+		s_pComponentManagers[i]->DeleteAll();
+	}
+
+	s_freeIDs.clear();
+	s_StartID = 1;
+	s_EndID = MAX_IDS;
 }
 

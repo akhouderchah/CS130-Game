@@ -39,16 +39,17 @@ configure_file(
 set(CMAKE_CXX_STANDARD 11)
 
 ## Header and Source files
+file(GLOB_RECURSE SYSTEM_SRC "./system/*.cpp")
+file(GLOB_RECURSE SYSTEM_HEADER "./system/*.h")
 file(GLOB_RECURSE GAME_SRC "./game/*.cpp")
 file(GLOB_RECURSE GAME_HEADER "./game/*.h")
-file(GLOB_RECURSE CONTENT_SRC "./content/*.cpp")
-file(GLOB_RECURSE CONTENT_HEADER "./content/*.h")
+file(GLOB_RECURSE BASE_SRC "./base/*.cpp")
+file(GLOB_RECURSE BASE_HEADER "./base/*.h")
 
 add_executable(tetrad-game
+					${SYSTEM_SRC}
 					${GAME_SRC}
-					${GAME_HEADER}
-					${CONTENT_SRC}
-					${CONTENT_HEADER}
+					${BASE_SRC}
 					main.cpp )
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
@@ -57,14 +58,17 @@ if(SFML_FOUND)
 	include_directories(${SFML_INCLUDE_DIR}
 		${PROJECT_BINARY_DIR}
 		${PROJECT_SOURCE_DIR}
+		${PROJECT_SOURCE_DIR}/system
+		${PROJECT_SOURCE_DIR}/base
 		${PROJECT_SOURCE_DIR}/game
 		.)
 	target_link_libraries(tetrad-game ${SFML_LIBRARIES})
 endif()
 
 ## Setting up Visual Studio filters
+source_group(System\\Source FILES ${SYSTEM_SRC})
+source_group(System\\Headers FILES ${SYSTEM_HEADER})
 source_group(Game\\Source FILES ${GAME_SRC})
 source_group(Game\\Headers FILES ${GAME_HEADER})
-source_group(Content\\Source FILES ${CONTENT_SOURCE})
-source_group(Content\\Headers FILES ${CONTENT_HEADER})
-
+source_group(Base\\Source FILES ${BASE_SRC})
+source_group(Base\\Headers FILES ${BASE_HEADER})

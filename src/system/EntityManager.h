@@ -20,7 +20,9 @@ public:
 	template <class T> static bool AddComponent(EntityID entity, T& component);
 	template <class T> static bool AddComponent(EntityID entity, T&& component);
 	template <class T> static T* GetComponent(EntityID entity);
+	template <class T> static bool HasComponent(EntityID entity);
 	static void DestroyEntity(Entity& Entity);
+	static void DestroyAll();
 
 private:
 	// No need to have EntityManager instances (at least for this project)
@@ -33,6 +35,7 @@ private:
 	static EntityID s_StartID;
 	static EntityID s_EndID;
 	static std::vector<EntityID> s_freeIDs;
+	static const EntityID MAX_IDS;
 	static const EntityID FREE_RESERVE;
 
 	static std::vector<IComponentManager*> s_pComponentManagers;
@@ -51,5 +54,10 @@ template <class T> bool EntityManager::AddComponent(EntityID entity, T&& compone
 template <class T> T* EntityManager::GetComponent(EntityID entity)
 {
 	return ComponentManager<T>::GetFor(entity);
+}
+
+template <class T> bool EntityManager::HasComponent(EntityID entity)
+{
+	return ComponentManager<T>::HasEntity(entity);
 }
 

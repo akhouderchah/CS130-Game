@@ -1,10 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include <chrono>
 #include <iostream>
-#include "game/Base.h"
-#include "game/EntityManager.h"
-#include "game/Entity.h"
-#include "content/TestComp.h"
+#include "base/Base.h"
+#include "system/EntityManager.h"
+#include "system/Entity.h"
+#include "game/TestComp.h"
+#include "game/Game.h"
 
 using namespace std;
 
@@ -17,6 +18,10 @@ int main()
 	Random::SetSeed(static_cast<unsigned long>(chrono::system_clock::now().time_since_epoch().count()));
 
 	EntityManager::Initialize();
+	Game game;
+	game.Initialize(GameAttributes());
+	game.Run();
+	game.Shutdown();
 
 	for(size_t i = 0; i < 20; ++i)
 	{
@@ -25,8 +30,9 @@ int main()
 	}
 
 	TestComponent test = *Entity(1).GetAs<TestComponent>();
-	test.Tick();
+	test.Tick(0.0);
 
+	/*
 	for(size_t i = 5; i < 12; ++i)
 	{
 		Entity temp(i);
@@ -37,6 +43,7 @@ int main()
 	{
 		cout << EntityManager::CreateEntity() << "\n";
 	}
+	*/
 
 	cout << endl;
 
