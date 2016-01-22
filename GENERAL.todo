@@ -1,10 +1,13 @@
---PRIORITY 1--
-- Thorough-ass testing of Entity System!
-- Create the family of System classes to operate on Components
+--Priority 1--
+- Create the low-level Systems and Components
+- Create the Game class, which integrates the Entity System and SFML into one clean interface
 
---PRIORITY 2--
+--Priority 2--
 - Create logging system
-- Log following errors: Failed to create Entity, failed to create Component, 
 
---PRIORITY 3--
-- Custom vector class that allows access of elements, but not deletion/insertion (for use by the ComponentManager classes)
+--Priority 3--
+
+--Priority 4--
+
+--Priority 5--
+

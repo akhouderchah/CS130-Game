@@ -24,7 +24,8 @@ public:
 	std::size_t size(){ return m_pVector->size(); }
 
 private:
-	operator std::vector<T>(); // User cannot cast back to a regular vector
+	template <class X>
+	operator std::vector<X>(); // User cannot cast back to a regular vector
 
 private:
 	std::vector<T>* m_pVector;
