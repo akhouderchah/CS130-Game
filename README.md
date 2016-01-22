@@ -17,6 +17,7 @@ A simple game built on top of a custom-built Entity System. The ES itself is des
 - [ ] Refine
     - [ ] Visual tweaking
     - [ ] Performance tune-up
+
 > Note: This is a rough estimate of what needs to be done. The actual development process will not be nearly so rigidly divided between the different elements of the project. As the project progresses and profiling brings more insight, the Entity and Game systems may have to be modified to improve performance/flexibility.
 
 ###### Changes to be made
@@ -34,6 +35,7 @@ The file GENERAL.todo contains the most important changes (or "todo"s) to be mad
     * /assets/audio - folder for sound files
 	* /assets/fonts - folder for font files
     * /assets/textures - folder for texture files
+
 ***
 
 Copyright (c) 2016 Alex Khouderchah
