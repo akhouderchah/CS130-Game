@@ -13,6 +13,6 @@ class IComponent
 {
 public:
 	virtual ~IComponent(){}
-	virtual void Tick(deltaTime_t dt) = 0;
+	//virtual void Tick(deltaTime_t dt) = 0;
 };
 

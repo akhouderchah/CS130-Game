@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../base/Base.h"
+#include "ISystem.h"
 
 struct GameAttributes
 {
@@ -35,5 +36,7 @@ private:
 	sf::RenderWindow m_Window;
 	sf::Clock m_Clock;
 	deltaTime_t m_DeltaTime;
+
+	std::vector<ISystem*> m_pSystems;
 };
 

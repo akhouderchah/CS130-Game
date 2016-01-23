@@ -8,7 +8,7 @@ public:
 	DrawComponent(){}
 	~DrawComponent(){}
 
-	virtual void Tick(deltaTime_t dt){ (void)dt; } 
+	void Tick(deltaTime_t dt){ (void)dt; } 
 
 private:
 	//DrawComponent(const DrawComponent& that);

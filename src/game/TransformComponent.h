@@ -9,7 +9,7 @@ public:
 	TransformComponent(float x = 0.f, float y = 0.f);
 	~TransformComponent();
 
-	virtual void Tick(deltaTime_t dt);
+	void Tick(deltaTime_t dt);
 
 	void SetPosition(float x, float y);
 	void SetPosition(sf::Vector2f position);

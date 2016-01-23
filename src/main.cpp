@@ -1,8 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include <chrono>
 #include <iostream>
-#include "base/Base.h"
-#include "system/EntityManager.h"
 #include "system/Entity.h"
 #include "game/TestComp.h"
 #include "game/Game.h"
@@ -15,14 +12,14 @@ int main()
 	FreeConsole();
 	#endif
 
-	Random::SetSeed(static_cast<unsigned long>(chrono::system_clock::now().time_since_epoch().count()));
-
-	EntityManager::Initialize();
 	Game game;
-	game.Initialize(GameAttributes());
+	GameAttributes attributes(1600, 1200);
+	attributes.m_WindowTitle = "Tetrad " + VERSION_STRING;
+	game.Initialize(attributes);
 	game.Run();
 	game.Shutdown();
 
+	/*
 	for(size_t i = 0; i < 20; ++i)
 	{
 		Entity temp(EntityManager::CreateEntity());
@@ -32,7 +29,6 @@ int main()
 	TestComponent test = *Entity(1).GetAs<TestComponent>();
 	test.Tick(0.0);
 
-	/*
 	for(size_t i = 5; i < 12; ++i)
 	{
 		Entity temp(i);
@@ -44,10 +40,6 @@ int main()
 		cout << EntityManager::CreateEntity() << "\n";
 	}
 	*/
-
-	cout << endl;
-
-	EntityManager::Shutdown();
 
 	return 0;
 }

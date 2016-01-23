@@ -18,6 +18,9 @@ std::vector<IComponentManager*> EntityManager::s_pComponentManagers;
 void EntityManager::Initialize()
 {
 	s_freeIDs.reserve(FREE_RESERVE);
+	
+	// Note we don't fill s_pComponentManagers here.
+	// The ComponentManagers put themselves into the vector.
 }
 
 void EntityManager::Shutdown()

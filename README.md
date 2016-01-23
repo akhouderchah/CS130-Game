@@ -21,7 +21,7 @@ A simple game built on top of a custom-built Entity System. The ES itself is des
 > Note: This is a rough estimate of what needs to be done. The actual development process will not be nearly so rigidly divided between the different elements of the project. As the project progresses and profiling brings more insight, the Entity and Game systems may have to be modified to improve performance/flexibility.
 
 ###### Changes to be made
-The file GENERAL.todo contains the most important changes (or "todo"s) to be made, ranking the needed changes from Priority 1 (absolutely essential) to Priority 5 (would be nice to implement). While GENERAL.todo will not contain all the work to be done in the codebase, it will contain those that demand the most attention
+The file GENERAL.todo contains the most important changes (or "todo"s) to be made, ranking the needed changes from Priority 1 (absolutely essential) to Priority 5 (would be nice to implement). While GENERAL.todo will not contain all the work to be done in the codebase, it will contain those that demand the most attention.
 ***
 
 

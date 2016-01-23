@@ -66,8 +66,16 @@ ManagerID GUID<IComponentManager, ManagerID>::GenerateID()
 {
 	assert(s_CurrentID+1 > s_CurrentID);
 
-	// Add ComponentManager<T> to EntityManager::s_pComponentManagers
-	AddManager(new ComponentManager<T>());
+	try
+	{
+		// Add ComponentManager<T> to EntityManager::s_pComponentManagers
+		AddManager(new ComponentManager<T>());
+	}
+	catch (std::bad_alloc& ba)
+	{
+		// If we can't allocate the memory, don't run
+		assert(false);
+	}
 	
 	return s_CurrentID++;
 }
