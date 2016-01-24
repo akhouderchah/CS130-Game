@@ -10,6 +10,7 @@ public:
 	~TransformComponent();
 
 	void Tick(deltaTime_t dt);
+	void Destroy(){}
 
 	void SetPosition(float x, float y);
 	void SetPosition(sf::Vector2f position);

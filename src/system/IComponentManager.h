@@ -2,9 +2,6 @@
 
 #include "Base.h"
 
-typedef uint8_t ManagerID;
-typedef uint16_t EntityID;
-
 /**
  * @brief Base interface for all component managers.
  *

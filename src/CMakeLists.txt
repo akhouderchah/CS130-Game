@@ -29,7 +29,7 @@ message("CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 if (MSVC)
 	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
 elseif(CMAKE_COMPILER_IS_GNUCXX)
-	set(CMAKE_CXX_FLAGS_DEBUG "-g -D_DEBUG")
+	set(CMAKE_CXX_FLAGS_DEBUG "-D_DEBUG -Wall -Werror -g -ggdb -pedantic-errors -Wextra -fsanitize=address -fsanitize=leak -fsanitize=undefined")
 endif(MSVC)
 
 configure_file(

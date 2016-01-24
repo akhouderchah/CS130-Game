@@ -1,4 +1,5 @@
 --Priority 1--
+- Make all owning pointers UniquePtr, and all non-owning to be standard pointers
 - Create the low-level Systems and Components
 - Create the Game class, which integrates the Entity System and SFML into one clean interface
 

@@ -13,6 +13,7 @@ TransformComponent::~TransformComponent()
 
 void TransformComponent::Tick(deltaTime_t dt)
 {
+	(void)dt;
 }
 
 void TransformComponent::SetPosition(float x, float y)

@@ -19,6 +19,9 @@ const sf::String VERSION_STRING = std::to_string(VERSION_MAJOR) + "." + std::to_
 /** System Typedefs */
 typedef float deltaTime_t;
 
+typedef uint8_t ManagerID;
+typedef uint16_t EntityID;
+
 /**
  * Enumeration to be used with the Random class
  *

@@ -14,6 +14,7 @@ int main()
 
 	Game game;
 	GameAttributes attributes(1600, 1200);
+	attributes.m_ContextSettings.antialiasingLevel = 8;
 	attributes.m_WindowTitle = "Tetrad " + VERSION_STRING;
 	game.Initialize(attributes);
 	game.Run();

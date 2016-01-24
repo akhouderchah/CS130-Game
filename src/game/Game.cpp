@@ -1,6 +1,7 @@
 #include "Game.h"
 #include <chrono>
 #include "EntityManager.h"
+#include "Entity.h"
 
 /** System Includes */
 #include "InputSystem.h"
@@ -46,6 +47,16 @@ bool Game::Initialize(const GameAttributes& attributes)
 		return false;
 	}
 	// Sytsem initialization ends here //
+	
+	Entity test = EntityManager::CreateEntity();
+	test.AddComponent(TransformComponent());
+	DrawComponent comp;
+	auto pCirc = new sf::CircleShape();
+	pCirc->setPointCount(50);
+	pCirc->setRadius(100.f);
+	pCirc->setPosition(100, 100);
+	comp.AddDrawable(pCirc);
+	test.AddComponent(comp);
 	
 	m_Clock.restart();
 

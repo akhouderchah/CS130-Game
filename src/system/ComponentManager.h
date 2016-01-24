@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 #include <unordered_map>
 #include "IComponentManager.h"
 #include "../base/Base.h"
@@ -148,6 +149,7 @@ void ComponentManager<T>::DeleteFor(EntityID entity)
 	// Swaps the last element with the element to delete, then pops back
 	// NOTE: ALL POINTERS TO THE SWAPPED ELEMENT WILL BECOME INVALID AT THIS POINT!!!
 	s_IDtoIndex[s_CompList.back().second] = iter->second;
+	s_CompList[iter->second].first.Destroy();
 	swap(s_CompList[iter->second], s_CompList.back());
 	s_IDtoIndex.erase(iter);
 	s_CompList.pop_back();
@@ -157,6 +159,10 @@ template <class T>
 void ComponentManager<T>::DeleteAll()
 {
 	assert(s_ID);
+	for(size_t i = 0; i < s_CompList.size(); ++i)
+	{
+		s_CompList[i].first.Destroy();
+	}
 	s_CompList.clear();
 	s_IDtoIndex.clear();
 

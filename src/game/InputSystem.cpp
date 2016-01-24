@@ -12,6 +12,7 @@ InputSystem::~InputSystem()
 
 bool InputSystem::Initialize()
 {
+	return true;
 }
 
 void InputSystem::Shutdown()
