@@ -25,11 +25,14 @@ endif()
 
 message("CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 
+find_package(OpenGL REQUIRED)
+add_subdirectory(external)
+
 # Define _DEBUG on debug builds
 if (MSVC)
 	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
 elseif(CMAKE_COMPILER_IS_GNUCXX)
-	set(CMAKE_CXX_FLAGS_DEBUG "-D_DEBUG -Wall -Werror -g -ggdb -pedantic-errors -Wextra -fsanitize=address -fsanitize=leak -fsanitize=undefined")
+	set(CMAKE_CXX_FLAGS_DEBUG "-D_DEBUG -Wall -g -ggdb -pedantic-errors -Wextra -fsanitize=address -fsanitize=leak -fsanitize=undefined")
 endif(MSVC)
 
 configure_file(
@@ -46,24 +49,32 @@ file(GLOB_RECURSE GAME_HEADER "./game/*.h")
 file(GLOB_RECURSE BASE_SRC "./base/*.cpp")
 file(GLOB_RECURSE BASE_HEADER "./base/*.h")
 
-add_executable(tetrad-game
-					${SYSTEM_SRC}
-					${GAME_SRC}
-					${BASE_SRC}
-					main.cpp )
+set(ALL_SRC ${SYSTEM_SRC} ${GAME_SRC} ${BASE_SRC})
+set(ALL_HEADER ${SYSTEM_HEADER} ${GAME_HEADER} ${BASE_HEADER})
 
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
-find_package(SFML 2 REQUIRED system window graphics network audio)
-if(SFML_FOUND)
-	include_directories(${SFML_INCLUDE_DIR}
+include_directories(
 		${PROJECT_BINARY_DIR}
 		${PROJECT_SOURCE_DIR}
 		${PROJECT_SOURCE_DIR}/system
 		${PROJECT_SOURCE_DIR}/base
 		${PROJECT_SOURCE_DIR}/game
+		external/glfw/include/GLFW/
+		external/glew/include/
+		external/glm/
 		.)
-	target_link_libraries(tetrad-game ${SFML_LIBRARIES})
-endif()
+
+set(ALL_LIBS
+	${OPENGL_LIBRARIES}
+	glfw
+	GLEW
+	)
+
+add_executable(tetrad-game
+					${SYSTEM_SRC}
+					${GAME_SRC}
+					${BASE_SRC}
+					main.cpp )
+target_link_libraries(tetrad-game ${ALL_LIBS})
 
 ## Setting up Visual Studio filters
 source_group(System\\Source FILES ${SYSTEM_SRC})

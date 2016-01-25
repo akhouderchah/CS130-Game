@@ -16,12 +16,12 @@ public:
 
 	virtual void Tick(deltaTime_t dt) = 0;
 
-	static void SetWindow(sf::RenderWindow* pWindow){ m_pWindow = pWindow; }
+	static void SetWindow(GLFWwindow* pWindow){ s_pWindow = pWindow; }
 
 protected:
 	//static sf::Window* GetWindow(){ return m_pWindow; }
 
 protected:
-	static sf::RenderWindow* m_pWindow;
+	static GLFWwindow* s_pWindow;
 };
 

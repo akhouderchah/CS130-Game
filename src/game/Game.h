@@ -2,14 +2,16 @@
 
 #include "../base/Base.h"
 #include "ISystem.h"
+#include "Timer.h"
 
 struct GameAttributes
 {
-	GameAttributes(uint32_t width = 1024, uint32_t height = 768, sf::String title = "Test Game", sf::ContextSettings settings = sf::ContextSettings());
+	GameAttributes(int32_t width = 1024, int32_t height = 768, std::string title = "Test Game", bool fullscreen = false, uint8_t samples = 4);
 
-	sf::VideoMode m_VideoMode;
+	int32_t m_Width, m_Height;
 	std::string m_WindowTitle;
-	sf::ContextSettings m_ContextSettings;
+	bool m_Fullscreen;
+	uint8_t m_SampleCount;
 };
 
 /*
@@ -30,12 +32,11 @@ public:
 	void Reset();
 
 private:
-	void Tick();
+	bool CreatePrimaryWindow(const GameAttributes& attributes);
 
 private:
-	sf::RenderWindow m_Window;
-	sf::Clock m_Clock;
-	deltaTime_t m_DeltaTime;
+	Timer m_Timer;
+	GLFWwindow* m_pWindow;
 
 	std::vector<ISystem*> m_pSystems;
 };

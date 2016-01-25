@@ -2,12 +2,14 @@
 
 enum EGameEvent
 {
-	EGE_Error = 0,
-	EGE_Player1_Jump,
-	EGE_Player2_Jump,
-	EGE_Player3_Jump,
-	EGE_Player4_Jump,
-	EGE_Pause
+	EGE_NONE = 0,
+	EGE_PLAYER1_JUMP,
+	EGE_PLAYER2_JUMP,
+	EGE_PLAYER3_JUMP,
+	EGE_PLAYER4_JUMP,
+	EGE_PAUSE,
+	EGE_END,
+	EGE_ERROR
 };
 
 enum EGameState
@@ -20,6 +22,7 @@ enum EGameState
 
 struct Event
 {
+	Event() : event(EGE_NONE), state(EGS_DISABLED){}
 	EGameEvent event;
 	EGameState state;
 };

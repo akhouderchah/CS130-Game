@@ -1,7 +1,5 @@
 #include "TransformComponent.h"
 
-using namespace sf;
-
 TransformComponent::TransformComponent(float x, float y) :
 	m_Position(x, y)
 {
@@ -21,12 +19,12 @@ void TransformComponent::SetPosition(float x, float y)
 	m_Position.x = x; m_Position.y = y;
 }
 
-void TransformComponent::SetPosition(Vector2f position)
+void TransformComponent::SetPosition(const glm::vec2& position)
 {
 	m_Position = position;
 }
 
-const Vector2f& TransformComponent::GetPosition()
+const glm::vec2& TransformComponent::GetPosition()
 {
 	return m_Position;
 }

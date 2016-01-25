@@ -1,4 +1,4 @@
 #include "ISystem.h"
 
-sf::RenderWindow* ISystem::m_pWindow = nullptr;
+GLFWwindow* ISystem::s_pWindow = nullptr;
 

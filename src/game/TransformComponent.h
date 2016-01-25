@@ -13,14 +13,14 @@ public:
 	void Destroy(){}
 
 	void SetPosition(float x, float y);
-	void SetPosition(sf::Vector2f position);
-	const sf::Vector2f& GetPosition();
+	void SetPosition(const glm::vec2& position);
+	const glm::vec2& GetPosition();
 
 private:
 	//TransformComponent(const TransformComponent& that);
 	//TransformComponent& operator=(const TransformComponent& that);
 
 	// Actual transform data goes here //
-	sf::Vector2f m_Position;
+	glm::vec2 m_Position;
 };
 

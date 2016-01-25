@@ -7,16 +7,14 @@
 #include "InputSystem.h"
 #include "DrawSystem.h"
 
-using namespace sf;
-
-GameAttributes::GameAttributes(uint32_t width, uint32_t height, String title, ContextSettings settings) :
-	m_VideoMode(width, height), m_WindowTitle(title), 
-	m_ContextSettings(settings)
+GameAttributes::GameAttributes(int32_t width, int32_t height, std::string title, bool fullscreen, uint8_t samples) :
+	m_Width(width), m_Height(height), m_WindowTitle(title),
+	m_Fullscreen(fullscreen), m_SampleCount(samples)
 {
 }
 
 Game::Game() :
-	m_DeltaTime(0.0)
+	m_pWindow(nullptr)
 {
 }
 
@@ -28,45 +26,52 @@ bool Game::Initialize(const GameAttributes& attributes)
 {
 	Random::SetSeed(static_cast<unsigned long>(std::chrono::system_clock::now().time_since_epoch().count()));
 
-	m_Window.create(sf::VideoMode(attributes.m_VideoMode), attributes.m_WindowTitle, Style::Close | Style::Titlebar, attributes.m_ContextSettings);
+	if(!glfwInit())
+	{
+		// @TODO - Error
+		return false;
+	}
 
-	ISystem::SetWindow(&m_Window);
+	// Create window
+	if(!CreatePrimaryWindow(attributes))
+	{
+		// @TODO - Error
+		return false;
+	}
+
+	glewExperimental = true;
+
+	if(glewInit() != GLEW_OK)
+	{
+		// @TODO - Error
+		return false;
+	}
+
+	glfwSetInputMode(m_pWindow, GLFW_STICKY_KEYS, GL_TRUE);
+
+	glfwSetKeyCallback(m_pWindow,KeyCallback);
+
+	ISystem::SetWindow(m_pWindow);
 
 	// Initialize all systems here //
 	EntityManager::Initialize();
-	
-	try
-	{
-		m_pSystems.push_back(new InputSystem);
-		m_pSystems.push_back(new DrawSystem);
-	}
-	catch (std::bad_alloc& ba)
-	{
-		m_Window.close();
-		EntityManager::Shutdown();
-		return false;
-	}
+
+	m_pSystems.push_back(new InputSystem);
+	m_pSystems.push_back(new DrawSystem);
+
 	// Sytsem initialization ends here //
 	
 	Entity test = EntityManager::CreateEntity();
 	test.AddComponent(TransformComponent());
-	DrawComponent comp;
-	auto pCirc = new sf::CircleShape();
-	pCirc->setPointCount(50);
-	pCirc->setRadius(100.f);
-	pCirc->setPosition(100, 100);
-	comp.AddDrawable(pCirc);
-	test.AddComponent(comp);
+	test.AddComponent(DrawComponent());
 	
-	m_Clock.restart();
+	m_Timer.Start();
 
 	return true;
 }
 
 void Game::Shutdown()
 {
-	m_Window.close();
-
 	for(size_t i = m_pSystems.size(); i > 0;)
 	{
 		m_pSystems[--i]->Shutdown();
@@ -74,15 +79,21 @@ void Game::Shutdown()
 	}
 
 	EntityManager::Shutdown();
+
+	glfwTerminate();
 }
 
 void Game::Run()
 {
-	while(m_Window.isOpen())
+	deltaTime_t deltaTime;
+	while(!glfwWindowShouldClose(m_pWindow))
 	{
-		m_DeltaTime = m_Clock.restart().asSeconds();
+		deltaTime = m_Timer.Tick();
 
-		Tick();
+		for(size_t i = 0; i < m_pSystems.size(); ++i)
+		{
+			m_pSystems[i]->Tick(deltaTime);
+		}
 	}
 }
 
@@ -90,12 +101,37 @@ void Game::Reset()
 {
 }
 
-void Game::Tick()
+bool Game::CreatePrimaryWindow(const GameAttributes& attributes)
 {
-	// Tick all of the systems
-	for(size_t i = 0; i < m_pSystems.size(); ++i)
+	if(m_pWindow != nullptr)
 	{
-		m_pSystems[i]->Tick(m_DeltaTime);
+		glfwDestroyWindow(m_pWindow);
 	}
+
+	GLFWmonitor* pMonitor = nullptr;
+	if(attributes.m_Fullscreen)
+	{
+		pMonitor = glfwGetPrimaryMonitor();
+	}
+
+	glfwWindowHint(GLFW_SAMPLES, attributes.m_SampleCount);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+
+	m_pWindow = glfwCreateWindow(attributes.m_Width, attributes.m_Height, attributes.m_WindowTitle.c_str(), pMonitor, NULL);
+
+	if(!m_pWindow)
+	{
+		// @TODO - Error
+		glfwTerminate();
+		return false;
+	}
+
+	glfwMakeContextCurrent(m_pWindow);
+	
+	return true;
 }
 

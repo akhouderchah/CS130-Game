@@ -1,6 +1,11 @@
 #pragma once
 
 #include "../system/ISystem.h"
+#include "../system/EventQueue.h"
+
+struct Event;
+
+void KeyCallback(GLFWwindow*, int, int, int, int);
 
 /**
  * @brief Takes input from SFML, "converts" it to events, and sends
@@ -17,7 +22,9 @@ public:
 
 	virtual void Tick(deltaTime_t dt);
 
-private:
+	static void Inform(const Event& event);
 
+private:
+	static EventQueue s_EventQueue;
 };
 

@@ -1,6 +1,8 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
+#include "GL/glew.h"
+#include "GLFW/glfw3.h"
+#include "glm/glm.hpp"
 #include "Constants.h"
 #include "Paths.h"
 
@@ -14,13 +16,24 @@
 
 #include "Config.h"
 
-const sf::String VERSION_STRING = std::to_string(VERSION_MAJOR) + "." + std::to_string(VERSION_MINOR);
+const std::string VERSION_STRING = std::to_string(VERSION_MAJOR) + "." + std::to_string(VERSION_MINOR);
 
 /** System Typedefs */
 typedef float deltaTime_t;
 
 typedef uint8_t ManagerID;
 typedef uint16_t EntityID;
+
+/**
+ * @brief Determines what data structures should do when they
+ * are filled.
+ */
+enum EOverflowBehavior
+{
+	EOB_Replace_Oldest,		// Replace the oldest element with the current one
+	EOB_Replace_Youngest,	// Replace the youngest element with the current one
+	EOB_Ignore				// Ignore the current element
+};
 
 /**
  * Enumeration to be used with the Random class
