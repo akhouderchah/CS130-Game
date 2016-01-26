@@ -64,10 +64,9 @@ void KeyCallback(GLFWwindow* pWindow, int key, int scancode, int action, int mod
 			default:
 				event.event = EGE_NONE;
 		}
+
+		event.state = EGS_STARTED;
+		InputSystem::Inform(event);
 	}
-
-	event.state = EGS_STARTED;
-
-	InputSystem::Inform(event);
 }
 
