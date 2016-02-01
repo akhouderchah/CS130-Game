@@ -4,6 +4,7 @@
 #include "DrawComponent.h"
 #include "TransformComponent.h"
 #include "../base/ConstVector.h"
+#include "ShaderProgram.h"
 
 class DrawSystem : public ISystem
 {
@@ -19,5 +20,7 @@ public:
 private:
 	ConstVector<std::pair<DrawComponent, EntityID>> m_DrawComponents;
 	ConstVector<std::pair<TransformComponent, EntityID>> m_TransformComponents;
+	GLuint m_Program;
+	GLuint VBO;
 };
 

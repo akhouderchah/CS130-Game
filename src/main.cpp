@@ -16,10 +16,10 @@ int main()
 
 	Game game;
 	GameAttributes attributes(1600, 1200, "Tetrad " + VERSION_STRING, false, 8);
-	game.Initialize(attributes);
+	if(!game.Initialize(attributes))
+		return -1;
 	game.Run();
 	game.Shutdown();
 
 	return 0;
 }
-
