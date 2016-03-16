@@ -10,4 +10,3 @@
 --Priority 4--
 
 --Priority 5--
-- Can we get EventQueue::PushEvent to not use branches?

@@ -40,7 +40,6 @@ bool Game::Initialize(const GameAttributes& attributes)
 	}
 
 	glewExperimental = true;
-
 	if(glewInit() != GLEW_OK)
 	{
 		// @TODO - Error
@@ -48,7 +47,6 @@ bool Game::Initialize(const GameAttributes& attributes)
 	}
 
 	glfwSetInputMode(m_pWindow, GLFW_STICKY_KEYS, GL_TRUE);
-
 	glfwSetKeyCallback(m_pWindow,KeyCallback);
 
 	ISystem::SetWindow(m_pWindow);
@@ -59,6 +57,14 @@ bool Game::Initialize(const GameAttributes& attributes)
 	m_pSystems.push_back(new InputSystem);
 	m_pSystems.push_back(new DrawSystem);
 
+	for(size_t i = 0; i < m_pSystems.size(); ++i)
+	{
+		if(!m_pSystems[i]->Initialize())
+		{
+			// @TODO - ERROR
+			return false;
+		}
+	}
 	// Sytsem initialization ends here //
 	
 	Entity test = EntityManager::CreateEntity();
