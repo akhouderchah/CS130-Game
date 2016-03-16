@@ -10,6 +10,18 @@ enum EPlatforms
 	EP_MAC_OSX = 3
 };
 
+enum EBuildTypes
+{
+	EBT_DEBUG = 0,
+	EBT_RELEASE
+};
+
+#if(BUILD_TYPE == EBT_DEBUG)
+#define _DEBUG
+#else
+#undef _DEBUG
+#endif
+
 #if(SYSTEM_TYPE == EP_WINDOWS)
 #include <Windows.h>
 #elif(SYSTEM_TYPE == EP_LINUX)

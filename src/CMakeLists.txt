@@ -7,20 +7,23 @@ set(VERSION_MINOR 0)
 
 # Add the system type for the config file
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-	set(SYSTEM_TYPE 1)
+  set(SYSTEM_TYPE 1)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-	set(SYSTEM_TYPE 2)
+  set(SYSTEM_TYPE 2)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-	set(SYSTEM_TYPE 3)
+  set(SYSTEM_TYPE 3)
 else(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-	set(SYSTEM_TYPE 0)
+  set(SYSTEM_TYPE 0)
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 message("CMAKE_SYSTEM_NAME: ${CMAKE_SYSTEM_NAME}")
 
 # Debug by default
 if(CMAKE_BUILD_TYPE STREQUAL "")
-	set(CMAKE_BUILD_TYPE Debug)
+  set(CMAKE_BUILD_TYPE Debug)
+  set(BUILD_TYPE 0)
+else()
+  set(BUILD_TYPE 1)
 endif()
 
 message("CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")

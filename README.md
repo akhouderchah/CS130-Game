@@ -6,9 +6,10 @@ A simple game built on top of a custom-built Entity System. The ES itself is des
 ###### Current Progress
 - [x] Build Entity System (Entities, Components, and their manangers)
     - [x] Implement Component and Entity Managers
-- [ ] Build Game System using SFML and the Entity System
-    - [ ] Build basic interface with SFML
+- [ ] Build Game System
+    - [x] Build basic interface with GLFW
     - [ ] Create the needed Components and Systems for audio, graphics, input, etc
+	    -[ ] Build the Draw System using OpenGL for rendering
     - [ ] Create a logging system
 - [ ] Build the actual game
     - [ ] Create the needed Components and Systems for game-specific functionality
@@ -27,13 +28,15 @@ The file GENERAL.todo contains the most important changes (or "todo"s) to be mad
 
 #### Folder Structure
 * /src - contains all the source code used in the project
-    * /src/base - code that the game system relies on, but is not necessarily related to the system itself (data structures, functions/typedes for platorm independence, etc)
+    * /src/base - code that the game system relies on, but is not necessarily related to the system itself (data structures, functions/typedefs for platorm independence, etc)
     * /src/system - code for the game system (Entity/Component managers, memory/resource managers, etc)
-    * /src/game - code that builds the actual game on top of the game system (child Components, Systems, etc)
+	* /src/core - code for the game 'core' (basic Components and Systems for drawing/transforming/etc, base Game class, etc)
+    * /src/game - code that builds the actual game on top of the 'core' game system
     * /src/external - code from APIs, libraries, etc
 * /assets - parent folder for specific asset sub-folders
     * /assets/audio - folder for sound files
 	* /assets/fonts - folder for font files
+	* /assets/shaders - folder for glsl shader files
     * /assets/textures - folder for texture files
 
 ***

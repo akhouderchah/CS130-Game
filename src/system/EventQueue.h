@@ -29,7 +29,7 @@ private:
 	EventQueue& operator=(const EventQueue& queue);
 
 private:
-	// Rnig size (how many spaces the buffer has)
+	// Ring size (how many spaces the buffer has)
 	static const size_t N = 10;	// @TODO - determine a suitable size here
 	Event m_Events[N+1];
 
