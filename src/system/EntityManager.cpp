@@ -59,7 +59,7 @@ EntityID EntityManager::CreateEntity()
 	}
 	
 	// Otherwise return the null entity and log an error
-	// @TODO - Log this as an error!
+	LOG("Failed to allocate space for a new entity! Perhaps increase MAX_IDS or remove some existing entities.\n");
 	return 0;
 }
 

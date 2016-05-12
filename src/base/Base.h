@@ -5,6 +5,7 @@
 #include "glm/glm.hpp"
 #include "Constants.h"
 #include "Paths.h"
+#include "LogSystem.h"
 
 #ifdef WIN32
 #include <Windows.h>
@@ -37,8 +38,6 @@ enum EOverflowBehavior
 
 /**
  * Enumeration to be used with the Random class
- *
- * @TODO - Make an enum class?
  */
 enum RandomWeight
 {

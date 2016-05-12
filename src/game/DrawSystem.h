@@ -22,5 +22,6 @@ private:
 	ConstVector<std::pair<TransformComponent, EntityID>> m_TransformComponents;
 	GLuint m_Program;
 	GLuint VBO;
+	GLuint IBO;
 };
 

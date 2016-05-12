@@ -35,7 +35,7 @@ add_subdirectory(external)
 if (MSVC)
 	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
 elseif(CMAKE_COMPILER_IS_GNUCXX)
-	set(CMAKE_CXX_FLAGS_DEBUG "-O0 -D_DEBUG -Wall -g -ggdb -pedantic-errors -Wextra -fsanitize=address -fsanitize=leak -fsanitize=undefined")
+	set(CMAKE_CXX_FLAGS_DEBUG "-Og -D_DEBUG -Wall -g -ggdb -pg -pedantic-errors -Wextra -fsanitize=address -fsanitize=leak -fsanitize=undefined")
 	set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall -pedantic-errors -Wextra")
 endif(MSVC)
 
@@ -77,6 +77,9 @@ set(ALL_LIBS
 
 add_executable(tetrad-game ${ALL_SRC})
 target_link_libraries(tetrad-game ${ALL_LIBS})
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+	#set_target_properties(tetrad-game PROPERTIES COMPILE_FLAGS "--save-temps")
+endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 ## Setting up Visual Studio filters
 source_group(System\\Source FILES ${SYSTEM_SRC})

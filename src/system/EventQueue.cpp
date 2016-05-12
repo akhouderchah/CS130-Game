@@ -43,15 +43,11 @@ bool EventQueue::PushEvent(const Event& event)
 	// Push element here
 	m_Events[m_WriteIndex] = event;
 
-	// If we're pushing the last element onto the queue
-	if(nextIndex == m_ReadIndex)
-	{
-		// We "elevate" the write index to indicate no more writes
-		m_WriteIndex += N+1;
-		return true;
-	}
+	bool last = nextIndex == m_ReadIndex;
 
-	m_WriteIndex = nextIndex;
+	// "Elevate" the write index if we're pushing to the last element in the queue
+	m_WriteIndex = last*(m_WriteIndex+N+1) + (1-last)*(nextIndex);
+
 	return true;
 }
 

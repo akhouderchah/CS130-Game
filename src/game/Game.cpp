@@ -6,6 +6,7 @@
 /** System Includes */
 #include "InputSystem.h"
 #include "DrawSystem.h"
+#include "ErrorSystem.h"
 
 GameAttributes::GameAttributes(int32_t width, int32_t height, std::string title, bool fullscreen, uint8_t samples) :
 	m_Width(width), m_Height(height), m_WindowTitle(title),
@@ -28,21 +29,21 @@ bool Game::Initialize(const GameAttributes& attributes)
 
 	if(!glfwInit())
 	{
-		// @TODO - Error
+		ERROR("Failed to initialize glfw!\n", EEB_CONTINUE);
 		return false;
 	}
 
 	// Create window
 	if(!CreatePrimaryWindow(attributes))
 	{
-		// @TODO - Error
+		ERROR("Failed to create a primary window!\n", EEB_CONTINUE);
 		return false;
 	}
 
 	glewExperimental = true;
 	if(glewInit() != GLEW_OK)
 	{
-		// @TODO - Error
+		ERROR("Failed to initialize glew!\n", EEB_CONTINUE);
 		return false;
 	}
 
@@ -61,11 +62,11 @@ bool Game::Initialize(const GameAttributes& attributes)
 	{
 		if(!m_pSystems[i]->Initialize())
 		{
-			// @TODO - ERROR
+			ERROR("Failed to initialize system: " << i << "\n", EEB_CONTINUE);
 			return false;
 		}
 	}
-	// Sytsem initialization ends here //
+	// System initialization ends here //
 	
 	Entity test = EntityManager::CreateEntity();
 	test.AddComponent(TransformComponent());
@@ -131,7 +132,7 @@ bool Game::CreatePrimaryWindow(const GameAttributes& attributes)
 
 	if(!m_pWindow)
 	{
-		// @TODO - Error
+		ERROR("Failed to create the GLFW window!", EEB_CONTINUE);
 		glfwTerminate();
 		return false;
 	}

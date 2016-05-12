@@ -17,6 +17,7 @@ enum EBuildTypes
 };
 
 #if(BUILD_TYPE == EBT_DEBUG)
+#undef _DEBUG
 #define _DEBUG
 #else
 #undef _DEBUG

@@ -29,7 +29,7 @@ public:
 	virtual ~ComponentManager(){}
 	static T* GetFor(EntityID entity);
 	static ConstVector<std::pair<T, EntityID>> GetAll();	//NOTE - We REALLY don't want a user to add or delete elements of this array!
-										// @TODO - Create some sort of private array class built over vectors
+
 	static bool CreateFor(EntityID entity, T& component);
 	static bool CreateFor(EntityID entity, T&& component);
 	virtual void DeleteFor(EntityID entity);
