@@ -21,27 +21,27 @@ void TransformComponent::Tick(deltaTime_t dt)
 
 const mat4& TransformComponent::GetWorldMatrix() const
 {
-	if(m_WorldMatrix[3][0] == 1.f) // We test for equality only because we explicitly set to 1.f
+	if(m_PosMatrix[3][0] == 1.f) // We test for equality only because we explicitly set to 1.f
 	{
 		// Reset matrix
-		m_WorldMatrix = mat4();
+		m_PosMatrix = mat4();
 		
 		// Apply scale
-		m_WorldMatrix[0][0] = m_Scale[0];
-		m_WorldMatrix[1][1] = m_Scale[1];
-		m_WorldMatrix[2][2] = m_Scale[2];
+		m_PosMatrix[0][0] = m_Scale[0];
+		m_PosMatrix[1][1] = m_Scale[1];
+		m_PosMatrix[2][2] = m_Scale[2];
 
 		// Apply rotation
 		// TODO - does the toMat4 function mix row-order and col-order matrices?
-		m_WorldMatrix = glm::toMat4(m_Orientation) * m_WorldMatrix;
+		m_PosMatrix = glm::toMat4(m_Orientation) * m_PosMatrix;
 
 		// Apply translation
-		m_WorldMatrix[0][3] += m_Position[0];
-		m_WorldMatrix[1][3] += m_Position[1];
-		m_WorldMatrix[2][3] += m_Position[2];
+		m_PosMatrix[0][3] += m_Position[0];
+		m_PosMatrix[1][3] += m_Position[1];
+		m_PosMatrix[2][3] += m_Position[2];
 	}
 	
-	return m_WorldMatrix;
+	return m_PosMatrix;
 }
 
 void TransformComponent::SetPosition(const vec3& position)

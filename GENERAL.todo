@@ -1,11 +1,12 @@
 --Priority 1--
-- Make all owning pointers UniquePtr, and all non-owning to be standard pointers
 - Create the low-level Systems and Components
+- Create the camera component and connect to Draw system
 
 --Priority 2--
-- Create logging/error system
+- Fix up error system
 
 --Priority 3--
+- Make all owning pointers UniquePtr, and all non-owning to be standard pointers
 
 --Priority 4--
 

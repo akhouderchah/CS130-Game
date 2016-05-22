@@ -5,7 +5,6 @@
 
 /** System Includes */
 #include "InputSystem.h"
-#include "DrawSystem.h"
 #include "ErrorSystem.h"
 
 GameAttributes::GameAttributes(int32_t width, int32_t height, std::string title, bool fullscreen, uint8_t samples) :
@@ -56,7 +55,8 @@ bool Game::Initialize(const GameAttributes& attributes)
 	EntityManager::Initialize();
 
 	m_pSystems.push_back(new InputSystem);
-	m_pSystems.push_back(new DrawSystem);
+	m_pDrawSystem = new DrawSystem;
+	m_pSystems.push_back(m_pDrawSystem);
 
 	for(size_t i = 0; i < m_pSystems.size(); ++i)
 	{

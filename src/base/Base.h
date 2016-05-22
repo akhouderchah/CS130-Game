@@ -6,6 +6,7 @@
 #include "Constants.h"
 #include "Paths.h"
 #include "LogSystem.h"
+#include "ErrorSystem.h"
 
 #ifdef WIN32
 #include <Windows.h>

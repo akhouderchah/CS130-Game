@@ -2,6 +2,7 @@
 
 #include "../base/Base.h"
 #include "ISystem.h"
+#include "DrawSystem.h"
 #include "Timer.h"
 
 struct GameAttributes
@@ -38,6 +39,7 @@ private:
 	Timer m_Timer;
 	GLFWwindow* m_pWindow;
 
+	DrawSystem* m_pDrawSystem;
 	std::vector<ISystem*> m_pSystems;
 };
 

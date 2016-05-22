@@ -38,7 +38,7 @@ extern std::ostream* g_pDebugConsoleStream;
 const std::string GetTimeStr();
 
 const std::string LOG_HEADER(const std::string& title);
-const std::string LOG_DEBUG_HEADER = "{DEBUG : " + GetTimeStr() + "] - ";
+const std::string LOG_DEBUG_HEADER = "{DEBUG : " + GetTimeStr() + "} - ";
 const std::string LOG_ERROR_HEADER = "[ERROR : " + GetTimeStr() + "] - ";
 
 #ifdef LOG_CONSOLE

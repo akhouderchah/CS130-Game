@@ -15,6 +15,7 @@ public:
 	void Tick(deltaTime_t dt);
 	void Destroy(){}
 	const glm::mat4& GetWorldMatrix() const;
+	const glm::mat4& GetCameraMatrix() const;
 
 	/// Translation functions
 	void SetPosition(const glm::vec3& position);
@@ -31,7 +32,7 @@ public:
 	void Scale(const glm::vec3& amount);
 	inline const glm::vec3& GetScale() const{ return m_Scale; }
 private:
-	inline void MarkDirty(){ m_WorldMatrix[3][0] = 1.f; }
+	inline void MarkDirty(){ m_PosMatrix[3][0] = 1.f; }
 
 private:
 	//TransformComponent(const TransformComponent& that);
@@ -41,6 +42,5 @@ private:
 	glm::vec3 m_Position;
 	glm::quat m_Orientation;
 	glm::vec3 m_Scale;
-	mutable glm::mat4 m_WorldMatrix; // We use [3][0] as a dirty flag
+	mutable glm::mat4 m_PosMatrix; // We use [3][0] as a dirty flag
 };
-
