@@ -17,8 +17,8 @@ public:
 	static void Initialize();
 	static void Shutdown();
 	static EntityID CreateEntity();
-	template <class T> static bool AddComponent(EntityID entity, T& component);
-	template <class T> static bool AddComponent(EntityID entity, T&& component);
+	template <class T> static T* AddComponent(EntityID entity);
+	template <class T> static T* AddComponent(EntityID entity, T&& component);
 	template <class T> static T* GetComponent(EntityID entity);
 	template <class T> static bool HasComponent(EntityID entity);
 	static void DestroyEntity(Entity& Entity);
@@ -41,14 +41,14 @@ private:
 	static std::vector<IComponentManager*> s_pComponentManagers;
 };
 
-template <class T> bool EntityManager::AddComponent(EntityID entity, T& component)
+template <class T> T* EntityManager::AddComponent(EntityID entity)
 {
-	return ComponentManager<T>::CreateFor(entity, component);
+	return ComponentManager<T>::CreateFor(entity);
 }
 
-template <class T> bool EntityManager::AddComponent(EntityID entity, T&& component)
+template <class T> T* EntityManager::AddComponent(EntityID entity, T&& component)
 {
-	return ComponentManager<T>::CreateFor(entity, component);
+	return ComponentManager<T>::CreateFor(entity, std::forward<T>(component));
 }
 
 template <class T> T* EntityManager::GetComponent(EntityID entity)

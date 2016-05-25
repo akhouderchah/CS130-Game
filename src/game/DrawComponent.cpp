@@ -3,9 +3,9 @@
 bool initialized = false;
 
 const glm::vec3 vertices[] = {
-		glm::vec3(-1, -0.5f, 0),
-		glm::vec3(0.f, -0.5f, 1),
-		glm::vec3(1, - 0.5f, 0),
+		glm::vec3(-0.5f, -0.5f, 0),
+		glm::vec3(0.f, -0.5f, 0.5f),
+		glm::vec3(0.5f, - 0.5f, 0),
 		glm::vec3(0.f, 0.5f, 0.f) };
 	
 const unsigned int indices [] = { 0, 3, 1,
@@ -15,7 +15,8 @@ const unsigned int indices [] = { 0, 3, 1,
 
 GLuint VBO, IBO, VertexArrayID;
 
-DrawComponent::DrawComponent()
+DrawComponent::DrawComponent(TransformComponent* pTransform) :
+	m_pTransformComp(pTransform)
 {
 	if(!initialized)
 	{

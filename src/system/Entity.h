@@ -23,16 +23,15 @@ public:
 		return EntityManager::GetComponent<T>(m_UID);
 	}
 
-	template <class T> bool AddComponent(T& component)
-	{
-		return EntityManager::AddComponent<T>(*this, component);
-	}
+	template <class T> inline T* AddComponent(T&& component)
+		{
+			return EntityManager::AddComponent<T>(*this, std::forward<T>(component));
+		}
 
-	template <class T> bool AddComponent(T&& component)
-	{
-		return EntityManager::AddComponent(*this, component);
-	}
-	
+	template <class T> inline T* AddComponent()
+		{
+			return EntityManager::AddComponent<T>(*this);
+		}
 private:
 	friend class EntityManager;
 

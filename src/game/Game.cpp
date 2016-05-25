@@ -5,7 +5,10 @@
 
 /** System Includes */
 #include "InputSystem.h"
+#include "PhysicsSystem.h"
 #include "ErrorSystem.h"
+
+using namespace glm;
 
 GameAttributes::GameAttributes(int32_t width, int32_t height, std::string title, bool fullscreen, uint8_t samples) :
 	m_Width(width), m_Height(height), m_WindowTitle(title),
@@ -55,6 +58,7 @@ bool Game::Initialize(const GameAttributes& attributes)
 	EntityManager::Initialize();
 
 	m_pSystems.push_back(new InputSystem);
+	m_pSystems.push_back(new PhysicsSystem);
 	m_pDrawSystem = new DrawSystem;
 	m_pSystems.push_back(m_pDrawSystem);
 
@@ -69,9 +73,16 @@ bool Game::Initialize(const GameAttributes& attributes)
 	// System initialization ends here //
 	
 	Entity test = EntityManager::CreateEntity();
-	test.AddComponent(TransformComponent());
-	test.AddComponent(DrawComponent());
-	
+	TransformComponent* pTrans = test.AddComponent(TransformComponent(glm::vec3(0,1,1)));
+	test.AddComponent(MovableComponent(pTrans));
+	test.AddComponent(DrawComponent(pTrans));
+
+	test = EntityManager::CreateEntity();
+	pTrans = test.AddComponent(TransformComponent(glm::vec3(0,0,1)));
+	MovableComponent* pMove = test.AddComponent(MovableComponent(pTrans));
+	test.AddComponent(DrawComponent(pTrans));
+	test.AddComponent(PhysicsComponent(*pMove));
+
 	m_Timer.Start();
 
 	return true;

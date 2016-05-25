@@ -1,3 +1,7 @@
+/*
+  @TODO - ensure we alert components of other types when we delete this component (should be done at the EntityManager level)
+*/
+
 #pragma once
 
 #include <vector>
@@ -14,13 +18,6 @@ class Entity;
  *
  * Used mainly by the EntityManager. The user will rarely have a need to
  * use any ComponentManager directly.
- *
- * @note Due to the implementation of DeleteFor(entity), components will be moved around
- * at runtime, and therefore the user should NOT store pointers or references to components.
- * This could be changed by having s_CompList store elements of T* rather than T, but further
- * profiling must be done to see if that would have a significant performance effect.
- *
- * @TODO - Profile s_CompList storing T vs storing T*
  */
 template <class T>
 class ComponentManager : public IComponentManager
@@ -28,17 +25,17 @@ class ComponentManager : public IComponentManager
 public:
 	virtual ~ComponentManager(){}
 	static T* GetFor(EntityID entity);
-	static ConstVector<std::pair<T, EntityID>> GetAll();	//NOTE - We REALLY don't want a user to add or delete elements of this array!
+	static ConstVector<std::pair<T*, EntityID>> GetAll();	//NOTE - We REALLY don't want a user to add or delete elements of this array!
 
-	static bool CreateFor(EntityID entity, T& component);
-	static bool CreateFor(EntityID entity, T&& component);
+	static T* CreateFor(EntityID entity);
+	static T* CreateFor(EntityID entity, T&& component);
 	virtual void DeleteFor(EntityID entity);
 	virtual void DeleteAll();
 
 	virtual bool HasEntity(EntityID entity);
 
 private:
-	static std::vector<std::pair<T, EntityID>> s_CompList;
+	static std::vector<std::pair<T*, EntityID>> s_CompList;
 	static std::unordered_map<EntityID, size_t> s_IDtoIndex;
 	static ManagerID s_ID;
 };
@@ -82,7 +79,7 @@ ManagerID GUID<IComponentManager, ManagerID>::GenerateID()
 }
 
 template <class T>
-std::vector<std::pair<T, EntityID>> ComponentManager<T>::s_CompList;
+std::vector<std::pair<T*, EntityID>> ComponentManager<T>::s_CompList;
 
 template <class T>
 std::unordered_map<EntityID, size_t> ComponentManager<T>::s_IDtoIndex;
@@ -100,42 +97,45 @@ T* ComponentManager<T>::GetFor(EntityID entity)
 		return nullptr;
 	}
 
-	return &(s_CompList[iter->second].first);
+	return s_CompList[iter->second].first;
 }
 
 template <class T>
-ConstVector<std::pair<T,EntityID>> ComponentManager<T>::GetAll()
+ConstVector<std::pair<T*,EntityID>> ComponentManager<T>::GetAll()
 {
 	assert(s_ID);
 	return s_CompList;
 }
 
 template <class T>
-bool ComponentManager<T>::CreateFor(EntityID entity, T& component)
+T* ComponentManager<T>::CreateFor(EntityID entity)
 {
 	assert(s_ID);
+	// NOTE: For now, we keep it to one component of type T per entity
 	if(s_IDtoIndex.find(entity) != s_IDtoIndex.end())
 	{
-		return false;
+		return nullptr;
 	}
 
+	// @TODO - do some error checking here
+	T* pNew = new T;
 	s_IDtoIndex[entity] = s_CompList.size();
-	s_CompList.push_back(std::make_pair(component, entity));
-	return true;
+	s_CompList.push_back(std::make_pair(pNew, entity));
+	return pNew;
 }
 
 template <class T>
-bool ComponentManager<T>::CreateFor(EntityID entity, T&& component)
+T* ComponentManager<T>::CreateFor(EntityID entity, T&& component)
 {
 	assert(s_ID);
 	if(s_IDtoIndex.find(entity) != s_IDtoIndex.end())
-	{
-		return false;
-	}
+	{ return nullptr; }
 
+	// @TODO - do some error checking here
+	T* pNew = new T(component);
 	s_IDtoIndex[entity] = s_CompList.size();
-	s_CompList.push_back(std::make_pair(component, entity));
-	return true;
+	s_CompList.push_back(std::make_pair(pNew, entity));
+	return pNew;
 }
 
 template <class T>
@@ -147,10 +147,11 @@ void ComponentManager<T>::DeleteFor(EntityID entity)
 		return;
 
 	// Swaps the last element with the element to delete, then pops back
-	// NOTE: ALL POINTERS TO THE SWAPPED ELEMENT WILL BECOME INVALID AT THIS POINT!!!
-	s_IDtoIndex[s_CompList.back().second] = iter->second;
-	s_CompList[iter->second].first.Destroy();
-	swap(s_CompList[iter->second], s_CompList.back());
+	size_t idx = iter->second;
+	s_IDtoIndex[s_CompList.back().second] = idx;
+	s_CompList[idx].first->Destroy();
+	delete s_CompList[idx].first;
+	swap(s_CompList[idx], s_CompList.back());
 	s_IDtoIndex.erase(iter);
 	s_CompList.pop_back();
 }
@@ -161,7 +162,8 @@ void ComponentManager<T>::DeleteAll()
 	assert(s_ID);
 	for(size_t i = 0; i < s_CompList.size(); ++i)
 	{
-		s_CompList[i].first.Destroy();
+		s_CompList[i].first->Destroy();
+		delete s_CompList[i].first;
 	}
 	s_CompList.clear();
 	s_IDtoIndex.clear();

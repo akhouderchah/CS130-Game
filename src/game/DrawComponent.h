@@ -3,11 +3,12 @@
 #include "../system/IComponent.h"
 
 class DrawSystem;
+class TransformComponent;
 
 class DrawComponent : public IComponent
 {
 public:
-	DrawComponent();
+	DrawComponent(TransformComponent* pTransform);
 	~DrawComponent();
 
 	void Destroy();
@@ -17,7 +18,7 @@ private:
 
 	// Things that a draw system should know about go here //
 	friend DrawSystem;
-	glm::mat4 m_World;
+	TransformComponent* m_pTransformComp;
 	GLuint m_VBO;
 	GLuint m_IBO;	
 };
