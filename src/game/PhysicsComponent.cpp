@@ -1,7 +1,7 @@
 #include "PhysicsComponent.h"
 #include "MovableComponent.h"
 
-float PhysicsComponent::s_Gravity = -0.25f;
+float PhysicsComponent::s_Gravity = -0.025f;
 
 PhysicsComponent::PhysicsComponent(MovableComponent& mover) :
 	m_Velocity(0,0,0), m_pMover(&mover)

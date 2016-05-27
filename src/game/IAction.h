@@ -14,6 +14,6 @@ public:
 	IAction(){}
 	virtual ~IAction(){}
 
-	virtual bool operator()(EGameState state, EntityID entity) = 0;
+	virtual bool operator()(EntityID entity) = 0;
 };
 

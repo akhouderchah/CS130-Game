@@ -4,6 +4,7 @@
 #include "GLFW/glfw3.h"
 #include "glm/glm.hpp"
 #include "Constants.h"
+#include "Platform.h"
 #include "Paths.h"
 #include "LogSystem.h"
 #include "ErrorSystem.h"

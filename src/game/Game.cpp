@@ -4,7 +4,7 @@
 #include "Entity.h"
 
 /** System Includes */
-#include "InputSystem.h"
+#include "EventSystem.h"
 #include "PhysicsSystem.h"
 #include "ErrorSystem.h"
 
@@ -57,8 +57,12 @@ bool Game::Initialize(const GameAttributes& attributes)
 	// Initialize all systems here //
 	EntityManager::Initialize();
 
-	m_pSystems.push_back(new InputSystem);
+	EventSystem* pInputSys = new EventSystem;
+	pInputSys->MakeInputSystem();
+	m_pSystems.push_back(pInputSys);
+	
 	m_pSystems.push_back(new PhysicsSystem);
+	
 	m_pDrawSystem = new DrawSystem;
 	m_pSystems.push_back(m_pDrawSystem);
 
