@@ -25,6 +25,8 @@ A simple game built on top of a custom-built Entity System. The ES itself is des
 The file GENERAL.todo contains the most important changes (or "todo"s) to be made, ranking the needed changes from Priority 1 (absolutely essential) to Priority 5 (would be nice to implement). While GENERAL.todo will not contain all the work to be done in the codebase, it will contain those that demand the most attention.
 ***
 
+#### Notes of interest
+- Due to the way that static initialization works in C++, the log system can't be reliably used for any set-up that happens before the execution of main() (take, for example, the adding of ComponentManagers to EntityManager::s_pComponentManagers). Try to avoid static initialization, opting instead to use an Initialize() method to set-up classes and such.
 
 #### Folder Structure
 * /src - contains all the source code used in the project

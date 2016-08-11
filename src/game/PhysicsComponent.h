@@ -5,6 +5,11 @@
 
 class MovableComponent;
 
+/**
+ * @brief Component to give physical simulation capabilities.
+ *
+ * Requires the MovableComponent to function properly.
+ */
 class PhysicsComponent : public IComponent
 {
 public:
@@ -16,6 +21,7 @@ public:
 	
 private:
 	static float s_Gravity;
+	static float s_TerminalSpeed;
 
 	glm::vec3 m_Velocity;
 	MovableComponent* m_pMover;

@@ -3,6 +3,7 @@
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 #include "glm/glm.hpp"
+#include "Types.h"
 #include "Constants.h"
 #include "Platform.h"
 #include "Paths.h"
@@ -14,7 +15,6 @@
 #endif
 
 #include <random>
-#include <cstdint>
 #include <cassert>
 
 #include "Config.h"

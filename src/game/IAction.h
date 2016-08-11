@@ -1,6 +1,7 @@
 #pragma once
 
 #include "InputConstants.h"
+#include "Base.h"
 
 /**
  * @brief Interface for game actions.
@@ -14,6 +15,6 @@ public:
 	IAction(){}
 	virtual ~IAction(){}
 
-	virtual bool operator()(EntityID entity) = 0;
+	virtual bool operator()() = 0;
 };
 

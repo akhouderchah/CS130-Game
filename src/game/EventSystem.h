@@ -3,6 +3,10 @@
 #include "../system/ISystem.h"
 #include "../system/EventQueue.h"
 
+/* Action Includes*/
+#include "Action_PauseGame.h"
+#include "Action_Jump.h"
+
 struct Event;
 class ObserverComponent;
 
@@ -24,7 +28,7 @@ void KeyCallback(GLFWwindow*, int, int, int, int);
  * for this is that the ComponentManager works at the level of "these entities have
  * these components", while the EventSystem is concerned instead with which components
  * to notify. Note that the separation of different EventSystems for different types
- * of events would not work well if we simply took every component from the component
+ * of events would not work well if we simply took every observer from the component
  * manager.
  */
 class EventSystem : public ISystem
@@ -44,6 +48,12 @@ public:
 	// Sets s_pInputSystem to nullptr if the current system is the InputSystem.
 	void UnmakeInputSystem();
 
+	// Tell all Observers that an Event has happened
+	void Inform(const Event& event);
+
+private:
+	friend class ObserverComponent;
+
 	// Registers an observer with the system. Returs true if there was no error.
 	// NOTE: observers will be added multiple times if multiple calls to this
 	// function is made with the same observer.
@@ -54,9 +64,6 @@ public:
 	// If the observer has been registered multiple times, the observer won't be
 	// completely unregistered.
 	void UnregisterObserver(ObserverComponent& observer);
-
-	// Tell all Observers that an Event has happened
-	void Inform(const Event& event);
 
 private:
 	// This system doesn't necessarily only handle input, but it's the only one

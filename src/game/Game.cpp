@@ -5,6 +5,7 @@
 
 /** System Includes */
 #include "EventSystem.h"
+#include "ObserverComponent.h"
 #include "PhysicsSystem.h"
 #include "ErrorSystem.h"
 
@@ -17,7 +18,8 @@ GameAttributes::GameAttributes(int32_t width, int32_t height, std::string title,
 }
 
 Game::Game() :
-	m_pWindow(nullptr)
+	m_pWindow(nullptr), m_pDrawSystem(nullptr),
+	m_pSystemObserver(nullptr)
 {
 }
 
@@ -75,17 +77,27 @@ bool Game::Initialize(const GameAttributes& attributes)
 		}
 	}
 	// System initialization ends here //
-	
+
+	// Create the system observer
+	m_pSystemObserver = new ObserverComponent(*pInputSys);
+	m_pSystemObserver->Activate();
+	m_pSystemObserver->AddEvent(EGE_PAUSE, new Action_PauseGame(m_pWindow));
+
+	// Create entities
 	Entity test = EntityManager::CreateEntity();
 	TransformComponent* pTrans = test.AddComponent(TransformComponent(glm::vec3(0,1,1)));
 	test.AddComponent(MovableComponent(pTrans));
 	test.AddComponent(DrawComponent(pTrans));
 
 	test = EntityManager::CreateEntity();
-	pTrans = test.AddComponent(TransformComponent(glm::vec3(0,0,1)));
+	pTrans = test.AddComponent(TransformComponent(glm::vec3(0,0,1),
+												  glm::vec3(.5f,.5f,.5f)));
 	MovableComponent* pMove = test.AddComponent(MovableComponent(pTrans));
 	test.AddComponent(DrawComponent(pTrans));
 	test.AddComponent(PhysicsComponent(*pMove));
+	ObserverComponent* pObserver = test.AddComponent(ObserverComponent(*pInputSys));
+	pObserver->Activate();
+	pObserver->AddEvent(EGE_PLAYER1_JUMP, new Action_Jump(test));
 
 	m_Timer.Start();
 
@@ -94,14 +106,16 @@ bool Game::Initialize(const GameAttributes& attributes)
 
 void Game::Shutdown()
 {
+	delete m_pSystemObserver;
+	
+	EntityManager::Shutdown();
+	
 	for(size_t i = m_pSystems.size(); i > 0;)
 	{
 		m_pSystems[--i]->Shutdown();
 		delete m_pSystems[i];
 	}
-
-	EntityManager::Shutdown();
-
+	
 	glfwTerminate();
 }
 

@@ -1,20 +1,32 @@
+-- Current --
+- Physics impulse limit allowed frequency
+- (In)validating component caches
+
+--PRIORITY 0--
+- Create the memory system (at the very least get rid of 'new's in the codebase)
+- Integrate the lisp system into tetrad-game
+- EntityManager: Alert components of other types when a component is deleted (maybe also prevent certain deletions?) (reference count components maybe?) [[SLOT MAPS!]]
+
 --Priority 1--
 - Create the low-level Systems and Components
 - Create the camera component and connect to Draw system
-- EntityManager: Alert components of other types when a component is deleted (maybe also prevent certain deletions?) (reference count components maybe?)
+
 - EntityManager: What to do about somewhat strict ordering regarding component ordering?
 - Transform: Get rotations working!
 - We need systems to update their component lists, but only when necessary (maybe just use a pointer?)
 - Passing component pointers around is going to get messy. Use smart pointers with reference counting instead?
 
 --Priority 2--
+- EntityManager (entityID validation?)
 - Fix up error system
 - Make new non-throwing and create a custom error handler
 - Move component manager into the entity manager (users should never interact with the component manager)
+- Create "architypes" for the creation of entities with preset components
 
 --Priority 3--
 - Make all owning pointers UniquePtr, and all non-owning to be standard pointers
 - Frame measuring!!!
+- EntityManager superblock-type storing of freeIDs
 
 --Priority 4--
 

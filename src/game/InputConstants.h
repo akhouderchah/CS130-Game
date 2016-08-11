@@ -2,7 +2,7 @@
 
 enum EGameEvent
 {
-	EGE_NONE = -1,      // No Observer reacts to this event. Effectively a "null event".
+	EGE_NONE = 0,      // No Observer reacts to this event. Effectively a "null event".
 	EGE_PLAYER1_JUMP,  // Tell Player1 to jump
 	EGE_PLAYER2_JUMP,  // Tell Player2 to jump
 	EGE_PLAYER3_JUMP,  // Tell Player3 to jump

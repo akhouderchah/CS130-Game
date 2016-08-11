@@ -32,19 +32,9 @@ void EventSystem::Tick(deltaTime_t dt)
 	Event event = s_EventQueue.Consume();
 	while(event.event != EGE_END)
 	{
-		/*
-		switch(event.event)
-		{
-			case EGE_PAUSE:
-				glfwSetWindowShouldClose(s_pWindow, GL_TRUE);
-				break;
-			default:
-				break;
-				};
-		*/
 		for(size_t i = 0; i < m_pObservers.size(); ++i)
 		{
-			m_pObservers[i]->Notify(event, 0);
+			m_pObservers[i]->Notify(event);
 		}
 		event = s_EventQueue.Consume();
 	}
@@ -115,11 +105,14 @@ void KeyCallback(GLFWwindow* pWindow, int key, int scancode, int action, int mod
 	{
 		switch(key)
 		{
-			case GLFW_KEY_ESCAPE:
-				event.event = EGE_PAUSE;
-				break;
-			default:
-				event.event = EGE_NONE;
+		case GLFW_KEY_ESCAPE:
+			event.event = EGE_PAUSE;
+			break;
+		case GLFW_KEY_SPACE:
+			event.event = EGE_PLAYER1_JUMP;
+			break;
+		default:
+			event.event = EGE_NONE;
 		}
 
 		event.state = EGS_STARTED;
