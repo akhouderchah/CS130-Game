@@ -2,6 +2,8 @@
 
 #pragma once
 #include <string>
+#include "Platform.h"
+#include <cassert>
 #include "LogSystem.h"
 
 enum EErrorBehavior
@@ -18,4 +20,13 @@ void EXIT();
 #define ERROR(stream, errorBehavior) \
 	_LOG_ERROR(MainLog, Log::EIL_NORMAL, stream); \
 	if(errorBehavior == EEB_EXIT){ EXIT(); }
+
+// @TODO - make own assert!
+#define RELEASE_ASSERT(cond) assert(cond)
+
+#ifdef _DEBUG
+#define DEBUG_ASSERT(cond) RELEASE_ASSERT(cond)
+#else
+#define DEBUG_ASSERT(cond)
+#endif
 

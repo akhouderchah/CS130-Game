@@ -2,26 +2,27 @@
 
 #include "Base.h"
 
+class IComponent;
+
 /**
  * @brief Base interface for all component managers.
  *
  * Since there can be an arbitrary number of component managers
- * generated at compile-time, this base class makes it easy to
- * hold a list of what component managers exist.
- *
- * Although all ComponentManagers have the same basic interface,
- * placing a function in the IComponentManager prevents it
- * from being static. Thus, only functions that must be applied to a
- * ComponentManager<T> of unknown T at compile-time should be placed here.
+ * generated at compile-time, this base class makes it possible
+ * to hold a list of what component managers exist.
  */
 class IComponentManager
 {
 	public:
-	// Whatever interface will be needed.
-	// Perhaps some sort of event-handling functions.
 	IComponentManager(){};
 	virtual ~IComponentManager(){};
-	virtual void DeleteFor(EntityID entity) = 0;
+
+	virtual ObjHandle::ID_t Add(IComponent *pComponent) = 0;
+
+	virtual ObjHandle::ID_t Delete(ObjHandle::ID_t index) = 0;
 	virtual void DeleteAll() = 0;
+
+	virtual IComponent *Get(ObjHandle::ID_t index) const = 0;
+	virtual ObjHandle::type_t GetType() const = 0;
 };
 

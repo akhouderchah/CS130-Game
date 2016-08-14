@@ -3,9 +3,9 @@
 - (In)validating component caches
 
 --PRIORITY 0--
+- EntityManager: Alert components of other types when a component is deleted (maybe also prevent certain deletions?) (reference count components maybe?) [[SLOT MAPS!]]
 - Create the memory system (at the very least get rid of 'new's in the codebase)
 - Integrate the lisp system into tetrad-game
-- EntityManager: Alert components of other types when a component is deleted (maybe also prevent certain deletions?) (reference count components maybe?) [[SLOT MAPS!]]
 
 --Priority 1--
 - Create the low-level Systems and Components
@@ -17,16 +17,13 @@
 - Passing component pointers around is going to get messy. Use smart pointers with reference counting instead?
 
 --Priority 2--
-- EntityManager (entityID validation?)
 - Fix up error system
 - Make new non-throwing and create a custom error handler
-- Move component manager into the entity manager (users should never interact with the component manager)
 - Create "architypes" for the creation of entities with preset components
 
 --Priority 3--
 - Make all owning pointers UniquePtr, and all non-owning to be standard pointers
 - Frame measuring!!!
-- EntityManager superblock-type storing of freeIDs
 
 --Priority 4--
 

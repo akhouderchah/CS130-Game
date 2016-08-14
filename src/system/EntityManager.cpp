@@ -5,89 +5,169 @@
 using namespace std;
 
 /**
- * EntityManager Static definitions
+ * Static Definitions
  */
-std::vector<EntityID> EntityManager::s_freeIDs;
-const EntityID EntityManager::FREE_RESERVE = 10;
-const EntityID EntityManager::MAX_IDS = 100;
-EntityID EntityManager::s_StartID = 1;
-EntityID EntityManager::s_EndID = MAX_IDS;
-std::vector<IComponentManager*> EntityManager::s_pComponentManagers;
-/**/
+vector<IComponentManager*> EntityManager::s_pComponentManagers;
+vector<pair<ObjHandle::version_t, EntityManager::compList_t>> EntityManager::s_EntityList;
+queue<ObjHandle::ID_t> EntityManager::s_FreeList;
+unordered_map<ObjHandle::handle_t, ObjHandle::ID_t> EntityManager::s_HandletoIndex;
 
+const size_t EntityManager::CHUNK_SIZE = 64;
+
+/**
+ * Function Definitions
+ */
 void EntityManager::Initialize()
 {
-	s_freeIDs.reserve(FREE_RESERVE);
+	s_EntityList.push_back(make_pair(0, compList_t())); // Create the null entity
+	AddEntities(); // @TODO - maybe add more than CHUNK_SIZE entities for init?
 	
+	//
 	// Note we don't fill s_pComponentManagers here.
-	// The ComponentManagers put themselves into the vector.
+	// The ComponentManagers place themselves into the vector
+	// during static initialization (ordering is irrelevant).
+	//
 }
 
 void EntityManager::Shutdown()
 {
-	s_freeIDs.clear();
+	DestroyAll();
+	s_EntityList.clear();
+	s_HandletoIndex.clear();
+	queue<ObjHandle::ID_t>().swap(s_FreeList);
 
-	size_t i;
-	for(i = 0; i < s_pComponentManagers.size(); ++i)
-	{
-		s_pComponentManagers[i]->DeleteAll();
-	}
-
-	i = s_pComponentManagers.size();
-
+	size_t i = s_pComponentManagers.size();
 	while(i != 0)
 	{
+		// This step prevents us from restarting an EntityManager
 		delete s_pComponentManagers[--i];
 		s_pComponentManagers.pop_back();
 	}
+	s_pComponentManagers.clear();
 }
 
-EntityID EntityManager::CreateEntity()
+Entity EntityManager::CreateEntity()
 {
-	// Take the first free ID, if it exists
-	if(!s_freeIDs.empty())
+	// Fill freeList as needed
+	if(s_FreeList.size() <= 1)
 	{
-		EntityID ID = s_freeIDs.back();
-		s_freeIDs.pop_back();
-		return ID;
+		AddEntities();
+		
+		if(s_FreeList.size() == 0)
+		{
+			LOG("Failed to allocate space for a new entity! Perhaps remove some existing entities or expand the ObjHandle sizes.\n");
+			return Entity(ObjHandle::null);
+		}
 	}
-	// Using Start-1 because EndID == USHRT_MAX would cause an
-	// overflow eventually
-	else if((s_StartID-1) < s_EndID)
-	{
-		return s_StartID++;
-	}
+
+	// Take from freeList
+	ObjHandle::ID_t ID = s_FreeList.front();
+	s_FreeList.pop();
+	DEBUG_ASSERT(ID);
+
+	ObjHandle::version_t version = s_EntityList[ID].first;
 	
-	// Otherwise return the null entity and log an error
-	LOG("Failed to allocate space for a new entity! Perhaps increase MAX_IDS or remove some existing entities.\n");
-	return 0;
+	return Entity(ObjHandle::constructHandle(ID, 0, version));
 }
 
-void EntityManager::DestroyEntity(Entity& Entity)
+void EntityManager::DestroyEntity(Entity entity)
 {
-	EntityID& UID = Entity.m_UID;
-
-	for(size_t i = 0; i < s_pComponentManagers.size(); ++i)
+	ObjHandle::ID_t ID = entity.m_ID.GetID();
+	
+	// Validity tests
+	if(ID == 0 || ID >= s_EntityList.size() ||
+	   entity.m_ID.GetVersion() != s_EntityList[ID].first)
 	{
-		s_pComponentManagers[i]->DeleteFor(Entity);
+		return;
 	}
 
-	s_freeIDs.push_back(UID);
-	UID = 0;
-	
-	// @TODO (performance) Perhaps create some sort of
-	// unix-like free-list memory scheme?
+	// Go through the compList and remove all elements
+	for(size_t i = 0; i < s_EntityList[ID].second.size(); ++i)
+	{
+		RemoveComponent(entity, s_EntityList[ID].second[i].first);
+	}
+	s_EntityList[ID].second.clear();
+
+	// Increase entity version number
+	++s_EntityList[ID].first;
+
+	// Add to free list
+	s_FreeList.push(ID);
 }
 
 void EntityManager::DestroyAll()
 {
-	for(size_t i = 0; i < s_pComponentManagers.size(); ++i)
+	//
+	// Clear the freeList, then destroy all entities other than the null entity.
+	// Note that deleting a freed entity in this scenario is not harmful.
+	// A double free is only dangerous because there would be multiple freeList
+	// entries for a single entity.
+	//
+	queue<ObjHandle::ID_t>().swap(s_FreeList);
+
+	for(size_t i = 1; i < s_EntityList.size(); ++i)
 	{
-		s_pComponentManagers[i]->DeleteAll();
+		ObjHandle::version_t version = s_EntityList[i].first;
+		DestroyEntity(Entity(ObjHandle::constructHandle(i, 0, version)));
 	}
 
-	s_freeIDs.clear();
-	s_StartID = 1;
-	s_EndID = MAX_IDS;
+
+bool EntityManager::HasComponent(Entity entity, ObjHandle::type_t type)
+{
+	ObjHandle::ID_t ID = entity.m_ID.GetID();
+
+	// Validity tests
+	if(ID == 0 || ID >= s_EntityList.size() ||
+	   entity.m_ID.GetVersion() != s_EntityList[ID].first)
+	{
+		return false;
+	}
+	
+	// Check hash for component
+	ObjHandle::handle_t handle = ObjHandle::constructRawHandle(ID, type, 0u);
+	return s_HandletoIndex.count(handle);
+}
+
+void EntityManager::RemoveComponent(Entity entity, ObjHandle::type_t type)
+{
+	ObjHandle::ID_t ID = entity.m_ID.GetID();
+	
+	// See if removal is necessary
+	if(ID == 0 || ID >= s_EntityList.size() ||
+	   entity.m_ID.GetVersion() != s_EntityList[ID].first)
+	{
+		return;
+	}
+
+	ObjHandle::handle_t handle = ObjHandle::constructRawHandle(ID, type, 0u);
+	auto iter = s_HandletoIndex.find(handle);
+	if(iter == s_HandletoIndex.end()){ return; }
+	
+	// Remove from ComponentManager
+	ObjHandle::ID_t displaced = s_pComponentManagers[type]->Delete(iter->second);
+
+	// Update displaced component entry, if any
+	if(displaced != 0)
+	{
+		ObjHandle::handle_t dispHandle = ObjHandle::constructRawHandle(displaced, type, 0u);
+		DEBUG_ASSERT(s_HandletoIndex.count(dispHandle));
+		s_HandletoIndex[dispHandle] = iter->second;
+	}
+
+	// Remove entry from hash
+	s_HandletoIndex.erase(handle);
+}
+
+void EntityManager::AddEntities(size_t chunkSize)
+{
+	// Add chunkSize to freeList (extra logic for edge-case of nearing the max)
+	size_t i = s_EntityList.size();
+	size_t max = min(i+chunkSize, (size_t)ObjHandle::MAX_ID);
+	max = (max < i) ? ObjHandle::MAX_ID : max;
+	for(--i; i++ < max;)
+	{
+		s_EntityList.push_back(make_pair(0, compList_t()));
+		s_FreeList.push((ObjHandle::ID_t)i);
+	}
 }
 

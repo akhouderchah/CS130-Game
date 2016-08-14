@@ -10,6 +10,7 @@
 #include "IComponentManager.h"
 #include "../base/Base.h"
 #include "../base/ConstVector.h"
+#include "ObjList.h"
 
 class Entity;
 
@@ -24,20 +25,20 @@ class ComponentManager : public IComponentManager
 {
 public:
 	virtual ~ComponentManager(){}
-	static T* GetFor(EntityID entity);
-	static ConstVector<std::pair<T*, EntityID>> GetAll();	//NOTE - We REALLY don't want a user to add or delete elements of this array!
+	
+	ObjHandle::ID_t Add(IComponent *pComponent)
+		{ return m_CompList.Add(pComponent); }
+	ObjHandle::ID_t Delete(ObjHandle::ID_t index)
+		{ return m_CompList.Delete(index); }
+	
+	void DeleteAll(){ m_CompList.DeleteAll(); }
 
-	static T* CreateFor(EntityID entity);
-	static T* CreateFor(EntityID entity, T&& component);
-	virtual void DeleteFor(EntityID entity);
-	virtual void DeleteAll();
-
-	virtual bool HasEntity(EntityID entity);
-
+	IComponent *Get(ObjHandle::ID_t index) const{ return m_CompList[index]; }
+	IComponent *operator[](ObjHandle::ID_t index) const{ return m_CompList[index]; }
+	ObjHandle::type_t GetType() const{ return s_ID; }
 private:
-	static std::vector<std::pair<T*, EntityID>> s_CompList;
-	static std::unordered_map<EntityID, size_t> s_IDtoIndex;
-	static ManagerID s_ID;
+	ObjList<T> m_CompList;
+	static ObjHandle::type_t s_ID;
 };
 
 /**
@@ -45,136 +46,31 @@ private:
  * ComponentManagers to EntityManager::s_pComponentManagers;
  */
 template <>
-class GUID<IComponentManager, ManagerID>
+class GUID<IComponentManager, ObjHandle::type_t>
 {
 public:
 	template <class T>
-	static ManagerID GenerateID();
+	static ObjHandle::type_t GenerateID();
 
 private:
 	static void AddManager(IComponentManager* pManager);
 
-	static ManagerID s_CurrentID;
+	static ObjHandle::type_t s_CurrentID;
 	GUID();
 	~GUID();
 };
 
 template <class T>
-ManagerID GUID<IComponentManager, ManagerID>::GenerateID()
+ObjHandle::type_t GUID<IComponentManager, ObjHandle::type_t>::GenerateID()
 {
 	assert(s_CurrentID+1 > s_CurrentID);
 
-	try
-	{
-		// Add ComponentManager<T> to EntityManager::s_pComponentManagers
-		AddManager(new ComponentManager<T>());
-	}
-	catch (std::bad_alloc& ba)
-	{
-		// If we can't allocate the memory, don't run
-		assert(false);
-	}
+	// Add ComponentManager<T> to EntityManager::s_pComponentManagers
+	AddManager(new ComponentManager<T>());
 	
 	return s_CurrentID++;
 }
 
 template <class T>
-std::vector<std::pair<T*, EntityID>> ComponentManager<T>::s_CompList;
-
-template <class T>
-std::unordered_map<EntityID, size_t> ComponentManager<T>::s_IDtoIndex;
-
-template <class T>
-ManagerID ComponentManager<T>::s_ID = GUID<IComponentManager,ManagerID>::GenerateID<T>();
-
-template <class T>
-T* ComponentManager<T>::GetFor(EntityID entity)
-{
-	assert(s_ID);
-	auto iter = s_IDtoIndex.find(entity);
-	if(iter == s_IDtoIndex.end())
-	{
-		return nullptr;
-	}
-
-	return s_CompList[iter->second].first;
-}
-
-template <class T>
-ConstVector<std::pair<T*,EntityID>> ComponentManager<T>::GetAll()
-{
-	assert(s_ID);
-	return s_CompList;
-}
-
-template <class T>
-T* ComponentManager<T>::CreateFor(EntityID entity)
-{
-	assert(s_ID);
-	// NOTE: For now, we keep it to one component of type T per entity
-	if(s_IDtoIndex.find(entity) != s_IDtoIndex.end())
-	{
-		return nullptr;
-	}
-
-	// @TODO - do some error checking here
-	T* pNew = new T;
-	s_IDtoIndex[entity] = s_CompList.size();
-	s_CompList.push_back(std::make_pair(pNew, entity));
-	return pNew;
-}
-
-template <class T>
-T* ComponentManager<T>::CreateFor(EntityID entity, T&& component)
-{
-	assert(s_ID);
-	if(s_IDtoIndex.find(entity) != s_IDtoIndex.end())
-	{ return nullptr; }
-
-	// @TODO - do some error checking here
-	T* pNew = new T(component);
-	s_IDtoIndex[entity] = s_CompList.size();
-	s_CompList.push_back(std::make_pair(pNew, entity));
-	return pNew;
-}
-
-template <class T>
-void ComponentManager<T>::DeleteFor(EntityID entity)
-{
-	assert(s_ID);
-	auto iter = s_IDtoIndex.find(entity);
-	if(iter == s_IDtoIndex.end())
-		return;
-
-	// Swaps the last element with the element to delete, then pops back
-	size_t idx = iter->second;
-	s_IDtoIndex[s_CompList.back().second] = idx;
-	s_CompList[idx].first->Destroy();
-	delete s_CompList[idx].first;
-	swap(s_CompList[idx], s_CompList.back());
-	s_IDtoIndex.erase(iter);
-	s_CompList.pop_back();
-}
-
-template <class T>
-void ComponentManager<T>::DeleteAll()
-{
-	assert(s_ID);
-	for(size_t i = 0; i < s_CompList.size(); ++i)
-	{
-		s_CompList[i].first->Destroy();
-		delete s_CompList[i].first;
-	}
-	s_CompList.clear();
-	s_IDtoIndex.clear();
-
-	// Should we get rid of the preallocations after clearing?
-}
-
-template <class T>
-bool ComponentManager<T>::HasEntity(EntityID entity)
-{
-	assert(s_ID);
-	return (s_IDtoIndex.find(entity) != s_IDtoIndex.end());
-}
+ObjHandle::type_t ComponentManager<T>::s_ID = GUID<IComponentManager,ObjHandle::type_t>::GenerateID<T>();
 
