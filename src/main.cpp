@@ -1,6 +1,6 @@
 #include <iostream>
 #include "base/Platform.h"
-#include "system/Entity.h"
+#include "system/EntityManager.h"
 #include "game/TestComp.h"
 #include "game/Game.h"
 

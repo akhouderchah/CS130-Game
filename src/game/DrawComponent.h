@@ -8,11 +8,11 @@ class TransformComponent;
 class DrawComponent : public IComponent
 {
 public:
-	DrawComponent(TransformComponent* pTransform);
+	DrawComponent(Entity entity);
 	~DrawComponent();
 
-	void Destroy();
-
+	void Refresh();
+	
 private:
 	//DrawComponent(const DrawComponent& that);
 

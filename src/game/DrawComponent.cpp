@@ -1,4 +1,5 @@
 #include "DrawComponent.h"
+#include "TransformComponent.h"
 
 bool initialized = false;
 
@@ -15,10 +16,10 @@ const unsigned int indices [] = { 0, 3, 1,
 
 GLuint VBO, IBO, VertexArrayID;
 
-DrawComponent::DrawComponent(TransformComponent* pTransform) :
-	m_pTransformComp(pTransform)
+DrawComponent::DrawComponent(Entity entity) :
+	IComponent(entity), m_pTransformComp(nullptr)
 {
-	if(!initialized)
+	if(!initialized && entity != nullEntity)
 	{
 		glGenBuffers(1, &VBO);
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -44,7 +45,8 @@ DrawComponent::~DrawComponent()
 {
 }
 
-void DrawComponent::Destroy()
+void DrawComponent::Refresh()
 {
+	m_pTransformComp = EntityManager::GetComponent<TransformComponent>(m_Entity);
 }
 

@@ -1,4 +1,7 @@
 #include "Base.h"
+#include "EntityManager.h"
+
+const Entity nullEntity(ObjHandle::constructHandle(0,0,0));
 
 /**
  * Random class static definitions

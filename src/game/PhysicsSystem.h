@@ -14,5 +14,5 @@ public:
 	virtual void Tick(deltaTime_t dt);
 
 private:
-	ConstVector<std::pair<PhysicsComponent*, EntityID>> m_pPhysicsComponents;
+	ConstVector<PhysicsComponent*> m_pPhysicsComponents;
 };

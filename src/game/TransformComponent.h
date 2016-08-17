@@ -10,11 +10,12 @@ class MovableComponent;
 class TransformComponent : public IComponent
 {
 public:
-	TransformComponent(const glm::vec3& position = glm::vec3(0, 0, 0),
-					   const glm::vec3& scale = glm::vec3(1, 1, 1));
+	TransformComponent(Entity entity);
 	~TransformComponent();
 
-	void Destroy(){}
+	bool Init(const glm::vec3& position = glm::vec3(0,0,0),
+			  const glm::vec3& scale = glm::vec3(1,1,1));
+	void Refresh(){}
 	const glm::mat4& GetWorldMatrix() const;
 	const glm::mat4& GetCameraMatrix() const;
 

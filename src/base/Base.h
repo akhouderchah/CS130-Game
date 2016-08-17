@@ -21,11 +21,9 @@
 
 const std::string VERSION_STRING = std::to_string(VERSION_MAJOR) + "." + std::to_string(VERSION_MINOR);
 
-/** System Typedefs */
-typedef float deltaTime_t;
-
-typedef uint8_t ManagerID;
-typedef uint16_t EntityID;
+/** System Globals **/
+class Entity;
+extern const Entity nullEntity;
 
 /**
  * @brief Determines what data structures should do when they

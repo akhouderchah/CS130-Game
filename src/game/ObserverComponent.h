@@ -25,11 +25,13 @@ class EventSystem;
 class ObserverComponent : public IComponent
 {
 public:
-	ObserverComponent(EventSystem& eventSystem);
+	ObserverComponent(Entity entity);
 	~ObserverComponent();
 
-	void Activate();
-	void Destroy();
+	void Refresh(){}
+
+	bool Subscribe(EventSystem& pSystem);
+	void Unsubscribe(EventSystem& pSystem);
 
 	// Map an event to a certain Action. If the event already exists,
 	// the function returns false and doesn't change anything.
@@ -46,6 +48,6 @@ private:
 	// Array of IAction pointers, used to map Events to Actions.
 	// @note This is only acceptable if the number of game events is quite low.
 	IAction* m_pAction[EGE_END];
-	EventSystem* m_pEventSystem;
+	std::vector<EventSystem*> m_pEventSystems;
 };
 

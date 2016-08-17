@@ -3,13 +3,18 @@
 
 using namespace glm;
 
-MovableComponent::MovableComponent(TransformComponent* pTransform) :
-	m_pTransformComp(pTransform)
+MovableComponent::MovableComponent(Entity entity) :
+	IComponent(entity), m_pTransformComp(nullptr)
 {
 }
 
 MovableComponent::~MovableComponent()
 {
+}
+
+void MovableComponent::Refresh()
+{
+	m_pTransformComp = EntityManager::GetComponent<TransformComponent>(m_Entity);
 }
 
 void MovableComponent::SetPosition(const vec3& position)

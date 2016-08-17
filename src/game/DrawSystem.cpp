@@ -6,7 +6,7 @@
 #include "PhysicsComponent.h"
 
 DrawSystem::DrawSystem() :
-	m_pDrawComponents(ComponentManager<DrawComponent>::GetAll())
+	m_pDrawComponents(EntityManager::GetAll<DrawComponent>())
 {
 }
 
@@ -49,12 +49,12 @@ void DrawSystem::Tick(deltaTime_t dt)
 	//pMove->SetOrientation(glm::vec3(4*sin(scale), 0, 0));
 	
 	// Iterate over all drawables and draw them
-	for(size_t i = 0; i < m_pDrawComponents.size(); ++i)
+	for(size_t i = 1; i < m_pDrawComponents.size(); ++i)
 	{
-		assert(m_pDrawComponents[i].first->m_pTransformComp);
-		glUniformMatrix4fv(m_WorldLoc, 1, GL_FALSE, &m_pDrawComponents[i].first->m_pTransformComp->GetWorldMatrix()[0][0]);
-		glBindBuffer(GL_ARRAY_BUFFER, m_pDrawComponents[i].first->m_VBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pDrawComponents[i].first->m_IBO);
+		assert(m_pDrawComponents[i]->m_pTransformComp);
+		glUniformMatrix4fv(m_WorldLoc, 1, GL_FALSE, &m_pDrawComponents[i]->m_pTransformComp->GetWorldMatrix()[0][0]);
+		glBindBuffer(GL_ARRAY_BUFFER, m_pDrawComponents[i]->m_VBO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pDrawComponents[i]->m_IBO);
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, 0, 0);
 

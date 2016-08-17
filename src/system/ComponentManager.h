@@ -6,6 +6,8 @@
 
 #include <vector>
 #include <memory>
+#include <iostream>
+#include <typeinfo>
 #include <unordered_map>
 #include "IComponentManager.h"
 #include "../base/Base.h"
@@ -34,9 +36,13 @@ public:
 	void DeleteAll(){ m_CompList.DeleteAll(); }
 
 	IComponent *Get(ObjHandle::ID_t index) const{ return m_CompList[index]; }
+	ConstVector<T*> GetAll(){ return m_CompList.GetAll(); }
 	IComponent *operator[](ObjHandle::ID_t index) const{ return m_CompList[index]; }
-	ObjHandle::type_t GetType() const{ return s_ID; }
+	static ObjHandle::type_t GetType(){ return s_ID; }
 private:
+	ComponentManager(){ std::cout << "Creating manager of type: " << typeid(T).name() << std::endl; }
+	friend class GUID<IComponentManager, ObjHandle::type_t>;
+	
 	ObjList<T> m_CompList;
 	static ObjHandle::type_t s_ID;
 };
@@ -60,7 +66,7 @@ private:
 	~GUID();
 };
 
-template <class T>
+template <typename T>
 ObjHandle::type_t GUID<IComponentManager, ObjHandle::type_t>::GenerateID()
 {
 	assert(s_CurrentID+1 > s_CurrentID);

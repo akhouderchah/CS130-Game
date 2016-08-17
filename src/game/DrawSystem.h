@@ -21,8 +21,8 @@ public:
 	virtual void Tick(deltaTime_t dt);
 
 private:
-	ConstVector<std::pair<DrawComponent*, EntityID>> m_pDrawComponents;
-	CameraComponent m_CurrentCamera;
+	ConstVector<DrawComponent*> m_pDrawComponents;
+	CameraComponent *m_pCurrentCamera;
 	GLuint m_Program;
 	GLuint m_WorldLoc;
 };

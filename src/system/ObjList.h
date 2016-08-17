@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Base.h"
+#include "ConstVector.h"
 
 /**
  * @brief Class to deal with the allocation of objects 
@@ -13,12 +14,13 @@ public:
 	~ObjList();
 
 	// Returns the component index of the newly added object
-	ObjHandle::ID_t Add(T *pComp);
+	ObjHandle::ID_t Add(IComponent *pComp);
 	
 	// Returns the ID of the comp moved to the current index
 	ObjHandle::ID_t Delete(ObjHandle::ID_t index);
 	void DeleteAll();
 	
+	ConstVector<T*> GetAll(){ return ConstVector<T*>(m_pObjects); }
 	T *operator[](ObjHandle::ID_t index) const;
 private:
 	std::vector<T*> m_pObjects;
@@ -28,7 +30,7 @@ template <typename T>
 ObjList<T>::ObjList()
 {
 	// Add the null element
-	m_pObjects.push_back(new T());
+	m_pObjects.push_back(new T(nullEntity));
 }
 
 template <typename T>
@@ -42,7 +44,7 @@ ObjList<T>::~ObjList()
 }
 
 template <typename T>
-ObjHandle::ID_t ObjList<T>::Add(T *pObj)
+ObjHandle::ID_t ObjList<T>::Add(IComponent *pObj)
 {
 	size_t i = m_pObjects.size();
 	if(i >= ObjHandle::MAX_ID)
@@ -52,7 +54,7 @@ ObjHandle::ID_t ObjList<T>::Add(T *pObj)
 		return 0;
 	}
 	
-	m_pObjects.push_back(pObj);
+	m_pObjects.push_back((T*)pObj);
 	return (ObjHandle::ID_t)i;
 }
 
@@ -64,7 +66,7 @@ ObjHandle::ID_t ObjList<T>::Delete(ObjHandle::ID_t index)
 
 	delete m_pObjects[index];
 	m_pObjects[index] = m_pObjects.back();
-	m_pObjects.push_back();
+	m_pObjects.pop_back();
 
 	if(index == size-1){ return 0; }
 	return m_pObjects[index]->GetID();

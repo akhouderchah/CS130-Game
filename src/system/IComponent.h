@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../base/Base.h"
+#include "EntityManager.h"
 
 /*
  * @brief Base class for all components
@@ -9,17 +10,16 @@ class IComponent
 {
 public:
 	virtual ~IComponent(){}
-
-	virtual bool Init() = 0;
-	virtual void Destroy() = 0;
+	
+	virtual void Refresh() = 0;  // Function to refresh ptrs to other components
 	//virtual void Tick(deltaTime_t dt) = 0;
 
-	ObjHandle::ID_t GetID() const{ return m_ID; }
+	Entity GetEntity() const{ return m_Entity; }
+	ObjHandle::ID_t GetID() const{ return ((ObjHandle)m_Entity).GetID(); }
 
 protected:
-	IComponent(ObjHandle::ID_t ID) : m_ID(ID){}
+	IComponent(Entity entity) : m_Entity(entity){}
 
-private:
-	ObjHandle::ID_t m_ID;
+	Entity m_Entity;
 };
 

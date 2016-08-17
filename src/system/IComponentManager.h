@@ -23,6 +23,5 @@ class IComponentManager
 	virtual void DeleteAll() = 0;
 
 	virtual IComponent *Get(ObjHandle::ID_t index) const = 0;
-	virtual ObjHandle::type_t GetType() const = 0;
 };
 

@@ -2,9 +2,39 @@
 #include <vector>
 #include <queue>
 #include "Base.h"
-#include "ComponentManager.h"
 #include "IComponentManager.h"
-#include "Entity.h"
+#include "ComponentManager.h"
+
+class EntityManager;
+
+/**
+ * @brief Entity class to be used for all game objects
+ *
+ * Just a thin wrapper for an ObjHandle (specifically one of type entity).
+ * Should not be inherited from. Instead, functionality is added
+ * through the creation and modification of components and systems.
+ *
+ * @note An entity with m_UID.ID == 0 is a null entity. That is, it doesn't exist
+ * in the game, and cannot contain any components. EntityManager::CreateEntity
+ * will only create a null entity if no more entities can be created.
+ */
+class Entity
+{
+public:
+	Entity(ObjHandle ID) : m_ID(ID){} // TODO - MOVE BACK TO PRIVATE!!!
+	operator ObjHandle() const{ return m_ID; }
+	bool operator ==(Entity other) const{ return (other.m_ID.GetID() == m_ID.GetID()) && (other.m_ID.GetVersion() == m_ID.GetVersion()); }
+	bool operator !=(Entity other) const{ return !(other == *this); }
+
+	template <typename T> inline T *GetAs();
+
+	template <typename T> inline T *Add();
+
+private:
+	friend class EntityManager;
+
+	ObjHandle m_ID;
+};
 
 /**
  * @brief Handles all the Entity-related functionality (creation,
@@ -38,17 +68,21 @@ public:
 	static void DestroyEntity(Entity entity);
 	static void DestroyAll();
 	
-	template <class T> static T *AddComponent(Entity entity);
+	template <class T> static T *AddComponent(Entity entity, bool skipRefresh=false);
 	template <class T> static T *GetComponent(Entity entity);
+	template <class T> static ConstVector<T*> GetAll();
 	template <class T> static bool HasComponent(Entity entity);
 	template <class T> static void RemoveComponent(Entity entity);
+
+	static IComponent *GetComponent(Entity entity, ObjHandle::type_t type);
 	static bool HasComponent(Entity entity, ObjHandle::type_t type);
 	static void RemoveComponent(Entity entity, ObjHandle::type_t type);
 
 private:
 	// No need to have EntityManager instances (at least for this project)
-	EntityManager();
+//	EntityManager();
 
+	static IComponent *AddComponent(Entity entity, ObjHandle::type_t, IComponent *pComp, bool skipRefresh=false);
 	static void AddEntities(size_t chunkSize = EntityManager::CHUNK_SIZE);
 	
 private:
@@ -66,62 +100,26 @@ private:
 };
 
 template <typename T>
-T *EntityManager::AddComponent(Entity entity)
+T *EntityManager::AddComponent(Entity entity, bool skipRefresh)
 {
-	ObjHandle::ID_t index = entity.m_ID.GetID();
 	ObjHandle::type_t type = ComponentManager<T>::GetType();
+	T *pComp = new T(entity);
 	
-	// Ensure the index and version are valid
-	if(index == 0 || index >= s_EntityList.size() ||
-	   entity.m_ID.GetVersion() != s_EntityList[index].first)
-	{
-		return s_pComponentManagers[type]->Get(0);
-	}
-
-	// Get space in actual component manager
-	T *pComp = new T(index);
-	ObjHandle::ID_t compIndex = s_pComponentManagers[type]->Add(pComp);
-	T *pActual = *s_pComponentManagers[type]->Get(compIndex);
-	if(pActual != pComp)
-	{
-		delete pComp;
-		return pActual; // Don't set data structures if the add failed
-	}
-
-	// Add to s_EntityList
-	s_EntityList[index].second.push_back(std::make_pair(type, compIndex));
-
-	// Add to s_HandletoIndex
-	ObjHandle::handle_t handle = ObjHandle::constructRawHandle(index, type, 0u);
-	s_HandletoIndex[handle] = compIndex;
-
-	return pActual;
+	return (T*)AddComponent(entity, type, pComp, skipRefresh);
 }
 
 template <typename T>
 T *EntityManager::GetComponent(Entity entity)
 {
-	ObjHandle::ID_t ID = entity.m_ID.GetID();
 	ObjHandle::type_t type = ComponentManager<T>::GetType();
 
-	// Validity tests
-	if(ID == 0 || ID >= s_EntityList.size() ||
-	   entity.m_ID.GetVersion() != s_EntityList[ID].first)
-	{
-		return s_pComponentManagers[type]->Get(0);
-	}
-	
-	// Get component
-	ObjHandle::handle_t handle = ObjHandle::constructRawHandle(ID, type, 0u);
-	auto iter = s_HandletoIndex.find(handle);
-	if(iter == s_HandletoIndex.end())
-	{
-		// Return null if entity doesn't have that component type
-		return s_pComponentManagers[type]->Get(0);
-	}
-	ObjHandle::ID_t compIndex = iter->second;
-	
-	return s_pComponentManagers[type]->Get(compIndex);
+	return (T*)GetComponent(entity, type);
+}
+
+template <typename T>
+ConstVector<T*> EntityManager::GetAll()
+{
+	return ((ComponentManager<T>*)s_pComponentManagers[ComponentManager<T>::GetType()])->GetAll();
 }
 
 template <typename T> bool EntityManager::HasComponent(Entity entity)
@@ -133,3 +131,14 @@ template <typename T> void EntityManager::RemoveComponent(Entity entity)
 {
 	return RemoveComponent(entity, ComponentManager<T>::GetType());
 }
+
+template <typename T> T *Entity::GetAs()
+{
+	return EntityManager::GetComponent<T>(*this);
+}
+
+template <typename T> T *Entity::Add()
+{
+	return EntityManager::AddComponent<T>(*this);
+}
+

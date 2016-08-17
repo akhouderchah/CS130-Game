@@ -5,10 +5,10 @@
 class MovableComponent : public IComponent
 {
 public:
-	MovableComponent(TransformComponent* pTransform);
+	MovableComponent(Entity entity);
 	~MovableComponent();
 
-	void Destroy(){}
+	void Refresh();
 
 	// Translation functions
 	void SetPosition(const glm::vec3& position);

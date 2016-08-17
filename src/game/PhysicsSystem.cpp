@@ -1,7 +1,7 @@
 #include "PhysicsSystem.h"
 
 PhysicsSystem::PhysicsSystem() :
-	m_pPhysicsComponents(ComponentManager<PhysicsComponent>::GetAll())
+	m_pPhysicsComponents(EntityManager::GetAll<PhysicsComponent>())
 {
 }
 
@@ -16,8 +16,9 @@ void PhysicsSystem::Shutdown()
 
 void PhysicsSystem::Tick(deltaTime_t dt)
 {
-	for(size_t i = 0; i < m_pPhysicsComponents.size(); ++i)
+	for(size_t i = 1; i < m_pPhysicsComponents.size(); ++i)
 	{
-		m_pPhysicsComponents[i].first->Tick(dt);
+		m_pPhysicsComponents[i]->Tick(dt);
 	}
 }
+

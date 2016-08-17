@@ -4,9 +4,14 @@
 float PhysicsComponent::s_Gravity = -0.35f;
 float PhysicsComponent::s_TerminalSpeed = 0.1f;
 
-PhysicsComponent::PhysicsComponent(MovableComponent& mover) :
-	m_Velocity(0,0,0), m_pMover(&mover)
+PhysicsComponent::PhysicsComponent(Entity entity) :
+	IComponent(entity), m_Velocity(0,0,0), m_pMover(nullptr)
 {
+}
+
+void PhysicsComponent::Refresh()
+{
+	m_pMover = EntityManager::GetComponent<MovableComponent>(m_Entity);
 }
 
 void PhysicsComponent::Tick(deltaTime_t dt)

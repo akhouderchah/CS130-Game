@@ -1,7 +1,6 @@
 #include "Game.h"
 #include <chrono>
 #include "EntityManager.h"
-#include "Entity.h"
 
 /** System Includes */
 #include "EventSystem.h"
@@ -79,25 +78,28 @@ bool Game::Initialize(const GameAttributes& attributes)
 	// System initialization ends here //
 
 	// Create the system observer
-	m_pSystemObserver = new ObserverComponent(*pInputSys);
-	m_pSystemObserver->Activate();
+	m_pSystemObserver = EntityManager::CreateEntity().Add<ObserverComponent>();
+	m_pSystemObserver->Subscribe(*pInputSys);
 	m_pSystemObserver->AddEvent(EGE_PAUSE, new Action_PauseGame(m_pWindow));
 
 	// Create entities
 	Entity test = EntityManager::CreateEntity();
-	TransformComponent* pTrans = test.AddComponent(TransformComponent(glm::vec3(0,1,1)));
-	test.AddComponent(MovableComponent(pTrans));
-	test.AddComponent(DrawComponent(pTrans));
+	test.Add<TransformComponent>()->Init(glm::vec3(0,1,1));
+	test.Add<MovableComponent>();
+	test.Add<DrawComponent>();
 
+	for(int i = 0; i < 1000; ++i)
+	{
 	test = EntityManager::CreateEntity();
-	pTrans = test.AddComponent(TransformComponent(glm::vec3(0,0,1),
-												  glm::vec3(.5f,.5f,.5f)));
-	MovableComponent* pMove = test.AddComponent(MovableComponent(pTrans));
-	test.AddComponent(DrawComponent(pTrans));
-	test.AddComponent(PhysicsComponent(*pMove));
-	ObserverComponent* pObserver = test.AddComponent(ObserverComponent(*pInputSys));
-	pObserver->Activate();
+	test.Add<TransformComponent>()->Init(glm::vec3(-5.f + i*.01f, 0.f, 1.f),
+										 glm::vec3(.5f, .5f, .5f));
+	test.Add<MovableComponent>();
+	test.Add<DrawComponent>();
+	test.Add<PhysicsComponent>();
+	ObserverComponent* pObserver = test.Add<ObserverComponent>();
+	pObserver->Subscribe(*pInputSys);
 	pObserver->AddEvent(EGE_PLAYER1_JUMP, new Action_Jump(test));
+	}
 
 	m_Timer.Start();
 
@@ -106,8 +108,6 @@ bool Game::Initialize(const GameAttributes& attributes)
 
 void Game::Shutdown()
 {
-	delete m_pSystemObserver;
-	
 	EntityManager::Shutdown();
 	
 	for(size_t i = m_pSystems.size(); i > 0;)

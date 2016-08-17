@@ -20,7 +20,7 @@ public:
 	T& at(std::size_t index){ assert(m_pVector); return m_pVector->at(index);}
 	T& operator[](std::size_t index){return (*m_pVector)[index];}
 
-	std::size_t size(){ return m_pVector->size(); }
+	std::size_t size() const{ return m_pVector->size(); }
 
 private:
 	template <class X>

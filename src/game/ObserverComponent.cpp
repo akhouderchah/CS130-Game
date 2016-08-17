@@ -1,35 +1,36 @@
 #include "ObserverComponent.h"
 #include "EventSystem.h"
 
-ObserverComponent::ObserverComponent(EventSystem& eventSys)
+ObserverComponent::ObserverComponent(Entity entity) :
+	IComponent(entity)
 {
 	for(size_t i = 0; i < EGE_END; ++i)
 	{
 		m_pAction[i] = nullptr;
 	}
-
-	m_pEventSystem = &eventSys;
 }
 
 ObserverComponent::~ObserverComponent()
 {
-	Destroy();
-}
-
-void ObserverComponent::Activate()
-{
-	m_pEventSystem->RegisterObserver(*this);
-}
-
-void ObserverComponent::Destroy()
-{
 	for(size_t i = 0; i < EGE_END; ++i)
 	{
 		delete m_pAction[i];
-		m_pAction[i] = nullptr;
 	}
-	
-	m_pEventSystem->UnregisterObserver(*this);
+
+	for(size_t i = 0; i < m_pEventSystems.size(); ++i)
+	{
+		Unsubscribe(*m_pEventSystems[i]);
+	}
+}
+
+bool ObserverComponent::Subscribe(EventSystem& pSystem)
+{
+	return pSystem.RegisterObserver(*this);
+}
+
+void ObserverComponent::Unsubscribe(EventSystem& pSystem)
+{
+	pSystem.UnregisterObserver(*this);
 }
 
 bool ObserverComponent::AddEvent(const EGameEvent& event, IAction* pAction)

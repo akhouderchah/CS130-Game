@@ -4,15 +4,21 @@
 using glm::vec3; using glm::quat;
 using glm::mat4;
 
-TransformComponent::TransformComponent(const vec3& position,
-									   const vec3& scale) :
-	m_Position(position), m_Scale(scale)
+TransformComponent::TransformComponent(Entity entity) :
+	IComponent(entity)
 {
 	MarkDirty();
 }
 
 TransformComponent::~TransformComponent()
 {
+}
+
+bool TransformComponent::Init(const vec3& position, const vec3& scale)
+{
+	m_Position = position;
+	m_Scale = scale;
+	return true;
 }
 
 const mat4& TransformComponent::GetWorldMatrix() const

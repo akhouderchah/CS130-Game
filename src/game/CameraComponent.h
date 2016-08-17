@@ -7,10 +7,10 @@ class DrawSystem;
 class CameraComponent : public IComponent
 {
 public:
-	CameraComponent();
+	CameraComponent(Entity entity);
 	~CameraComponent();
 
-	void Destroy();
+	void Refresh();
 
 private:
 	

@@ -75,6 +75,6 @@ private:
 
 	DrawSystem* m_pDrawSystem;
 	std::vector<ISystem*> m_pSystems;
-	ObserverComponent* m_pSystemObserver;
+	ObserverComponent *m_pSystemObserver;
 };
 

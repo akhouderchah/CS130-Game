@@ -3,7 +3,12 @@
 - (In)validating component caches
 
 --PRIORITY 0--
+- Entity: Fix comparison operators!
+- DrawComponent fix of checking in constructor, better way?
+- EntityManager: REFRESH WITH DELETES TOO?
+- Should systems really just loop through elements starting from 1 rather than 0?
 - EntityManager: Alert components of other types when a component is deleted (maybe also prevent certain deletions?) (reference count components maybe?) [[SLOT MAPS!]]
+- Observer system has to be HIGHLY efficient (profile and improve!)
 - Create the memory system (at the very least get rid of 'new's in the codebase)
 - Integrate the lisp system into tetrad-game
 

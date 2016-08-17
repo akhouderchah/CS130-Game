@@ -1,7 +1,8 @@
 #include "DrawSystem.h"
 #include "CameraComponent.h"
 
-CameraComponent::CameraComponent()
+CameraComponent::CameraComponent(Entity entity) :
+	IComponent(entity)
 {
 }
 
@@ -9,6 +10,7 @@ CameraComponent::~CameraComponent()
 {
 }
 
-void CameraComponent::Destroy()
+void CameraComponent::Refresh()
 {
 }
+

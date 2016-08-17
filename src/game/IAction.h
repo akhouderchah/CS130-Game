@@ -2,6 +2,7 @@
 
 #include "InputConstants.h"
 #include "Base.h"
+#include "EntityManager.h"
 
 /**
  * @brief Interface for game actions.

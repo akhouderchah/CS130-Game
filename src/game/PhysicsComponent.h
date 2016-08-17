@@ -1,7 +1,7 @@
 #pragma once
 
-#include "IComponent.h"
 #include "Base.h"
+#include "IComponent.h"
 
 class MovableComponent;
 
@@ -13,11 +13,12 @@ class MovableComponent;
 class PhysicsComponent : public IComponent
 {
 public:
-	PhysicsComponent(MovableComponent& mover);
+	PhysicsComponent(Entity entity);
+
+	void Refresh();
 
 	void Tick(deltaTime_t dt);
 	bool Impulse();  // Returns true only if the impulse was successful
-	void Destroy(){}
 	
 private:
 	static float s_Gravity;
