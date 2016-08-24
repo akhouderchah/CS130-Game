@@ -71,7 +71,7 @@ private:
 	static EventSystem* s_pInputSystem;
 	friend void KeyCallback(GLFWwindow*, int, int, int, int);
 	
-	EventQueue s_EventQueue;
+	EventQueue m_EventQueue;
 	std::vector<ObserverComponent*> m_pObservers;
 };
 

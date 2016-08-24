@@ -1,35 +1,34 @@
 -- Current --
-- Physics impulse limit allowed frequency
-- (In)validating component caches
+- EventQueue fix push code
+- Draw system (Opengl Tutorials)
 
 --PRIORITY 0--
+- Fix type issue (component types start at 0, but should start at 1)
 - Entity: Fix comparison operators!
-- DrawComponent fix of checking in constructor, better way?
-- EntityManager: REFRESH WITH DELETES TOO?
-- Should systems really just loop through elements starting from 1 rather than 0?
-- EntityManager: Alert components of other types when a component is deleted (maybe also prevent certain deletions?) (reference count components maybe?) [[SLOT MAPS!]]
-- Observer system has to be HIGHLY efficient (profile and improve!)
 - Create the memory system (at the very least get rid of 'new's in the codebase)
-- Integrate the lisp system into tetrad-game
+- Null components: Find way to not set anything, and fail to get anything
 
 --Priority 1--
 - Create the low-level Systems and Components
 - Create the camera component and connect to Draw system
-
-- EntityManager: What to do about somewhat strict ordering regarding component ordering?
+- Observer system has to be HIGHLY efficient (profile and improve!)
+- Integrate the lisp system into tetrad-game
+- Use lisp system to make an input mapper
 - Transform: Get rotations working!
-- We need systems to update their component lists, but only when necessary (maybe just use a pointer?)
-- Passing component pointers around is going to get messy. Use smart pointers with reference counting instead?
+- Physics System: Collisions (CollisionComponent for bounding objects, bool OnTouched(Entity entity) for PhysicsComponent)
 
 --Priority 2--
+- Modify SOIL to check the result of glGetString first
 - Fix up error system
 - Make new non-throwing and create a custom error handler
 - Create "architypes" for the creation of entities with preset components
+- Transform: Store in gpu mem without DrawSystem?
 
 --Priority 3--
-- Make all owning pointers UniquePtr, and all non-owning to be standard pointers
 - Frame measuring!!!
+- Work on Audio System (look for library to interface with HW)
 
 --Priority 4--
+- UI system
 
 --Priority 5--

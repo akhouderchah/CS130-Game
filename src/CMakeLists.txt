@@ -36,7 +36,7 @@ if (MSVC)
 	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
 elseif(CMAKE_COMPILER_IS_GNUCXX)
 	set(CMAKE_CXX_FLAGS_DEBUG "-Og -D_DEBUG -Wall -g -ggdb -pedantic-errors -Wextra -lprofiler -fsanitize=address -fsanitize=leak -fsanitize=undefined")
-	set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall -pedantic-errors -Wextra")
+	set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall -pedantic-errors -lprofiler -Wextra")
 endif(MSVC)
 
 configure_file(
@@ -67,12 +67,14 @@ include_directories(
 		external/glfw/include/GLFW/
 		external/glew/include/
 		external/glm/
+		external/soil/
 		.)
 
 set(ALL_LIBS
 	${OPENGL_LIBRARIES}
 	glfw
 	GLEW
+	SOIL
 	)
 
 add_executable(tetrad-game ${ALL_SRC})

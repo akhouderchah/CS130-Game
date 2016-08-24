@@ -126,3 +126,4 @@ private:
 };
 
 static Log MainLog("test.log");
+

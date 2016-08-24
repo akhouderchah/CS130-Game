@@ -25,5 +25,6 @@ private:
 	CameraComponent *m_pCurrentCamera;
 	GLuint m_Program;
 	GLuint m_WorldLoc;
+	GLuint m_TextureLoc;
 };
 

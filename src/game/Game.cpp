@@ -88,17 +88,17 @@ bool Game::Initialize(const GameAttributes& attributes)
 	test.Add<MovableComponent>();
 	test.Add<DrawComponent>();
 
-	for(int i = 0; i < 1000; ++i)
+	for(int i = 0; i < 2; ++i)
 	{
-	test = EntityManager::CreateEntity();
-	test.Add<TransformComponent>()->Init(glm::vec3(-5.f + i*.01f, 0.f, 1.f),
-										 glm::vec3(.5f, .5f, .5f));
-	test.Add<MovableComponent>();
-	test.Add<DrawComponent>();
-	test.Add<PhysicsComponent>();
-	ObserverComponent* pObserver = test.Add<ObserverComponent>();
-	pObserver->Subscribe(*pInputSys);
-	pObserver->AddEvent(EGE_PLAYER1_JUMP, new Action_Jump(test));
+		test = EntityManager::CreateEntity();
+		test.Add<TransformComponent>()->Init(glm::vec3(i*.5, 0.f, 1.f),
+											 glm::vec3(.2f, .2f, .2f));
+		test.Add<MovableComponent>();
+		test.Add<DrawComponent>();
+		test.Add<PhysicsComponent>();
+		ObserverComponent* pObserver = test.Add<ObserverComponent>();
+		pObserver->Subscribe(*pInputSys);
+		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP+i), new Action_Jump(test));
 	}
 
 	m_Timer.Start();
@@ -167,7 +167,7 @@ bool Game::CreatePrimaryWindow(const GameAttributes& attributes)
 	}
 
 	glfwMakeContextCurrent(m_pWindow);
-	
+
 	return true;
 }
 

@@ -29,14 +29,14 @@ void EventSystem::Tick(deltaTime_t dt)
 	// Get events and such
 	glfwPollEvents();
 	
-	Event event = s_EventQueue.Consume();
+	Event event = m_EventQueue.Consume();
 	while(event.event != EGE_END)
 	{
 		for(size_t i = 0; i < m_pObservers.size(); ++i)
 		{
 			m_pObservers[i]->Notify(event);
 		}
-		event = s_EventQueue.Consume();
+		event = m_EventQueue.Consume();
 	}
 }
  
@@ -90,7 +90,7 @@ void EventSystem::UnregisterObserver(ObserverComponent& observer)
 void EventSystem::Inform(const Event& event)
 {
 	// @TODO - log error if it occurs
-	s_EventQueue.PushEvent(event);
+	m_EventQueue.PushEvent(event);
 }
 
 void KeyCallback(GLFWwindow* pWindow, int key, int scancode, int action, int mods)
@@ -108,8 +108,17 @@ void KeyCallback(GLFWwindow* pWindow, int key, int scancode, int action, int mod
 		case GLFW_KEY_ESCAPE:
 			event.event = EGE_PAUSE;
 			break;
-		case GLFW_KEY_SPACE:
+		case GLFW_KEY_Z:
 			event.event = EGE_PLAYER1_JUMP;
+			break;
+		case GLFW_KEY_X:
+			event.event = EGE_PLAYER2_JUMP;
+			break;
+		case GLFW_KEY_C:
+			event.event = EGE_PLAYER3_JUMP;
+			break;
+		case GLFW_KEY_V:
+			event.event = EGE_PLAYER4_JUMP;
 			break;
 		default:
 			event.event = EGE_NONE;

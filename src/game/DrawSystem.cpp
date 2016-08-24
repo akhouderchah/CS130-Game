@@ -26,6 +26,13 @@ bool DrawSystem::Initialize()
 	m_WorldLoc = glGetUniformLocation(m_Program, "gWorld");
 	if(m_WorldLoc == 0xFFFFFFFF){ return false; }
 
+	m_TextureLoc = glGetUniformLocation(m_Program, "gSampler");
+	if(m_TextureLoc == 0xFFFFFFFF){ return false; }
+	
+	glFrontFace(GL_CW);
+	glCullFace(GL_BACK);
+	glEnable(GL_CULL_FACE);
+
 	return true;
 }
 
@@ -52,14 +59,22 @@ void DrawSystem::Tick(deltaTime_t dt)
 	for(size_t i = 1; i < m_pDrawComponents.size(); ++i)
 	{
 		assert(m_pDrawComponents[i]->m_pTransformComp);
-		glUniformMatrix4fv(m_WorldLoc, 1, GL_FALSE, &m_pDrawComponents[i]->m_pTransformComp->GetWorldMatrix()[0][0]);
+		glUniformMatrix4fv(m_WorldLoc, 1, GL_TRUE, &m_pDrawComponents[i]->m_pTransformComp->GetWorldMatrix()[0][0]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_pDrawComponents[i]->m_VBO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pDrawComponents[i]->m_IBO);
+		
 		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, 0, 0);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, sizeof(DrawComponent::Vertex), 0);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(DrawComponent::Vertex), (const GLvoid*)sizeof(glm::vec3));
+		
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, m_pDrawComponents[i]->m_Tex);
+		glUniform1i(m_TextureLoc, 0);
 
 		glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
 
+		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(0);
 	}
 	glUseProgram(0);

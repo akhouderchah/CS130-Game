@@ -47,3 +47,19 @@ target_link_libraries(GLEW
 	${OPENGL_LIBRARIES}
 	${EXTRA_LIBS}
 	)
+
+# SOIL
+file(GLOB_RECURSE SOIL_SOURCE "soil/*.c")
+
+set(SOIL_HEADERS
+	)
+
+add_library(SOIL STATIC
+	${SOIL_SOURCE}
+	)
+
+target_link_libraries(SOIL
+	${OPENGL_LIBRARIES}
+	${EXTRA_LIBS}
+	)
+

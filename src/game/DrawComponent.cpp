@@ -1,24 +1,27 @@
 #include "DrawComponent.h"
 #include "TransformComponent.h"
+#include "SOIL.h"
+
+using glm::vec3; using glm::vec2;
 
 bool initialized = false;
-
-const glm::vec3 vertices[] = {
-		glm::vec3(-0.5f, -0.5f, 0),
-		glm::vec3(0.f, -0.5f, 0.5f),
-		glm::vec3(0.5f, - 0.5f, 0),
-		glm::vec3(0.f, 0.5f, 0.f) };
-	
-const unsigned int indices [] = { 0, 3, 1,
-								  1, 3, 2,
-								  2, 3, 0,
-								  0, 1, 2 };
 
 GLuint VBO, IBO, VertexArrayID;
 
 DrawComponent::DrawComponent(Entity entity) :
 	IComponent(entity), m_pTransformComp(nullptr)
 {
+    static const DrawComponent::Vertex vertices[] = {
+	    { vec3(-1.0f, -1.0f, +0.5f), vec2(0.0f, 0.0f) },
+	    { vec3(+0.0f, -1.0f, -1.2f), vec2(0.5f, 0.0f) },
+	    { vec3(+1.0f, -1.0f, +0.5f), vec2(1.0f, 0.0f) },
+	    { vec3(+0.0f, +1.0f, +0.0f), vec2(0.5f, 1.0f) },
+	};
+	static const unsigned int indices [] = { 0, 3, 1,
+									         1, 3, 2,
+									         2, 3, 0,
+											 0, 1, 2 };
+
 	if(!initialized && entity != nullEntity)
 	{
 		glGenBuffers(1, &VBO);
@@ -33,6 +36,14 @@ DrawComponent::DrawComponent(Entity entity) :
 
 		glGenVertexArrays(1, &VertexArrayID);
 		glBindVertexArray(VertexArrayID);
+
+		m_Tex = SOIL_load_OGL_texture("../assets/textures/City.tga",
+										   SOIL_LOAD_AUTO,
+										   SOIL_CREATE_NEW_ID,
+										   SOIL_FLAG_MIPMAPS
+			);
+
+        if(m_Tex == 0){ ERROR("Failed to get texture!\n", EEB_CONTINUE); }
 
 		initialized = true;
 	}

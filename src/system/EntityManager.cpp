@@ -207,7 +207,7 @@ bool EntityManager::HasComponent(Entity entity, ObjHandle::type_t type)
 	return s_HandletoIndex.count(handle);
 }
 
-void EntityManager::RemoveComponent(Entity entity, ObjHandle::type_t type)
+void EntityManager::RemoveComponent(Entity entity, ObjHandle::type_t type, bool skipRefresh)
 {
 	ObjHandle::ID_t ID = entity.m_ID.GetID();
 	
@@ -236,6 +236,15 @@ void EntityManager::RemoveComponent(Entity entity, ObjHandle::type_t type)
 
 	// Remove entry from hash
 	s_HandletoIndex.erase(handle);
+
+	if(skipRefresh){ return; }
+
+	// Refresh all of the entity's components
+	for(size_t i = 0; i < s_EntityList[ID].second.size(); ++i)
+	{
+		GetComponent(entity, s_EntityList[ID].second[i].first)->Refresh();
+	}
+
 }
 
 void EntityManager::AddEntities(size_t chunkSize)

@@ -88,7 +88,6 @@ T *ObjList<T>::operator[](ObjHandle::ID_t index) const
 {
 	if(index >= m_pObjects.size() || index == 0)
 	{
-		LOG("Returning null obj. Please examine code to see if this should be happening.\n");
 		index = 0;
 	}
 

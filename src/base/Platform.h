@@ -34,5 +34,5 @@ enum EBuildTypes
 #endif
 
 // Run at the beginning of execution to do platform-specific initialization
-bool ProgramInitialize();
+bool programInitialize();
 

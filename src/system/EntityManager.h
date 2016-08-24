@@ -21,13 +21,12 @@ class EntityManager;
 class Entity
 {
 public:
-	Entity(ObjHandle ID) : m_ID(ID){} // TODO - MOVE BACK TO PRIVATE!!!
+	Entity(ObjHandle ID=ObjHandle::null) : m_ID(ID){} // TODO - MOVE BACK TO PRIVATE!!!
 	operator ObjHandle() const{ return m_ID; }
 	bool operator ==(Entity other) const{ return (other.m_ID.GetID() == m_ID.GetID()) && (other.m_ID.GetVersion() == m_ID.GetVersion()); }
 	bool operator !=(Entity other) const{ return !(other == *this); }
 
 	template <typename T> inline T *GetAs();
-
 	template <typename T> inline T *Add();
 
 private:
@@ -72,11 +71,11 @@ public:
 	template <class T> static T *GetComponent(Entity entity);
 	template <class T> static ConstVector<T*> GetAll();
 	template <class T> static bool HasComponent(Entity entity);
-	template <class T> static void RemoveComponent(Entity entity);
+	template <class T> static void RemoveComponent(Entity entity, bool skipRefresh=false);
 
 	static IComponent *GetComponent(Entity entity, ObjHandle::type_t type);
 	static bool HasComponent(Entity entity, ObjHandle::type_t type);
-	static void RemoveComponent(Entity entity, ObjHandle::type_t type);
+	static void RemoveComponent(Entity entity, ObjHandle::type_t type, bool skipRefresh=false);
 
 private:
 	// No need to have EntityManager instances (at least for this project)
@@ -127,9 +126,9 @@ template <typename T> bool EntityManager::HasComponent(Entity entity)
 	return HasComponent(entity, ComponentManager<T>::GetType());
 }
 
-template <typename T> void EntityManager::RemoveComponent(Entity entity)
+template <typename T> void EntityManager::RemoveComponent(Entity entity, bool skipRefresh)
 {
-	return RemoveComponent(entity, ComponentManager<T>::GetType());
+	return RemoveComponent(entity, ComponentManager<T>::GetType(), skipRefresh);
 }
 
 template <typename T> T *Entity::GetAs()

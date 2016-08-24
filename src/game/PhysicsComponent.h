@@ -23,7 +23,10 @@ public:
 private:
 	static float s_Gravity;
 	static float s_TerminalSpeed;
+	static float s_ImpulseSpeed;
+	static float s_ImpulseWaitTime;
 
 	glm::vec3 m_Velocity;
+	float m_ImpulseWait;
 	MovableComponent* m_pMover;
 };

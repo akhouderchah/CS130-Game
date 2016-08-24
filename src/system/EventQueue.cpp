@@ -37,6 +37,14 @@ bool EventQueue::PushEvent(const Event& event)
 		return false;
 	}
 
+	m_Events[m_WriteIndex++] = event;
+	if(m_WriteIndex > N){ m_WriteIndex -= N; }
+
+	if(m_WriteIndex == m_ReadIndex){ m_WriteIndex += N+1; }
+	return true;
+
+	// @TODO FIX THIS CODE!!!
+	/*
 	size_t nextIndex = m_ReadIndex + 1;
 	nextIndex -= (nextIndex/(N+1)) * N;
 
@@ -49,5 +57,6 @@ bool EventQueue::PushEvent(const Event& event)
 	m_WriteIndex = last*(m_WriteIndex+N+1) + (1-last)*(nextIndex);
 
 	return true;
+	*/
 }
 

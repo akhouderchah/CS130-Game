@@ -1,6 +1,6 @@
 #include "Platform.h"
 
-bool ProgramInitialize()
+bool programInitialize()
 {
 	bool success = true;
 #if(SYSTEM_TYPE == EP_WINDOWS)
