@@ -3,7 +3,7 @@
 #include <string>
 
 /** General Path Locations */
-const std::string AssetPath = "../assets/";
+const std::string AssetPath = "../../assets/";
 const std::string TexturePath = AssetPath + "textures/";
 const std::string ShaderPath = AssetPath + "shaders/";
 const std::string FontPath = AssetPath + "fonts/";

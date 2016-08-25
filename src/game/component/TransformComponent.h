@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../system/IComponent.h"
-#include "../base/Base.h"
+#include "IComponent.h"
+#include "Base.h"
 #include "glm/gtc/quaternion.hpp"
 #include "glm/gtx/quaternion.hpp"
 

@@ -30,10 +30,9 @@ The file GENERAL.todo contains the most important changes (or "todo"s) to be mad
 
 #### Folder Structure
 * /src - contains all the source code used in the project
-    * /src/base - code that the game system relies on, but is not necessarily related to the system itself (data structures, functions/typedefs for platorm independence, etc)
-    * /src/system - code for the game system (Entity/Component managers, memory/resource managers, etc)
-	* /src/core - code for the game 'core' (basic Components and Systems for drawing/transforming/etc, base Game class, etc)
-    * /src/game - code that builds the actual game on top of the 'core' game system
+    * /src/core - code that the game system relies on, but is not necessarily related to the system itself (data structures, functions/typedefs for platorm independence, etc)
+    * /src/engie - code for the game system (Entity/Component managers, memory/resource managers, etc)
+    * /src/game - code that builds on top of the base engine (most importantly, provides the systems and components for the engine)
     * /src/external - code from APIs, libraries, etc
 * /assets - parent folder for specific asset sub-folders
     * /assets/audio - folder for sound files

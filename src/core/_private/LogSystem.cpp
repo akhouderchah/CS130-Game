@@ -1,5 +1,5 @@
 #include "LogSystem.h"
-#include "../base/Platform.h"
+#include "Platform.h"
 #include <iostream>
 #include <string>
 

@@ -37,7 +37,7 @@ DrawComponent::DrawComponent(Entity entity) :
 		glGenVertexArrays(1, &VertexArrayID);
 		glBindVertexArray(VertexArrayID);
 
-		m_Tex = SOIL_load_OGL_texture("../assets/textures/City.tga",
+		m_Tex = SOIL_load_OGL_texture("../../assets/textures/City.tga",
 										   SOIL_LOAD_AUTO,
 										   SOIL_CREATE_NEW_ID,
 										   SOIL_FLAG_MIPMAPS

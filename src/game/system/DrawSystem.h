@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../system/ISystem.h"
+#include "ISystem.h"
 #include "DrawComponent.h"
 #include "TransformComponent.h"
 #include "MovableComponent.h"
 #include "CameraComponent.h"
-#include "../base/ConstVector.h"
+#include "ConstVector.h"
 #include "ShaderProgram.h"
 
 class DrawSystem : public ISystem

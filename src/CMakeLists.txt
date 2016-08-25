@@ -16,7 +16,14 @@ else(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   set(SYSTEM_TYPE 0)
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-message("CMAKE_SYSTEM_NAME: ${CMAKE_SYSTEM_NAME}")
+# 32 vs 64 bit
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+	set(ADDRESS_WIDTH 64)
+else(CMAKE_SIZEOF_VOID_P EQUAL 8)
+	set(ADDRESS_WIDTH 32)
+endif(CMAKE_SIZEOF_VOID_P EQUAL 8)
+
+message("CMAKE_SYSTEM_NAME: ${CMAKE_SYSTEM_NAME} ${ADDRESS_WIDTH}")
 
 # Debug by default
 if(CMAKE_BUILD_TYPE STREQUAL "")
@@ -46,28 +53,29 @@ configure_file(
 set(CMAKE_CXX_STANDARD 11)
 
 ## Header and Source files
-file(GLOB_RECURSE SYSTEM_SRC "./system/*.cpp")
-file(GLOB_RECURSE SYSTEM_HEADER "./system/*.h")
-file(GLOB_RECURSE GAME_SRC "./game/*.cpp")
-file(GLOB_RECURSE GAME_HEADER "./game/*.h")
-file(GLOB_RECURSE BASE_SRC "./base/*.cpp")
-file(GLOB_RECURSE BASE_HEADER "./base/*.h")
 file(GLOB_RECURSE CORE_SRC "./core/*.cpp")
 file(GLOB_RECURSE CORE_HEADER "./core/*.h")
+file(GLOB_RECURSE ENGINE_SRC "./engine/*.cpp")
+file(GLOB_RECURSE ENGINE_HEADER "./engine/*.h")
+file(GLOB_RECURSE GAME_SRC "./game/*.cpp")
+file(GLOB_RECURSE GAME_HEADER "./game/*.h")
 
-set(ALL_SRC main.cpp ${SYSTEM_SRC} ${GAME_SRC} ${BASE_SRC} ${CORE_SRC})
-set(ALL_HEADER ${SYSTEM_HEADER} ${GAME_HEADER} ${BASE_HEADER} ${CORE_HEADER})
+set(ALL_SRC main.cpp ${CORE_SRC} ${ENGINE_SRC} ${GAME_SRC})
+set(ALL_HEADER ${GAME_HEADER} ${ENGINE_HEADER} ${CORE_HEADER})
 
 include_directories(
 		${PROJECT_BINARY_DIR}
-		${PROJECT_SOURCE_DIR}/system
-		${PROJECT_SOURCE_DIR}/base
-		${PROJECT_SOURCE_DIR}/game
+        ${PROJECT_SOURCE_DIR}/external/glfw/include/GLFW/
+		${PROJECT_SOURCE_DIR}/external/glew/include/
+		${PROJECT_SOURCE_DIR}/external/glm/
+		${PROJECT_SOURCE_DIR}/external/soil/
 		${PROJECT_SOURCE_DIR}/core
-		external/glfw/include/GLFW/
-		external/glew/include/
-		external/glm/
-		external/soil/
+		${PROJECT_SOURCE_DIR}/engine/_inc
+		${PROJECT_SOURCE_DIR}/engine
+		${PROJECT_SOURCE_DIR}/game
+		${PROJECT_SOURCE_DIR}/game/action
+		${PROJECT_SOURCE_DIR}/game/component
+		${PROJECT_SOURCE_DIR}/game/system
 		.)
 
 set(ALL_LIBS
@@ -84,11 +92,10 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 ## Setting up Visual Studio filters
-source_group(System\\Source FILES ${SYSTEM_SRC})
-source_group(System\\Headers FILES ${SYSTEM_HEADER})
 source_group(Game\\Source FILES ${GAME_SRC})
 source_group(Game\\Headers FILES ${GAME_HEADER})
-source_group(Base\\Source FILES ${BASE_SRC})
-source_group(Core\\Headers FILES ${CORE_HEADER})
+source_group(Engine\\Source FILES ${ENGINE_SRC})
+source_group(Engine\\Headers FILES ${ENGINE_HEADER})
 source_group(Core\\Source FILES ${CORE_SRC})
+source_group(Core\\Headers FILES ${CORE_HEADER})
 

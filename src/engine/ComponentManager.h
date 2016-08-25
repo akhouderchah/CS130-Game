@@ -1,7 +1,3 @@
-/*
-  @TODO - ensure we alert components of other types when we delete this component (should be done at the EntityManager level)
-*/
-
 #pragma once
 
 #include <vector>
@@ -10,8 +6,8 @@
 #include <typeinfo>
 #include <unordered_map>
 #include "IComponentManager.h"
-#include "../base/Base.h"
-#include "../base/ConstVector.h"
+#include "Base.h"
+#include "ConstVector.h"
 #include "ObjList.h"
 
 class Entity;

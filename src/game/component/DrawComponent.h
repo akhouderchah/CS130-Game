@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../system/IComponent.h"
+#include "IComponent.h"
 
 class DrawSystem;
 class TransformComponent;

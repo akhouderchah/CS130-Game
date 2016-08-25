@@ -1,8 +1,7 @@
 #include <iostream>
-#include "base/Platform.h"
-#include "system/EntityManager.h"
-#include "game/TestComp.h"
-#include "game/Game.h"
+#include "Platform.h"
+#include "EntityManager.h"
+#include "Game.h"
 
 using namespace std;
 

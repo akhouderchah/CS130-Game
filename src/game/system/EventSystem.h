@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../system/ISystem.h"
-#include "../system/EventQueue.h"
+#include "ISystem.h"
+#include "EventQueue.h"
 
 /* Action Includes*/
 #include "Action_PauseGame.h"

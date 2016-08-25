@@ -7,6 +7,7 @@
 - Entity: Fix comparison operators!
 - Create the memory system (at the very least get rid of 'new's in the codebase)
 - Null components: Find way to not set anything, and fail to get anything
+- Stop using SOIL (it's too damn slow)
 
 --Priority 1--
 - Create the low-level Systems and Components
@@ -18,7 +19,7 @@
 - Physics System: Collisions (CollisionComponent for bounding objects, bool OnTouched(Entity entity) for PhysicsComponent)
 
 --Priority 2--
-- Modify SOIL to check the result of glGetString first
+- Load drawing surface and put loading texture before other initialization
 - Fix up error system
 - Make new non-throwing and create a custom error handler
 - Create "architypes" for the creation of entities with preset components

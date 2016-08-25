@@ -1,0 +1,5 @@
+# bin contents should not be tracked
+*
+
+# Use this to keep the bin directory in the repo
+!.gitignore
