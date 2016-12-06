@@ -1,10 +1,12 @@
 // @TODO Get ERROR working properly (give us file and line number at least!)
 
 #pragma once
-#include <string>
-#include "Platform.h"
-#include <cassert>
+
 #include "LogSystem.h"
+#include "Platform.h"
+
+#include <cassert>
+#include <string>
 
 enum EErrorBehavior
 {

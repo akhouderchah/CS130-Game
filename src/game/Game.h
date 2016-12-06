@@ -1,14 +1,14 @@
 #pragma once
 
 #include "Base.h"
-#include "ISystem.h"
 #include "DrawSystem.h"
+#include "ISystem.h"
 #include "Timer.h"
 
 class ObserverComponent;
 
-/*
- * @brief struct filled by user to initialize the game engine with proper attributes
+/**
+ * @brief Struct filled by user to initialize the game engine with proper attributes
  */
 struct GameAttributes
 {
@@ -20,8 +20,8 @@ struct GameAttributes
 	uint8_t m_SampleCount;
 };
 
-/*
- * @brief - Highest-level abstraction of a game
+/**
+ * @brief Highest-level abstraction of a game
  *
  * Should be used as a base class for specific games, but generally
  * contains window dimensions/attributes, global game data, game systems, etc.
@@ -32,7 +32,7 @@ public:
 	Game();
 	~Game();
 
-	/*
+	/**
 	 * @brief Initialize the game (starting with the underlying engine)
 	 *
 	 * Initializes the component system, creates any needed systems, allocates memory,
@@ -45,7 +45,7 @@ public:
 	 */
 	bool Initialize(const GameAttributes& attributes);
 	
-	/*
+	/**
 	 * @brief Shuts down the game engine
 	 *
 	 * Moves a game object from the initialized state to uninitialized.
@@ -53,12 +53,12 @@ public:
 	 */
 	void Shutdown();
 
-	/*
+	/**
 	 * @brief Runs the game loop, which consists mainly of running systems as needed
 	 */
 	void Run();
 
-	/*
+	/**
 	 * @brief Sets an initialized game object back to its initial state
 	 *
 	 * Acts as if someone called a Shutdown() followed by an Initialize() on
@@ -70,6 +70,7 @@ private:
 	bool CreatePrimaryWindow(const GameAttributes& attributes);
 
 private:
+	Random m_Random;
 	Timer m_Timer;
 	GLFWwindow* m_pWindow;
 

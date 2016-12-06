@@ -2,6 +2,7 @@
 
 #include "IComponent.h"
 #include "ComponentManager.h"
+
 #include <cstddef>
 
 /**
@@ -16,6 +17,7 @@ public:
 
 	virtual void Tick(deltaTime_t dt) = 0;
 
+	/** Used to allow systems interact with the window if needed */
 	static void SetWindow(GLFWwindow* pWindow){ s_pWindow = pWindow; }
 
 protected:

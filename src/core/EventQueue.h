@@ -1,9 +1,9 @@
 #pragma once
 
-#include <cstddef>
 #include "Base.h"
 #include "InputConstants.h"
 
+#include <cstddef>
 
 /**
  * @brief Queue filled by callback functions and consumed

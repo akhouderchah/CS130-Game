@@ -1,9 +1,10 @@
 #pragma once
-#include <vector>
-#include <queue>
+
 #include "Base.h"
-#include "IComponentManager.h"
 #include "ComponentManager.h"
+
+#include <queue>
+#include <vector>
 
 class EntityManager;
 
@@ -21,7 +22,7 @@ class EntityManager;
 class Entity
 {
 public:
-	Entity(ObjHandle ID=ObjHandle::null) : m_ID(ID){} // TODO - MOVE BACK TO PRIVATE!!!
+	Entity(ObjHandle ID=ObjHandle::null) : m_ID(ID){} /** @TODO - MOVE BACK TO PRIVATE!!! */
 	operator ObjHandle() const{ return m_ID; }
 	bool operator ==(Entity other) const{ return (other.m_ID.GetID() == m_ID.GetID()) && (other.m_ID.GetVersion() == m_ID.GetVersion()); }
 	bool operator !=(Entity other) const{ return !(other == *this); }
@@ -46,14 +47,14 @@ private:
 class EntityManager
 {
 public:
-	/*
+	/**
 	 * @brief Initialization function for the entity manager.
 	 *
 	 * MUST be called before any other EntityManager calls are made.
 	 */
 	static void Initialize();
 	
-	/*
+	/**
 	 * @brief Shutdown function for the entity manager.
 	 *
 	 * @note The EntityManager cannot be restarted or used after calling
@@ -79,7 +80,7 @@ public:
 
 private:
 	// No need to have EntityManager instances (at least for this project)
-//	EntityManager();
+	//	EntityManager();
 
 	static IComponent *AddComponent(Entity entity, ObjHandle::type_t, IComponent *pComp, bool skipRefresh=false);
 	static void AddEntities(size_t chunkSize = EntityManager::CHUNK_SIZE);

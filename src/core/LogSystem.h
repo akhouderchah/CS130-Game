@@ -82,7 +82,7 @@ const std::string LOG_ERROR_HEADER = "[ERROR : " + GetTimeStr() + "] - ";
 #define _LOG_ERROR(logger, infoLevel, stream)					   \
 	logger.GetStream(infoLevel) << LOG_ERROR_HEADER << stream;			   \
 	(*g_pConsoleStream) << LOG_ERROR_HEADER << stream;
-			 
+
 /**
  * @brief Class that handles the heavy-lifting of logging
  *

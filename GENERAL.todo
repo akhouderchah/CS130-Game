@@ -19,6 +19,7 @@
 - Physics System: Collisions (CollisionComponent for bounding objects, bool OnTouched(Entity entity) for PhysicsComponent)
 
 --Priority 2--
+- Custom string class + literals for localization (hash literals at compile-time)
 - Load drawing surface and put loading texture before other initialization
 - Fix up error system
 - Make new non-throwing and create a custom error handler

@@ -1,5 +1,6 @@
 #include "DrawComponent.h"
 #include "TransformComponent.h"
+
 #include "SOIL.h"
 
 using glm::vec3; using glm::vec2;
@@ -27,17 +28,19 @@ DrawComponent::DrawComponent(Entity entity) :
 		glGenBuffers(1, &VBO);
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		glGenBuffers(1, &IBO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-		glGenVertexArrays(1, &VertexArrayID);
-		glBindVertexArray(VertexArrayID);
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, sizeof(DrawComponent::Vertex), 0);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(DrawComponent::Vertex), (const GLvoid*)sizeof(glm::vec3));
 
-		m_Tex = SOIL_load_OGL_texture("../../assets/textures/City.tga",
+
+
+		m_Tex = SOIL_load_OGL_texture("../../assets/textures/Background.tga",
 										   SOIL_LOAD_AUTO,
 										   SOIL_CREATE_NEW_ID,
 										   SOIL_FLAG_MIPMAPS

@@ -1,7 +1,8 @@
 #include "ShaderProgram.h"
+#include "ErrorSystem.h"
+
 #include <fstream>
 #include <iostream>
-#include "ErrorSystem.h"
 
 using namespace std;
 

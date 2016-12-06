@@ -1,6 +1,7 @@
 #include "EntityManager.h"
-#include <climits>
 #include "IComponent.h"
+
+#include <climits>
 
 using namespace std;
 

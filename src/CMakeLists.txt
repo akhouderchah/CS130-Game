@@ -50,6 +50,18 @@ configure_file(
 	${PROJECT_SOURCE_DIR}/Config.h.in
 	${PROJECT_BINARY_DIR}/Config.h )
 
+# add Doxygen support
+find_package(Doxygen)
+if(DOXYGEN_FOUND)
+	configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in
+		${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
+	add_custom_target(doc
+		${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+		COMMENT "Generating documentation with Doxygen" VERBATIM
+		)
+endif(DOXYGEN_FOUND)
+
 set(CMAKE_CXX_STANDARD 11)
 
 ## Header and Source files
@@ -68,6 +80,7 @@ include_directories(
         ${PROJECT_SOURCE_DIR}/external/glfw/include/GLFW/
 		${PROJECT_SOURCE_DIR}/external/glew/include/
 		${PROJECT_SOURCE_DIR}/external/glm/
+		${PROJECT_SOURCE_DIR}/external/stb/
 		${PROJECT_SOURCE_DIR}/external/soil/
 		${PROJECT_SOURCE_DIR}/core
 		${PROJECT_SOURCE_DIR}/engine/_inc

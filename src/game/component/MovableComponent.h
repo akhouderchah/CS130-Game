@@ -2,6 +2,11 @@
 
 #include "TransformComponent.h"
 
+/**
+ * @brief Compenent that enables an entity to be moved.
+ *
+ * @note Obviously depends on an entity having a Transform Component.
+ */
 class MovableComponent : public IComponent
 {
 public:

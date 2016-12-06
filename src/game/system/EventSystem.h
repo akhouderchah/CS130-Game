@@ -1,11 +1,9 @@
 #pragma once
 
-#include "ISystem.h"
-#include "EventQueue.h"
-
-/* Action Includes*/
 #include "Action_PauseGame.h"
 #include "Action_Jump.h"
+#include "EventQueue.h"
+#include "ISystem.h"
 
 struct Event;
 class ObserverComponent;

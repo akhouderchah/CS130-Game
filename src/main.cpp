@@ -1,7 +1,8 @@
-#include <iostream>
 #include "Platform.h"
 #include "EntityManager.h"
 #include "Game.h"
+
+#include <iostream>
 
 using namespace std;
 

@@ -2,10 +2,10 @@
 
 bool programInitialize()
 {
-	bool success = true;
+	bool success = ~false;
 #if(SYSTEM_TYPE == EP_WINDOWS)
 #ifndef _DEBUG
-	success *= FreeConsole();
+	success &= FreeConsole();
 #endif//_DEBUG
 
 #elif(SYSTEM_TYPE == EP_LINUX)

@@ -1,14 +1,15 @@
 #pragma once
 
-#include <vector>
-#include <memory>
-#include <iostream>
-#include <typeinfo>
-#include <unordered_map>
-#include "IComponentManager.h"
 #include "Base.h"
 #include "ConstVector.h"
+#include "IComponentManager.h"
 #include "ObjList.h"
+
+#include <iostream>
+#include <memory>
+#include <typeinfo>
+#include <unordered_map>
+#include <vector>
 
 class Entity;
 

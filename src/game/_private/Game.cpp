@@ -1,12 +1,11 @@
 #include "Game.h"
-#include <chrono>
 #include "EntityManager.h"
-
-/** System Includes */
+#include "ErrorSystem.h"
 #include "EventSystem.h"
 #include "ObserverComponent.h"
 #include "PhysicsSystem.h"
-#include "ErrorSystem.h"
+
+#include <chrono>
 
 using namespace glm;
 
@@ -28,7 +27,7 @@ Game::~Game()
 
 bool Game::Initialize(const GameAttributes& attributes)
 {
-	Random::SetSeed(static_cast<unsigned long>(std::chrono::system_clock::now().time_since_epoch().count()));
+	m_Random.SetSeed(static_cast<unsigned long>(std::chrono::system_clock::now().time_since_epoch().count()));
 
 	if(!glfwInit())
 	{
@@ -88,7 +87,7 @@ bool Game::Initialize(const GameAttributes& attributes)
 	test.Add<MovableComponent>();
 	test.Add<DrawComponent>();
 
-	for(int i = 0; i < 2; ++i)
+	for(int i = 0; i < 200; ++i)
 	{
 		test = EntityManager::CreateEntity();
 		test.Add<TransformComponent>()->Init(glm::vec3(i*.5, 0.f, 1.f),
@@ -98,7 +97,7 @@ bool Game::Initialize(const GameAttributes& attributes)
 		test.Add<PhysicsComponent>();
 		ObserverComponent* pObserver = test.Add<ObserverComponent>();
 		pObserver->Subscribe(*pInputSys);
-		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP+i), new Action_Jump(test));
+		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP), new Action_Jump(test));
 	}
 
 	m_Timer.Start();

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "InputConstants.h"
 #include "Base.h"
 #include "EntityManager.h"
+#include "InputConstants.h"
 
 /**
  * @brief Interface for game actions.

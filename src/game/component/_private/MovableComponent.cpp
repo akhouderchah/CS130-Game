@@ -1,4 +1,5 @@
 #include "MovableComponent.h"
+
 #include <glm/gtx/euler_angles.hpp>
 
 using namespace glm;

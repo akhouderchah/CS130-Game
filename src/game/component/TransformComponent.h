@@ -1,12 +1,20 @@
 #pragma once
 
-#include "IComponent.h"
 #include "Base.h"
+#include "IComponent.h"
+
 #include "glm/gtc/quaternion.hpp"
 #include "glm/gtx/quaternion.hpp"
 
 class MovableComponent;
 
+/**
+ * @brief Component that allows an entity to exist physically in the game world
+ *
+ * Gives an entity a position, scale, and orientation. While certain entities
+ * may not need this, anything that will physically exist in the game world will
+ * need to have this component.
+ */
 class TransformComponent : public IComponent
 {
 public:
