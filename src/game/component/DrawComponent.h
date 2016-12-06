@@ -20,7 +20,7 @@ public:
 	~DrawComponent();
 
 	void Refresh();
-	
+
 private:
 	struct Vertex
 	{
