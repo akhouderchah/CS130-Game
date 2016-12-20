@@ -7,6 +7,7 @@
 #include "MovableComponent.h"
 #include "ShaderProgram.h"
 #include "TransformComponent.h"
+#include "MaterialComponent.h"
 
 /**
  * @brief System to perform the rendering of objects
@@ -35,9 +36,11 @@ public:
 
 private:
 	ConstVector<DrawComponent*> m_pDrawComponents;
+	ConstVector<MaterialComponent*> m_pMaterialComponents;
 	CameraComponent *m_pCurrentCamera;
 	GLuint m_Program;
 	GLuint m_WorldLoc;
 	GLuint m_TextureLoc;
+	GLuint m_AlphaLoc;
 };
 

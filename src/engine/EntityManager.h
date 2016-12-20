@@ -53,7 +53,7 @@ public:
 	 * MUST be called before any other EntityManager calls are made.
 	 */
 	static void Initialize();
-	
+
 	/**
 	 * @brief Shutdown function for the entity manager.
 	 *
@@ -67,7 +67,7 @@ public:
 	static Entity CreateEntity();
 	static void DestroyEntity(Entity entity);
 	static void DestroyAll();
-	
+
 	template <class T> static T *AddComponent(Entity entity, bool skipRefresh=false);
 	template <class T> static T *GetComponent(Entity entity);
 	template <class T> static ConstVector<T*> GetAll();
@@ -84,7 +84,7 @@ private:
 
 	static IComponent *AddComponent(Entity entity, ObjHandle::type_t, IComponent *pComp, bool skipRefresh=false);
 	static void AddEntities(size_t chunkSize = EntityManager::CHUNK_SIZE);
-	
+
 private:
 	friend class GUID<IComponentManager, ObjHandle::type_t>;
 	static std::vector<IComponentManager*> s_pComponentManagers;
@@ -104,7 +104,7 @@ T *EntityManager::AddComponent(Entity entity, bool skipRefresh)
 {
 	ObjHandle::type_t type = ComponentManager<T>::GetType();
 	T *pComp = new T(entity);
-	
+
 	return (T*)AddComponent(entity, type, pComp, skipRefresh);
 }
 
@@ -129,7 +129,7 @@ template <typename T> bool EntityManager::HasComponent(Entity entity)
 
 template <typename T> void EntityManager::RemoveComponent(Entity entity, bool skipRefresh)
 {
-	return RemoveComponent(entity, ComponentManager<T>::GetType(), skipRefresh);
+ 	return RemoveComponent(entity, ComponentManager<T>::GetType(), skipRefresh);
 }
 
 template <typename T> T *Entity::GetAs()

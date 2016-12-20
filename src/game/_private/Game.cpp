@@ -60,9 +60,9 @@ bool Game::Initialize(const GameAttributes& attributes)
 	EventSystem* pInputSys = new EventSystem;
 	pInputSys->MakeInputSystem();
 	m_pSystems.push_back(pInputSys);
-	
+
 	m_pSystems.push_back(new PhysicsSystem);
-	
+
 	m_pDrawSystem = new DrawSystem;
 	m_pSystems.push_back(m_pDrawSystem);
 
@@ -83,9 +83,11 @@ bool Game::Initialize(const GameAttributes& attributes)
 
 	// Create entities
 	Entity test = EntityManager::CreateEntity();
-	test.Add<TransformComponent>()->Init(glm::vec3(0,1,1));
+	test.Add<TransformComponent>()->Init(glm::vec3(0,0,1));
 	test.Add<MovableComponent>();
-	test.Add<DrawComponent>();
+	auto pDraw = test.Add<DrawComponent>();
+	pDraw->SetGeometry(ShapeType::PLANE);
+	pDraw->SetTexture("../../assets/textures/Background.tga");
 
 	for(int i = 0; i < 200; ++i)
 	{
@@ -93,12 +95,23 @@ bool Game::Initialize(const GameAttributes& attributes)
 		test.Add<TransformComponent>()->Init(glm::vec3(i*.5, 0.f, 1.f),
 											 glm::vec3(.2f, .2f, .2f));
 		test.Add<MovableComponent>();
-		test.Add<DrawComponent>();
+		pDraw = test.Add<DrawComponent>();
+		pDraw->SetGeometry(ShapeType::PLANE);
+		pDraw->SetTexture("../../assets/textures/City.tga");
 		test.Add<PhysicsComponent>();
 		ObserverComponent* pObserver = test.Add<ObserverComponent>();
 		pObserver->Subscribe(*pInputSys);
 		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP), new Action_Jump(test));
 	}
+
+	test = EntityManager::CreateEntity();
+	test.Add<TransformComponent>()->Init(glm::vec3(0,0,1));
+	pDraw = test.Add<DrawComponent>();
+	pDraw->SetGeometry(ShapeType::PLANE);
+	pDraw->SetTexture("../../assets/textures/PauseGradient.tga", true);
+	pDraw->SetOpacity(0.f);
+	test.Add<MaterialComponent>();
+	Action_PauseGame::SetFadeScreen(test);
 
 	m_Timer.Start();
 
@@ -108,13 +121,13 @@ bool Game::Initialize(const GameAttributes& attributes)
 void Game::Shutdown()
 {
 	EntityManager::Shutdown();
-	
+
 	for(size_t i = m_pSystems.size(); i > 0;)
 	{
 		m_pSystems[--i]->Shutdown();
 		delete m_pSystems[i];
 	}
-	
+
 	glfwTerminate();
 }
 

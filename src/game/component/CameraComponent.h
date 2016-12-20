@@ -20,5 +20,5 @@ public:
 	void Refresh();
 
 private:
-	
+
 };

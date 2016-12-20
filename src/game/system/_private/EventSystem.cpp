@@ -28,7 +28,7 @@ void EventSystem::Tick(deltaTime_t dt)
 
 	// Get events and such
 	glfwPollEvents();
-	
+
 	Event event = m_EventQueue.Consume();
 	while(event.event != EGE_END)
 	{
@@ -39,11 +39,11 @@ void EventSystem::Tick(deltaTime_t dt)
 		event = m_EventQueue.Consume();
 	}
 }
- 
+
 bool EventSystem::MakeInputSystem()
 {
 	if(s_pInputSystem){ return false; }
-	
+
 	s_pInputSystem = this;
 	return true;
 }

@@ -29,4 +29,4 @@ public:
 private:
 	TransformComponent* m_pTransformComp;
 };
-	
+

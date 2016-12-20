@@ -101,7 +101,7 @@ GLuint ShaderProgram::CompileShader(GLenum shaderType, string shaderSource)
 
 	const GLchar* shader = shaderSource.c_str();
 	GLint length = shaderSource.size();
-	
+
 	glShaderSource(shaderObj, 1, &shader, &length);
 
 	GLint success;
@@ -109,7 +109,7 @@ GLuint ShaderProgram::CompileShader(GLenum shaderType, string shaderSource)
 	glGetShaderiv(shaderObj, GL_COMPILE_STATUS, &success);
 	if(!success)
 	{
-		GLchar errorLog[1024]; 
+		GLchar errorLog[1024];
 		glGetShaderInfoLog(shaderObj, 1024, NULL, errorLog);
 		ERROR("Failed to compile the shader object:\n" << errorLog << "\n", EEB_CONTINUE);
 		glDeleteShader(shaderObj);

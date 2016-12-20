@@ -24,12 +24,12 @@ class ComponentManager : public IComponentManager
 {
 public:
 	virtual ~ComponentManager(){}
-	
+
 	ObjHandle::ID_t Add(IComponent *pComponent)
 		{ return m_CompList.Add(pComponent); }
 	ObjHandle::ID_t Delete(ObjHandle::ID_t index)
 		{ return m_CompList.Delete(index); }
-	
+
 	void DeleteAll(){ m_CompList.DeleteAll(); }
 
 	IComponent *Get(ObjHandle::ID_t index) const{ return m_CompList[index]; }
@@ -39,7 +39,7 @@ public:
 private:
 	ComponentManager(){ std::cout << "Creating manager of type: " << typeid(T).name() << std::endl; }
 	friend class GUID<IComponentManager, ObjHandle::type_t>;
-	
+
 	ObjList<T> m_CompList;
 	static ObjHandle::type_t s_ID;
 };
@@ -70,7 +70,7 @@ ObjHandle::type_t GUID<IComponentManager, ObjHandle::type_t>::GenerateID()
 
 	// Add ComponentManager<T> to EntityManager::s_pComponentManagers
 	AddManager(new ComponentManager<T>());
-	
+
 	return s_CurrentID++;
 }
 

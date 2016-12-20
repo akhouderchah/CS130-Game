@@ -22,7 +22,7 @@ void EntityManager::Initialize()
 {
 	s_EntityList.push_back(make_pair(0, compList_t())); // Create the null entity
 	AddEntities(); // @TODO - maybe add more than CHUNK_SIZE entities for init?
-	
+
 	//
 	// Note we don't fill s_pComponentManagers here.
 	// The ComponentManagers place themselves into the vector
@@ -53,7 +53,7 @@ Entity EntityManager::CreateEntity()
 	if(s_FreeList.size() <= 1)
 	{
 		AddEntities();
-		
+
 		if(s_FreeList.size() == 0)
 		{
 			LOG("Failed to allocate space for a new entity! Perhaps remove some existing entities or expand the ObjHandle sizes.\n");
@@ -67,14 +67,14 @@ Entity EntityManager::CreateEntity()
 	DEBUG_ASSERT(ID);
 
 	ObjHandle::version_t version = s_EntityList[ID].first;
-	
+
 	return Entity(ObjHandle::constructHandle(ID, 0, version));
 }
 
 void EntityManager::DestroyEntity(Entity entity)
 {
 	ObjHandle::ID_t ID = entity.m_ID.GetID();
-	
+
 	// Validity tests
 	if(ID == 0 || ID >= s_EntityList.size() ||
 	   entity.m_ID.GetVersion() != s_EntityList[ID].first)
@@ -127,7 +127,7 @@ void EntityManager::DestroyAll()
 IComponent *EntityManager::AddComponent(Entity entity, ObjHandle::type_t type, IComponent *pComp, bool skipRefresh)
 {
 	ObjHandle::ID_t index = entity.m_ID.GetID();
-	
+
 	// Ensure the index and version are valid
 	if(index == 0 || index >= s_EntityList.size() ||
 	   entity.m_ID.GetVersion() != s_EntityList[index].first)
@@ -178,7 +178,7 @@ IComponent *EntityManager::GetComponent(Entity entity, ObjHandle::type_t type)
 	{
 		return s_pComponentManagers[type]->Get(0);
 	}
-	
+
 	// Get component
 	ObjHandle::handle_t handle = ObjHandle::constructRawHandle(ID, type, 0u);
 	auto iter = s_HandletoIndex.find(handle);
@@ -188,7 +188,7 @@ IComponent *EntityManager::GetComponent(Entity entity, ObjHandle::type_t type)
 		return s_pComponentManagers[type]->Get(0);
 	}
 	ObjHandle::ID_t compIndex = iter->second;
-	
+
 	return s_pComponentManagers[type]->Get(compIndex);
 }
 
@@ -202,7 +202,7 @@ bool EntityManager::HasComponent(Entity entity, ObjHandle::type_t type)
 	{
 		return false;
 	}
-	
+
 	// Check hash for component
 	ObjHandle::handle_t handle = ObjHandle::constructRawHandle(ID, type, 0u);
 	return s_HandletoIndex.count(handle);
@@ -211,7 +211,7 @@ bool EntityManager::HasComponent(Entity entity, ObjHandle::type_t type)
 void EntityManager::RemoveComponent(Entity entity, ObjHandle::type_t type, bool skipRefresh)
 {
 	ObjHandle::ID_t ID = entity.m_ID.GetID();
-	
+
 	// See if removal is necessary
 	if(ID == 0 || ID >= s_EntityList.size() ||
 	   entity.m_ID.GetVersion() != s_EntityList[ID].first)
@@ -222,7 +222,7 @@ void EntityManager::RemoveComponent(Entity entity, ObjHandle::type_t type, bool 
 	ObjHandle::handle_t handle = ObjHandle::constructRawHandle(ID, type, 0u);
 	auto iter = s_HandletoIndex.find(handle);
 	if(iter == s_HandletoIndex.end()){ return; }
-	
+
 	// Remove from ComponentManager
 	ObjHandle::ID_t displaced = s_pComponentManagers[type]->Delete(iter->second);
 

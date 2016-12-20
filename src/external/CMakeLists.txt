@@ -32,7 +32,7 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 #GLEW
-set(GLEW_SOURCE 
+set(GLEW_SOURCE
 	glew/src/glew.c)
 
 set(GLEW_HEADERS
@@ -47,19 +47,3 @@ target_link_libraries(GLEW
 	${OPENGL_LIBRARIES}
 	${EXTRA_LIBS}
 	)
-
-# SOIL
-file(GLOB_RECURSE SOIL_SOURCE "soil/*.c")
-
-set(SOIL_HEADERS
-	)
-
-add_library(SOIL STATIC
-	${SOIL_SOURCE}
-	)
-
-target_link_libraries(SOIL
-	${OPENGL_LIBRARIES}
-	${EXTRA_LIBS}
-	)
-

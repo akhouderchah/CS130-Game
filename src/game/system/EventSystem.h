@@ -56,7 +56,7 @@ private:
 	// NOTE: observers will be added multiple times if multiple calls to this
 	// function is made with the same observer.
 	bool RegisterObserver(ObserverComponent& observer);
-	
+
 	// Unregisters an observer with the system.
 	// NOTE: only removes the first instance of observer found in the system.
 	// If the observer has been registered multiple times, the observer won't be
@@ -68,7 +68,7 @@ private:
 	// will get input events
 	static EventSystem* s_pInputSystem;
 	friend void KeyCallback(GLFWwindow*, int, int, int, int);
-	
+
 	EventQueue m_EventQueue;
 	std::vector<ObserverComponent*> m_pObservers;
 };

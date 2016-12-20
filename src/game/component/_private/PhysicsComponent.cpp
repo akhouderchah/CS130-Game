@@ -21,7 +21,7 @@ void PhysicsComponent::Refresh()
 void PhysicsComponent::Tick(deltaTime_t dt)
 {
 	m_ImpulseWait -= dt;
-	
+
 	if(m_Velocity[1] >= -s_TerminalSpeed)
 	{
 		m_Velocity[1] += s_Gravity * dt;

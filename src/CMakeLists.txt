@@ -81,7 +81,6 @@ include_directories(
 		${PROJECT_SOURCE_DIR}/external/glew/include/
 		${PROJECT_SOURCE_DIR}/external/glm/
 		${PROJECT_SOURCE_DIR}/external/stb/
-		${PROJECT_SOURCE_DIR}/external/soil/
 		${PROJECT_SOURCE_DIR}/core
 		${PROJECT_SOURCE_DIR}/engine/_inc
 		${PROJECT_SOURCE_DIR}/engine
@@ -95,7 +94,6 @@ set(ALL_LIBS
 	${OPENGL_LIBRARIES}
 	glfw
 	GLEW
-	SOIL
 	)
 
 add_executable(tetrad-game ${ALL_SRC})

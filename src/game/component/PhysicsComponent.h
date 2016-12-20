@@ -19,7 +19,7 @@ public:
 
 	void Tick(deltaTime_t dt);
 	bool Impulse();  // Returns true only if the impulse was successful
-	
+
 private:
 	static float s_Gravity;
 	static float s_TerminalSpeed;

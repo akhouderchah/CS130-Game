@@ -2,6 +2,7 @@
 
 #include "Base.h"
 #include "EntityManager.h"
+#include "ResourceManager.h"
 
 /**
  * @brief Base class for all components
@@ -27,6 +28,8 @@ public:
 
 protected:
 	IComponent(Entity entity) : m_Entity(entity){}
+
+	friend void InitNullEntity(IComponent *pObj);
 
 	Entity m_Entity;
 };

@@ -3,8 +3,10 @@
 #include "Base.h"
 #include "ConstVector.h"
 
+class IComponent;
+
 /**
- * @brief Class to deal with the allocation of objects 
+ * @brief Class to deal with the allocation of objects
  */
 template <typename T>
 class ObjList
@@ -15,11 +17,11 @@ public:
 
 	// Returns the component index of the newly added object
 	ObjHandle::ID_t Add(IComponent *pComp);
-	
+
 	// Returns the ID of the comp moved to the current index
 	ObjHandle::ID_t Delete(ObjHandle::ID_t index);
 	void DeleteAll();
-	
+
 	ConstVector<T*> GetAll(){ return ConstVector<T*>(m_pObjects); }
 	T *operator[](ObjHandle::ID_t index) const;
 private:
@@ -30,12 +32,18 @@ template <typename T>
 ObjList<T>::ObjList()
 {
 	// Add the null element
+	// @TODO Don't construct null element?
+	//T *pObj = (T*)::operator new (sizeof(T));
+	//m_pObjects.push_back(pObj);
+
 	m_pObjects.push_back(new T(nullEntity));
 }
 
 template <typename T>
 ObjList<T>::~ObjList()
 {
+	//::operator delete(&m_pObjects[0]);
+
 	for(size_t i = 0; i < m_pObjects.size(); ++i)
 	{
 		delete m_pObjects[i];
@@ -49,11 +57,10 @@ ObjHandle::ID_t ObjList<T>::Add(IComponent *pObj)
 	size_t i = m_pObjects.size();
 	if(i >= ObjHandle::MAX_ID)
 	{
-		
 		LOG("Failed to allocate space for a new element! Perhaps remove some existing entities/components or expand the ObjHandle sizes.\n");
 		return 0;
 	}
-	
+
 	m_pObjects.push_back((T*)pObj);
 	return (ObjHandle::ID_t)i;
 }

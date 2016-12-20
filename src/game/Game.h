@@ -44,7 +44,7 @@ public:
 	 * be in an uninitialized state until a successful Initialize occurs.
 	 */
 	bool Initialize(const GameAttributes& attributes);
-	
+
 	/**
 	 * @brief Shuts down the game engine
 	 *

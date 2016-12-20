@@ -7,7 +7,6 @@
 - Entity: Fix comparison operators!
 - Create the memory system (at the very least get rid of 'new's in the codebase)
 - Null components: Find way to not set anything, and fail to get anything
-- Stop using SOIL (it's too damn slow)
 
 --Priority 1--
 - Create the low-level Systems and Components
