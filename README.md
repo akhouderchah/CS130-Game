@@ -9,8 +9,10 @@ A simple game built on top of a custom-built Entity System. The ES itself is des
 - [ ] Build Game System
     - [x] Build basic interface with GLFW
     - [ ] Create the needed Components and Systems for audio, graphics, input, etc
-	    -[ ] Build the Draw System using OpenGL for rendering
-    - [ ] Create a logging system
+	    - [x] Build the Draw System using OpenGL for rendering
+		- [ ] Build the Audio System using OpenAL
+	- [ ] Build the Lisp Interpreter for configuration and scripting
+    - [x] Create a logging system
 - [ ] Build the actual game
     - [ ] Create the needed Components and Systems for game-specific functionality
     - [x] Create the visual assets (mainly textures)
@@ -27,12 +29,15 @@ The file GENERAL.todo contains the most important changes (or "todo"s) to be mad
 
 #### Notes of interest
 - Due to the way that static initialization works in C++, the log system can't be reliably used for any set-up that happens before the execution of main() (take, for example, the adding of ComponentManagers to EntityManager::s_pComponentManagers). Try to avoid static initialization, opting instead to use an Initialize() method to set-up classes and such.
+- Entity IDs start at 1, where ID 0 is reserved for the "null entity" at static initialization. Along with the null entity, every component type has a null component, also created at static initialization time (and passed the entity ID 0). Thus systems seeking to iterate over all their components must start with the component ID 1, instead of 0. This also means that if a component's constructor executes code that does not work until after static initialization (e.g. OpenGL code), that code should be enclosed in an if statement ensuring that m_Entity != nullEntity.
 
-#### Folder Structure
+#### Directory Structure
+Source code is structured such that related functionality is kept together. Public header files (that is, header files that will be directly included by source code outside of the current directory) reside at the top-level of the directories below. Implementation files reside inside the "_private" subdirectory located in the directory containing the corresponding header file. Private header files (ones that contain functionality specific only to the source code within the current directory) are kept inside the "_inc" subdirectories. The directory structure is shown below.
+
 * /src - contains all the source code used in the project
-    * /src/core - code that the game system relies on, but is not necessarily related to the system itself (data structures, functions/typedefs for platorm independence, etc)
-    * /src/engie - code for the game system (Entity/Component managers, memory/resource managers, etc)
-    * /src/game - code that builds on top of the base engine (most importantly, provides the systems and components for the engine)
+    * /src/core - code that the game system relies on, but is not necessarily related to the system itself (data structures, functions/typedefs for platform independence, etc)
+    * /src/engine - code for the game system (Entity/Component managers, memory/resource managers, etc)
+    * /src/game - code that builds on top of the base engine (most importantly, the systems and components for the engine)
     * /src/external - code from APIs, libraries, etc
 * /assets - parent folder for specific asset sub-folders
     * /assets/audio - folder for sound files

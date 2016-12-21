@@ -124,6 +124,7 @@ void KeyCallback(GLFWwindow* pWindow, int key, int scancode, int action, int mod
 			event.event = EGE_NONE;
 		}
 
+		// @TODO we need to store the game mode and use it to set this
 		event.state = EGS_STARTED;
 		EventSystem::s_pInputSystem->Inform(event);
 	}

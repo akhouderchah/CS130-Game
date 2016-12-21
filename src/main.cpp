@@ -1,6 +1,6 @@
 #include "Platform.h"
 #include "EntityManager.h"
-#include "Game.h"
+#include "TetradGame.h"
 
 #include <iostream>
 
@@ -10,17 +10,17 @@ int main()
 {
 	if(!programInitialize())
 	{
-		// @TODO - Log this error!
+		ERROR("Failed to do platform-specific program initialization!", EEB_CONTINUE);
 		return -1;
 	}
 
-	Game game;
+	TetradGame game;
 	GameAttributes attributes(1600, 1200, "Tetrad " + VERSION_STRING, false, 8);
 	if(!game.Initialize(attributes))
 	{
 		return -1;
 	}
-	
+
 	game.Run();
 	game.Shutdown();
 

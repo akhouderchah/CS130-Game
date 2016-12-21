@@ -62,7 +62,7 @@ const std::string LOG_ERROR_HEADER = "[ERROR : " + GetTimeStr() + "] - ";
 	else logger.GetStream(infoLevel) << LOG_DEBUG_HEADER << stream _CONSOLE_DEBUG_PRINT(stream)
 #define LOG(stream) _LOG(MainLog, Log::EIL_NORMAL, "log", stream)
 #define LOG_SPECIAL(title, stream) _LOG(MainLog, Log::EIL_NORMAL, title, stream)
-#define DEBUG_LOG(stream) _DEBUG_LOG(MainLog, Log::EIL_NORMAL, "log", stream)
+#define DEBUG_LOG(stream) _DEBUG_LOG(MainLog, Log::EIL_NORMAL, stream)
 
 #else
 #define _LOG(logger, infoLevel, title, stream) \

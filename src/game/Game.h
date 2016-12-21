@@ -5,8 +5,6 @@
 #include "ISystem.h"
 #include "Timer.h"
 
-class ObserverComponent;
-
 /**
  * @brief Struct filled by user to initialize the game engine with proper attributes
  */
@@ -43,7 +41,7 @@ public:
 	 * Returns true unless the initialization fails, in which case the engine will
 	 * be in an uninitialized state until a successful Initialize occurs.
 	 */
-	bool Initialize(const GameAttributes& attributes);
+	virtual bool Initialize(const GameAttributes& attributes);
 
 	/**
 	 * @brief Shuts down the game engine
@@ -51,12 +49,12 @@ public:
 	 * Moves a game object from the initialized state to uninitialized.
 	 * Only needs to be called for a Game object whose Initialize method returns true.
 	 */
-	void Shutdown();
+	virtual void Shutdown();
 
 	/**
 	 * @brief Runs the game loop, which consists mainly of running systems as needed
 	 */
-	void Run();
+	virtual void Run();
 
 	/**
 	 * @brief Sets an initialized game object back to its initial state
@@ -64,18 +62,21 @@ public:
 	 * Acts as if someone called a Shutdown() followed by an Initialize() on
 	 * the object (but can be implemented more efficiently if needed).
 	 */
-	void Reset();
+	virtual void Reset();
 
-private:
+protected:
 	bool CreatePrimaryWindow(const GameAttributes& attributes);
 
-private:
+	/**
+	 * @brief Overloaded by children to add all systems to m_pSystems
+	 */
+	virtual void AddSystems() = 0;
+
+protected:
 	Random m_Random;
 	Timer m_Timer;
 	GLFWwindow* m_pWindow;
 
-	DrawSystem* m_pDrawSystem;
 	std::vector<ISystem*> m_pSystems;
-	ObserverComponent *m_pSystemObserver;
 };
 
