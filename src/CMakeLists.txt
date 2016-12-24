@@ -16,6 +16,26 @@ else(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   set(SYSTEM_TYPE 0)
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
+# Determine Compiler
+set(COMPILER_IS_CLANG 0)
+set(COMPILER_IS_GCC 0)
+set(COMPILER_IS_INTEL 0)
+set(COMPILER_IS_MSVC 0)
+
+if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+  set(COMPILER_IS_CLANG 1)
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+  set(COMPILER_IS_GCC 1)
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
+  set(COMPILER_IS_INTEL 1)
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+  set(COMPILER_IS_MSVC 1)
+endif()
+
+# Determine Endianness
+include (TestBigEndian)
+TEST_BIG_ENDIAN(IS_BIG_ENDIAN)
+
 # 32 vs 64 bit
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 	set(ADDRESS_WIDTH 64)
