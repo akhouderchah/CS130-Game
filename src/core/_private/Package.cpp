@@ -34,7 +34,7 @@ Package::~Package()
 // @TODO log all errors
 bool Package::Load(const std::string &path)
 {
-	PackageFormat::Table table;
+	PackageFormat::TableElement tableElem;
 
 	// Can't already have an open package
 	if(m_PackageFile.is_open()){ return false; }
@@ -69,18 +69,20 @@ bool Package::Load(const std::string &path)
 
 	// Load the table into memory
 	m_PackageFile.seekg(m_Header.TablePosition);
-	m_PackageFile.read((char*)&table,
-					  m_Header.ItemCount * sizeof(PackageFormat::TableElement));
-	if(!m_PackageFile){ goto exit; }
 
 	for(size_t i = 0; i < m_Header.ItemCount; ++i)
 	{
+		if(!m_PackageFile.read((char*)&tableElem, sizeof(tableElem)))
+		{
+			goto exit;
+		}
+
 		// Flip if needed
 		#ifdef IS_BIG_ENDIAN
-		bxchg32(table.HashToPos[i].first);
-		bxchg32(table.HashToPos[i].second);
+		bxchg32(tableElem.first);
+		bxchg32(tableElem.second);
 		#endif
-		m_HashToPos.insert(table.HashToPos[i]);
+		m_HashToPos.insert(tableElem);
 	}
 
 #ifdef PACKAGE_MODIFY
@@ -270,6 +272,8 @@ bool Package::AddElement(const std::string &filename, void *pSubHeader, size_t s
 	bxchg32(dataHeader.DataSize);
 #endif
 
+	size_t elemStart = m_FileContents.size();
+
 	// Store data header in memory
 	for(size_t i = 0; i < sizeof(dataHeader); ++i)
 	{
@@ -296,7 +300,7 @@ bool Package::AddElement(const std::string &filename, void *pSubHeader, size_t s
 	}
 
 	// Add new value into hash table
-	m_HashToPos[hash] = dataStart;
+	m_HashToPos[hash] = elemStart + m_Header.TablePosition + m_Header.ItemCount*sizeof(PackageFormat::TableElement);
 
 	m_IsModified = true;
 	return false;

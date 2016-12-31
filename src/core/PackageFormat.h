@@ -14,6 +14,9 @@ class Package;
 struct PackageFormat
 {
 private:
+#ifdef PACKAGE_DEBUG
+public:
+#endif
 	friend class Package;
 
 	static const uint16_t CURRENT_VERSION = 0;
