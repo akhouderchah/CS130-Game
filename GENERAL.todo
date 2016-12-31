@@ -1,12 +1,13 @@
 -- Current --
 - EventQueue fix push code
 - Draw system (Opengl Tutorials)
+- Asset package modification
 
 --PRIORITY 0--
-- Fix type issue (component types start at 0, but should start at 1)
 - Entity: Fix comparison operators!
 - Create the memory system (at the very least get rid of 'new's in the codebase)
 - Null components: Find way to not set anything, and fail to get anything
+- Logging System: Add context (log what class/method the message is related to)
 
 --Priority 1--
 - Create the low-level Systems and Components

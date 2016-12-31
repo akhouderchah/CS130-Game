@@ -5,6 +5,8 @@
 
 enum class ShapeType : uint8_t { PLANE, CUBE };
 
+enum class TextureType : uint8_t { RGB, RGBA };
+
 /**
  * @brief Class to make sure resources are only loaded as needed
  */
@@ -15,7 +17,8 @@ public:
 	~ResourceManager();
 
 	//// Texture functions
-	static GLuint LoadTexture(const std::string &str, bool hasAlpha=false);
+	// @TODO come up with system for specifying additional texture info (wrapping, etc)
+	static GLuint LoadTexture(const std::string &str, TextureType type);
 	static bool UnloadTexture(const std::string &str);
 	static void UnloadAllTextures();
 

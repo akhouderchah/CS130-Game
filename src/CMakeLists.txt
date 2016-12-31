@@ -17,24 +17,22 @@ else(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 # Determine Compiler
-set(COMPILER_IS_CLANG 0)
-set(COMPILER_IS_GCC 0)
-set(COMPILER_IS_INTEL 0)
-set(COMPILER_IS_MSVC 0)
-
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
-  set(COMPILER_IS_CLANG 1)
+  add_definitions(-DCOMPILER_IS_CLANG)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-  set(COMPILER_IS_GCC 1)
+  add_definitions(-DCOMPILER_IS_GCC)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
-  set(COMPILER_IS_INTEL 1)
+  add_definitions(-DCOMPILER_IS_INTEL)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-  set(COMPILER_IS_MSVC 1)
+  add_definitions(-DCOMPILER_IS_MSVC)
 endif()
 
 # Determine Endianness
 include (TestBigEndian)
-TEST_BIG_ENDIAN(IS_BIG_ENDIAN)
+TEST_BIG_ENDIAN(BIG_ENDIAN)
+if(${BIG_ENDIAN})
+  add_definitions(-DIS_BIG_ENDIAN)
+endif()
 
 # 32 vs 64 bit
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -116,11 +114,24 @@ set(ALL_LIBS
 	GLEW
 	)
 
+# Compile game
 add_executable(tetrad-game ${ALL_SRC})
 target_link_libraries(tetrad-game ${ALL_LIBS})
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 	#set_target_properties(tetrad-game PROPERTIES COMPILE_FLAGS "--save-temps")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
+# Compile package builder
+add_executable(packageBuilder
+  ${PROJECT_SOURCE_DIR}/tools/packageBuilder.cpp
+  ${CORE_SRC})
+target_link_libraries(packageBuilder ${ALL_LIBS})
+
+# Compile package reader
+add_executable(packageReader
+  ${PROJECT_SOURCE_DIR}/tools/packageReader.cpp
+  ${CORE_SRC})
+target_link_libraries(packageReader ${ALL_LIBS})
 
 ## Setting up Visual Studio filters
 source_group(Game\\Source FILES ${GAME_SRC})

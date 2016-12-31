@@ -24,7 +24,7 @@ public:
 	void SetGeometry(ShapeType shape);
 	// TODO void SetGeometry(std::string model);
 
-	void SetTexture(std::string texture, bool hasAlpha=false);
+	void SetTexture(std::string texture, TextureType type);
 
 	// Returns true if the resulting opacity is 0 or 1
 	bool SetOpacity(float opacity);

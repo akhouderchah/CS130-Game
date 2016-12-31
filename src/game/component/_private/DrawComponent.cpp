@@ -32,9 +32,9 @@ void DrawComponent::SetGeometry(ShapeType shape)
 	m_IBO = model.second;
 }
 
-void DrawComponent::SetTexture(std::string texture, bool hasAlpha)
+void DrawComponent::SetTexture(std::string texture, TextureType type)
 {
-	m_Tex = ResourceManager::LoadTexture(texture, hasAlpha);
+	m_Tex = ResourceManager::LoadTexture(texture, type);
 }
 
 bool DrawComponent::SetOpacity(float opacity)

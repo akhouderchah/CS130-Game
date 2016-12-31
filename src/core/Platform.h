@@ -36,9 +36,9 @@ enum EBuildTypes
 
 // Byte-swap for handling endianness issues
 #if COMPILER_IS_GCC && ((__GNUC__ == 4 && __GNUC_MINOR__ >= 3) || __GNUC__ >  4)
-#define bswap16 __builtin_bswap16__
-#define bswap32 __builtin_bswap32__
-#define bswap64 __builtin_bswap64__
+#define bswap16 __builtin_bswap16
+#define bswap32 __builtin_bswap32
+#define bswap64 __builtin_bswap64
 #elif COMPILER_IS_MSVC
 #define bswap16 _byteswap_ushort
 #define bswap32 _byteswap_ulong
@@ -49,6 +49,10 @@ uint16_t bswap16(uint16_t value);
 uint32_t bswap32(uint32_t value);
 uint64_t bswap64(uint64_t value);
 #endif
+
+#define bxchg16(x) ((x) = bswap16(x))
+#define bxchg32(x) ((x) = bswap32(x))
+#define bxchg64(x) ((x) = bswap64(x))
 
 // Run at the beginning of execution to do platform-specific initialization
 bool programInitialize();

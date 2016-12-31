@@ -19,7 +19,7 @@ ResourceManager::~ResourceManager()
 {
 }
 
-GLuint ResourceManager::LoadTexture(const std::string &str, bool hasAlpha)
+GLuint ResourceManager::LoadTexture(const std::string &str, TextureType type)
 {
 	auto iter = s_Textures.find(str);
 
@@ -34,7 +34,7 @@ GLuint ResourceManager::LoadTexture(const std::string &str, bool hasAlpha)
 	unsigned char *pImage;
 	GLuint tex = 0;
 
-	if(hasAlpha)
+	if(type == TextureType::RGBA)
 	{
 		pImage = stbi_load(str.c_str(), &w, &h, &comp, STBI_rgb_alpha);
 	}

@@ -21,38 +21,47 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		return false;
 	}
 
-	// Create entities
-	Entity test = EntityManager::CreateEntity();
-	test.Add<TransformComponent>()->Init(glm::vec3(0,0,1));
-	test.Add<MovableComponent>();
-	DrawComponent *pDraw = test.Add<DrawComponent>();
+	// Create background
+	Entity entity = EntityManager::CreateEntity();
+	entity.Add<TransformComponent>()->Init(glm::vec3(0,0,1));
+	entity.Add<MovableComponent>();
+	DrawComponent *pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
-	pDraw->SetTexture("../../assets/textures/Background.tga");
+	pDraw->SetTexture("../../assets/textures/Background.tga", TextureType::RGB);
 
-	for(int i = 0; i < 200; ++i)
+	// Create floor
+	entity = EntityManager::CreateEntity();
+	entity.Add<TransformComponent>()->Init(glm::vec3(0,-0.9f,1), glm::vec3(1,0.1f,1));
+	entity.Add<MovableComponent>();
+	pDraw = entity.Add<DrawComponent>();
+	pDraw->SetGeometry(ShapeType::PLANE);
+	pDraw->SetTexture("../../assets/textures/Floor.tga", TextureType::RGBA);
+
+	// Create jumping boxes
+	for(int i = 0; i < 2; ++i)
 	{
-		test = EntityManager::CreateEntity();
-		test.Add<TransformComponent>()->Init(glm::vec3(i*.5, 0.f, 1.f),
+		entity = EntityManager::CreateEntity();
+		entity.Add<TransformComponent>()->Init(glm::vec3(i*.5, 0.f, 1.f),
 											 glm::vec3(.2f, .2f, .2f));
-		test.Add<MovableComponent>();
-		pDraw = test.Add<DrawComponent>();
+		entity.Add<MovableComponent>();
+		pDraw = entity.Add<DrawComponent>();
 		pDraw->SetGeometry(ShapeType::PLANE);
-		pDraw->SetTexture("../../assets/textures/City.tga");
-		test.Add<PhysicsComponent>();
-		ObserverComponent* pObserver = test.Add<ObserverComponent>();
+		pDraw->SetTexture("../../assets/textures/Black.tga", TextureType::RGB);
+		entity.Add<PhysicsComponent>();
+		ObserverComponent* pObserver = entity.Add<ObserverComponent>();
 		pObserver->Subscribe(*m_pInputSystem);
-		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP), new Action_Jump(test));
+		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP), new Action_Jump(entity));
 	}
 
 	// Create fade screen entity
-	test = EntityManager::CreateEntity();
-	test.Add<TransformComponent>()->Init(glm::vec3(0,0,1));
-	pDraw = test.Add<DrawComponent>();
+	entity = EntityManager::CreateEntity();
+	entity.Add<TransformComponent>()->Init(glm::vec3(0,0,1));
+	pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
-	pDraw->SetTexture("../../assets/textures/PauseGradient.tga", true);
+	pDraw->SetTexture("../../assets/textures/PauseGradient.tga", TextureType::RGBA);
 	pDraw->SetOpacity(0.f);
-	test.Add<MaterialComponent>();
-	Action_PauseGame::SetFadeScreen(test);
+	entity.Add<MaterialComponent>();
+	Action_PauseGame::SetFadeScreen(entity);
 
 	m_Timer.Start();
 

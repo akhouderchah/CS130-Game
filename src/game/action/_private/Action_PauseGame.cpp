@@ -15,7 +15,7 @@ bool Action_PauseGame::operator()()
 	MaterialComponent *fader = EntityManager::GetComponent<MaterialComponent>(s_FadeEntity);
 	if(s_bFadeOut)
 	{
-		fader->FadeOut(.5f);
+		fader->FadeOut(.25f);
 	}
 	else
 	{
