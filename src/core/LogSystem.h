@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "Platform.h"
 #include <sstream>
 #include <fstream>
 #include <ctime>
@@ -38,7 +39,7 @@ extern std::ostream* g_pDebugConsoleStream;
 const std::string GetTimeStr();
 
 const std::string LOG_HEADER(const std::string& title);
-const std::string LOG_DEBUG_HEADER = "{DEBUG : " + GetTimeStr() + "} - ";
+#define LOG_DEBUG_HEADER "{DEBUG - " << GetTimeStr() << "} [" << __method__ << "]:" << __LINE__ << " - "
 const std::string LOG_ERROR_HEADER = "[ERROR : " + GetTimeStr() + "] - ";
 
 #ifdef LOG_CONSOLE

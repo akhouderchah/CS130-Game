@@ -34,6 +34,12 @@ enum EBuildTypes
 // Platform-indendent alternatives only
 #endif
 
+#if COMPILER_IS_GCC
+#define __method__ __PRETTY_FUNCTION__
+#else
+#define __method__ __func__
+#endif
+
 // Byte-swap for handling endianness issues
 #if COMPILER_IS_GCC && ((__GNUC__ == 4 && __GNUC_MINOR__ >= 3) || __GNUC__ >  4)
 #define bswap16 __builtin_bswap16

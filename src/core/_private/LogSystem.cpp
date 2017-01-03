@@ -14,9 +14,13 @@ const streampos Log::s_MAX_DELAY_SIZE = 4096;
 const string GetTimeStr()
 {
 	static time_t t;
+	struct tm * ptm;
 	t = time(nullptr);
-	string result = ctime(&t);
-	result.pop_back();
+	ptm = localtime(&t);
+
+	char result[20];
+	sprintf(result, "%02d/%02d/%04d %02d:%02d:%02d", ptm->tm_mon+1, ptm->tm_mday,
+			1900 + ptm->tm_year, ptm->tm_hour, ptm->tm_min, ptm->tm_sec);
 
 	return result;
 }
@@ -56,7 +60,7 @@ Log::~Log()
 {
 	//// Flush any remaining messages in the delayed stream
 	(*m_pImmediateStream) << m_pDelayedStream->str();
-	
+
 	if(m_HasOpenFile)
 	{
 		((ofstream*)m_pImmediateStream)->close();
@@ -75,7 +79,7 @@ ostream& Log::GetStream(EInfoLevel infoLevel)
 
 		return *m_pImmediateStream;
 	}
-	
+
 	if(m_pDelayedStream->tellp() >= s_MAX_DELAY_SIZE)
 	{
 		(*m_pImmediateStream) << m_pDelayedStream->str();
