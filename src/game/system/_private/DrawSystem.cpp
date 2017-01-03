@@ -34,6 +34,9 @@ bool DrawSystem::Initialize()
 	m_AlphaLoc = glGetUniformLocation(m_Program, "gAlpha");
 	if(m_AlphaLoc == 0xFFFFFFFF){ return false; }
 
+	m_TimeLoc = glGetUniformLocation(m_Program, "gTime");
+	if(m_TimeLoc == 0xFFFFFFFF){ return false; }
+
 	glGenVertexArrays(1, &vertexArrayID);
 	glBindVertexArray(vertexArrayID);
 
@@ -63,7 +66,7 @@ void DrawSystem::Tick(deltaTime_t dt)
 
 	// Set scale
 	static float scale = 0.f;
-	scale += dt * 1.f;
+	scale -= dt * 1.f;
 
 	//static MovableComponent* pMove = EntityManager::GetComponent<MovableComponent>(m_pDrawComponents[1].second);
 	//pMove->SetOrientation(glm::vec3(4*sin(scale), 0, 0));
@@ -78,7 +81,8 @@ void DrawSystem::Tick(deltaTime_t dt)
 	for(size_t i = 1; i < m_pDrawComponents.size(); ++i)
 	{
 		DEBUG_ASSERT(m_pDrawComponents[i]->m_pTransformComp);
-		glUniform1f(m_AlphaLoc, m_pDrawComponents[i]->m_Opacity);
+		glUniform1f(m_AlphaLoc, m_pDrawComponents[i]->GetOpacity());
+		glUniform1f(m_TimeLoc, m_pDrawComponents[i]->GetTime());
 
 		glUniformMatrix4fv(m_WorldLoc, 1, GL_TRUE, &m_pDrawComponents[i]->m_pTransformComp->GetWorldMatrix()[0][0]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_pDrawComponents[i]->m_VBO);

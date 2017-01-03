@@ -4,6 +4,7 @@
 
 class DrawSystem;
 class TransformComponent;
+class MaterialComponent;
 
 /**
  * @brief Component to make an entity visible in the game world
@@ -26,10 +27,8 @@ public:
 
 	void SetTexture(std::string texture, TextureType type);
 
-	// Returns true if the resulting opacity is 0 or 1
-	bool SetOpacity(float opacity);
-	bool IncrementOpacity(float delta);
-
+	float GetOpacity() const;
+	float GetTime() const;
 	void Refresh();
 
 	struct Vertex
@@ -43,10 +42,9 @@ private:
 	/// Things that a draw system should know about go here
 	friend DrawSystem;
 	TransformComponent *m_pTransformComp;
+	MaterialComponent *m_pMaterialComp;
 	GLuint m_VBO;
 	GLuint m_IBO;
 	GLuint m_Tex;
-
-	float m_Opacity;
 };
 

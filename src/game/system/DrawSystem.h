@@ -42,5 +42,6 @@ private:
 	GLuint m_WorldLoc;
 	GLuint m_TextureLoc;
 	GLuint m_AlphaLoc;
+	GLuint m_TimeLoc;
 };
 
