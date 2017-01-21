@@ -15,8 +15,8 @@ Timer::~Timer()
 
 void Timer::Start()
 {
-	m_StartTime = glfwGetTime();
-	m_PrevTime = m_StartTime;
+	m_StartTime = (deltaTime_t)glfwGetTime();
+	m_PrevTime = (deltaTime_t)m_StartTime;
 
 	m_Paused = false;
 }
@@ -28,7 +28,7 @@ void Timer::Pause()
 
 void Timer::Resume()
 {
-	m_PrevTime = glfwGetTime();
+	m_PrevTime = (deltaTime_t)glfwGetTime();
 
 	m_Paused = false;
 }
@@ -39,7 +39,7 @@ deltaTime_t Timer::Tick()
 	{
 		return (m_DeltaTime = 0.0);
 	}
-	m_CurrTime = glfwGetTime();
+	m_CurrTime = (deltaTime_t)glfwGetTime();
 	m_DeltaTime = m_CurrTime - m_PrevTime;
 	m_PrevTime = m_CurrTime;
 

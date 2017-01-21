@@ -100,7 +100,7 @@ GLuint ShaderProgram::CompileShader(GLenum shaderType, string shaderSource)
 	}
 
 	const GLchar* shader = shaderSource.c_str();
-	GLint length = shaderSource.size();
+	GLint length = (GLint)shaderSource.size();
 
 	glShaderSource(shaderObj, 1, &shader, &length);
 
