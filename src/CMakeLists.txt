@@ -139,14 +139,9 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 # Compile package builder
 add_executable(packageBuilder
   ${PROJECT_SOURCE_DIR}/tools/packageBuilder.cpp
-<<<<<<< HEAD
-  ${CORE_SRC})
-target_link_libraries(packageBuilder ${ALL_LIBS_EDITOR})
-=======
   ${CORE_SRC}
   ${CORE_HEADER})
-target_link_libraries(packageBuilder ${ALL_LIBS})
->>>>>>> fb8691258db471548f2b24ab851410a38430a223
+target_link_libraries(packageBuilder ${ALL_LIBS_EDITOR})
 
 # Compile package reader
 add_executable(packageReader

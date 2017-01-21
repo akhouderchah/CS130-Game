@@ -253,11 +253,7 @@ bool Package::CreatePackage(const std::string &path)
 	return true;
 }
 
-<<<<<<< HEAD
-bool Package::AddElement(const std::string &filename, const std::string &itemName, void *pSubHeader, size_t subHeaderSize, PackageFormat::DataType_t dataType)
-=======
-bool Package::AddElement(const std::string &filename, void *pSubHeader, uint16_t subHeaderSize)
->>>>>>> fb8691258db471548f2b24ab851410a38430a223
+bool Package::AddElement(const std::string &filename, const std::string &itemName, void *pSubHeader, uint16_t subHeaderSize, PackageFormat::DataType_t dataType)
 {
 	DEBUG_ASSERT(pSubHeader);
 	RELEASE_ASSERT(itemName.length() < 256);
