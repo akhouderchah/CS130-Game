@@ -13,6 +13,27 @@ class Package;
  */
 struct PackageFormat
 {
+public:
+	enum class DataType_t : uint8_t { TEXTURE, MODEL };
+
+	/*
+	      0x40       0x20       0x10      0x8       0x4       0x2       0x1
+	  +-----------------------------------------------------------------------+
+	  |          |          |         |         |  wrap_v |  wrap_h | hasAlpha|
+	  +-----------------------------------------------------------------------+
+	*/
+	struct TextureHeader
+	{
+		uint8_t Flags;
+
+		enum
+		{
+			HAS_ALPHA = 0x1,
+			WRAP_H = 0x2,
+			WRAP_V = 0x4
+		};
+	};
+
 private:
 #ifdef PACKAGE_DEBUG
 public:
@@ -58,10 +79,24 @@ public:
 		TableElement HashToPos[1];
 	};
 
+	/*
+	 * Every item in the package looks like this:
+	 *  +-----------------+
+	 *  |   Data Header   |
+	 *  +-----------------+
+	 *  |    Item Name    |
+	 *  +-----------------+
+	 *  |    Sub-Header   |
+	 *  +-----------------+
+	 *  |      Data       |
+	 *  |      ....       |
+	 *  +-----------------+
+	 */
 	struct DataHeader
 	{
 		uint16_t HeaderSize; // Size of sub-header (from right after DataSize)
-		uint8_t Reserved[2];
+		uint8_t NameLength;  // Length of filename (cannot be longer than 255)
+		DataType_t DataType;
 
 		uint32_t DataSize; // Note: Data starts right after secondary header ends
 	};

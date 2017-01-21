@@ -14,9 +14,9 @@ class Action_Jump : public IAction
 public:
 	Action_Jump(Entity entity);
 	virtual ~Action_Jump();
-	
+
 	virtual bool operator()();
-	
+
 private:
 	Entity m_Entity;
 };

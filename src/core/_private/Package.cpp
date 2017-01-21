@@ -31,30 +31,49 @@ Package::~Package()
 #endif
 }
 
-// @TODO log all errors
 bool Package::Load(const std::string &path)
 {
 	PackageFormat::TableElement tableElem;
 
 	// Can't already have an open package
-	if(m_PackageFile.is_open()){ return false; }
+	if(m_PackageFile.is_open())
+	{
+		DEBUG_LOG("Package is already being used\n");
+		return false;
+	}
 
 	// Open the package file
 	m_PackageFile.open(path, std::ios::in | std::ios::out | std::ios::binary);
-	if(!m_PackageFile.is_open()){ return false; }
+	if(!m_PackageFile.is_open())
+	{
+		DEBUG_LOG("Failed to open file: " << path << "\n");
+		return false;
+	}
 
 	// Load the header into memory
 	m_PackageFile.read((char*)&m_Header, sizeof(m_Header));
-	if(!m_PackageFile){ goto exit; }
+	if(!m_PackageFile)
+	{
+		DEBUG_LOG("Failed to read the package header of file: " << path << "\n");
+		goto exit;
+	}
 
 	// @TODO Ensure header validity
 	if(m_Header.ID[0] != PackageFormat::ID[0] ||
 	   m_Header.ID[1] != PackageFormat::ID[1] ||
-	   m_Header.ID[2] != PackageFormat::ID[2]){ goto exit; }
+	   m_Header.ID[2] != PackageFormat::ID[2])
+	{
+		DEBUG_LOG("Invalid header ID\n");
+		goto exit;
+	}
 
 	for(size_t i = 0; i < sizeof(PackageFormat::projID_t); ++i)
 	{
-		if(m_Header.ProjID[i] != PackageFormat::PROJ_ID[i]){ goto exit; }
+		if(m_Header.ProjID[i] != PackageFormat::PROJ_ID[i])
+		{
+			DEBUG_LOG("Invalid header Project ID\n");
+			goto exit;
+		}
 	}
 
 	#ifdef IS_BIG_ENDIAN
@@ -65,7 +84,11 @@ bool Package::Load(const std::string &path)
 	bxchg32(m_Header.TablePosition);
 	#endif
 
-	if(m_Header.MinReaderVersion > PackageFormat::MIN_READER_VERSION){ goto exit; }
+	if(m_Header.MinReaderVersion > PackageFormat::MIN_READER_VERSION)
+	{
+		DEBUG_LOG("Package requires a greate program version to be read\n");
+		goto exit;
+	}
 
 	// Load the table into memory
 	m_PackageFile.seekg(m_Header.TablePosition);
@@ -74,6 +97,7 @@ bool Package::Load(const std::string &path)
 	{
 		if(!m_PackageFile.read((char*)&tableElem, sizeof(tableElem)))
 		{
+			DEBUG_LOG("Failed to read the file table into memory\n");
 			goto exit;
 		}
 
@@ -151,6 +175,9 @@ void *Package::AllocExtract(const std::string& filename, void *pSubHeader,
 	bxchg32(header.DataSize);
 	#endif
 
+	// Skip over item name
+	m_PackageFile.seekg(header.NameLength, std::ios::cur);
+
 	// Read in sub-header
 	if(pSubHeader)
 	{
@@ -226,9 +253,10 @@ bool Package::CreatePackage(const std::string &path)
 	return true;
 }
 
-bool Package::AddElement(const std::string &filename, void *pSubHeader, size_t subHeaderSize)
+bool Package::AddElement(const std::string &filename, const std::string &itemName, void *pSubHeader, size_t subHeaderSize, PackageFormat::DataType_t dataType)
 {
 	DEBUG_ASSERT(pSubHeader);
+	RELEASE_ASSERT(itemName.length() < 256);
 
 	//// Hash filename and ensure unique
 	uint32_t hash = Hash(filename);
@@ -259,7 +287,8 @@ bool Package::AddElement(const std::string &filename, void *pSubHeader, size_t s
 	//// Add data
 	PackageFormat::DataHeader dataHeader;
 	dataHeader.HeaderSize = subHeaderSize;
-	dataHeader.Reserved[0] = 0; dataHeader.Reserved[1] = 0;
+	dataHeader.NameLength = itemName.length();
+	dataHeader.DataType = dataType;
 
 	// Set data size to data file size
 	dataFile.seekg(0, std::ios::end);
@@ -278,6 +307,12 @@ bool Package::AddElement(const std::string &filename, void *pSubHeader, size_t s
 	for(size_t i = 0; i < sizeof(dataHeader); ++i)
 	{
 		m_FileContents.push_back(((uint8_t*)&dataHeader)[i]);
+	}
+
+	// Store item name in memory
+	for(size_t i = 0; i < dataHeader.NameLength; ++i)
+	{
+		m_FileContents.push_back(((uint8_t*)&itemName[0])[i]);
 	}
 
 	// Store sub-header in memory

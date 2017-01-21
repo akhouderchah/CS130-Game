@@ -22,13 +22,15 @@
  * but this allows for finer control over where things are logged.
  *
  * Note: "Flexible" logging means the decision of what and when to write (debug
- * and info levels) happens at runtime. If LOG_NOT_FLEXIBLE is #defined, that
+ * and info levels) happens at runtime. If LOG_FLEXIBLE is not #defined, that
  * decision will be made at compile-time instead, losing flexibility but removing
  * extra branches from the codebase.
  */
 
-//#define LOG_NOT_FLEXIBLE
-//#define LOG_ALLOW_DEBUG
+//#define LOG_FLEXIBLE
+#ifdef _DEBUG
+#define LOG_ALLOW_DEBUG
+#endif
 //#define LOG_ALLOW_VERBOSE
 //#define LOG_CONSOLE
 #define LOG_DEBUG_CONSOLE
@@ -49,12 +51,12 @@ const std::string LOG_ERROR_HEADER = "[ERROR : " + GetTimeStr() + "] - ";
 #endif
 
 #ifdef LOG_DEBUG_CONSOLE
-#define _CONSOLE_DEBUG_PRINT(stream) ; (*g_pDebugConsoleStream) << stream
+#define _CONSOLE_DEBUG_PRINT(stream) , (*g_pDebugConsoleStream) << stream
 #else
 #define _CONSOLE_DEBUG_PRINT(stream)
 #endif
 
-#ifndef LOG_NOT_FLEXIBLE
+#ifdef LOG_FLEXIBLE
 #define _LOG(logger, infoLevel, title, stream) \
 	if(logger.GetMinLevel() > infoLevel) {} \
 	else logger.GetStream(infoLevel) << LOG_HEADER(title) << stream _CONSOLE_PRINT(stream)
@@ -68,7 +70,7 @@ const std::string LOG_ERROR_HEADER = "[ERROR : " + GetTimeStr() + "] - ";
 #else
 #define _LOG(logger, infoLevel, title, stream) \
 	logger.GetStream(infoLevel) << LOG_HEADER(title) << stream _CONSOLE_PRINT(stream)
-#if LOG_ALLOW_DEBUG
+#ifdef LOG_ALLOW_DEBUG
 #define _DEBUG_LOG(logger, infoLevel, stream) logger.GetStream(infoLevel) << LOG_DEBUG_HEADER << stream _CONSOLE_DEBUG_PRINT(stream)
 #else
 #define _DEBUG_LOG(logger, infoLevel, stream)

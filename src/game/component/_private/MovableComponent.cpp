@@ -20,42 +20,42 @@ void MovableComponent::Refresh()
 
 void MovableComponent::SetPosition(const vec3& position)
 {
-	assert(m_pTransformComp);
+	DEBUG_ASSERT(m_pTransformComp);
 	m_pTransformComp->MarkDirty();
 	m_pTransformComp->m_Position = position;
 }
 
 void MovableComponent::Move(const vec3& shift)
 {
-	assert(m_pTransformComp);
+	DEBUG_ASSERT(m_pTransformComp);
 	m_pTransformComp->MarkDirty();
 	m_pTransformComp->m_Position += shift;
 }
 
 void MovableComponent::SetOrientation(const vec3& radAngles)
 {
-	assert(m_pTransformComp);
+	DEBUG_ASSERT(m_pTransformComp);
 	m_pTransformComp->MarkDirty();
 	m_pTransformComp->m_Orientation = quat(radAngles);
 }
 
 void MovableComponent::Rotate(float rotationRads, const vec3& rotationAxis)
 {
-	assert(m_pTransformComp);
+	DEBUG_ASSERT(m_pTransformComp);
 	m_pTransformComp->MarkDirty();
 	m_pTransformComp->m_Orientation = glm::angleAxis((rotationRads), rotationAxis) * m_pTransformComp->m_Orientation;
 }
 
 void MovableComponent::SetScale(const vec3& scale)
 {
-	assert(m_pTransformComp);
+	DEBUG_ASSERT(m_pTransformComp);
 	m_pTransformComp->MarkDirty();
 	m_pTransformComp->m_Scale = scale;
 }
 
 void MovableComponent::Scale(const vec3& amount)
 {
-	assert(m_pTransformComp);
+	DEBUG_ASSERT(m_pTransformComp);
 	m_pTransformComp->MarkDirty();
 	m_pTransformComp->m_Scale += amount;
 }

@@ -28,7 +28,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	DrawComponent *pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture("../../assets/textures/Background.tga", TextureType::RGB);
-	entity.Add<MaterialComponent>()->SetTimeRate(-0.3f);
+	entity.Add<MaterialComponent>()->SetTimeRate(-0.2f);
 
 	// Create floor
 	entity = EntityManager::CreateEntity();
@@ -37,7 +37,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture("../../assets/textures/Floor.tga", TextureType::RGBA);
-	entity.Add<MaterialComponent>()->SetTimeRate(-0.8f);
+	entity.Add<MaterialComponent>()->SetTimeRate(-0.75f);
 
 	// Create jumping boxes
 	for(int i = 0; i < 2; ++i)

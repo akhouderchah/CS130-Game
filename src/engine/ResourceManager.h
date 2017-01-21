@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Base.h"
+#include "Package.h"
 #include <unordered_map>
 
 enum class ShapeType : uint8_t { PLANE, CUBE };
@@ -17,8 +18,9 @@ public:
 	~ResourceManager();
 
 	//// Texture functions
-	// @TODO come up with system for specifying additional texture info (wrapping, etc)
+	// @TODO remove non-package version
 	static GLuint LoadTexture(const std::string &str, TextureType type);
+	//static GLuint LoadTexture(const std::string &name, PackageFormat::TextureHeader *pHdr);
 	static bool UnloadTexture(const std::string &str);
 	static void UnloadAllTextures();
 

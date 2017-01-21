@@ -43,6 +43,12 @@ int main()
 		bxchg16(header.HeaderSize);
 		bxchg32(header.DataSize);
 #endif
+		cout << "\tItem " << i << " name: \'";
+		for(size_t i = 0; i < header.NameLength; ++i)
+		{
+			cout.put(package.m_PackageFile.get());
+		}
+		cout << "\'\n";
 		cout << "\tItem " << i << " sub-header size: " << header.HeaderSize << "\n";
 		cout << "\tItem " << i << " data size: " << header.DataSize << "\n";
 

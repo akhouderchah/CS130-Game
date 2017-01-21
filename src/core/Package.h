@@ -26,7 +26,6 @@
  *       file with any endianness, placing the onus of figuring out how to swap
  *       bytes on the newer implementation of Load, Extract, AddElement, and
  *       RemoveElement.
- * @TODO Take care of endianness issues
  */
 class Package
 {
@@ -36,6 +35,8 @@ public:
 
 	bool Load(const std::string &path);
 	bool Unload();
+
+	bool IsLoaded() const{ return m_PackageFile.is_open(); }
 
 	/**
 	 * @brief Extract asset from package, allocating the data buffer
@@ -53,9 +54,10 @@ public:
 #define PACKAGE_MODIFY // @TODO Remove after developing!
 #ifdef PACKAGE_MODIFY
 	bool CreatePackage(const std::string &path); // @TODO pass in more settings
-	bool AddElement(const std::string &filename, void *pSubHeader, size_t subHeaderSize); // @TODO ENDIANNESS ISSUES FOR SUBHEADER!
+	bool AddElement(const std::string &filename, const std::string &itemName, void *pSubHeader, size_t subHeaderSize, PackageFormat::DataType_t dataType); // @TODO ENDIANNESS ISSUES FOR SUBHEADER!
 	bool RemoveElement(const std::string &filename);
 	bool FlushChanges();
+	bool IsModified() const{ return m_IsModified; }
 #endif //PACKAGE_MODIFY
 
 private:

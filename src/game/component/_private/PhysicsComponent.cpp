@@ -1,15 +1,15 @@
 #include "PhysicsComponent.h"
 #include "MovableComponent.h"
 
-float PhysicsComponent::s_Gravity = -0.175f;
-float PhysicsComponent::s_ImpulseSpeed = 0.05f;
-float PhysicsComponent::s_TerminalSpeed = 0.09f;
+float PhysicsComponent::s_Gravity = -6.45f;
+float PhysicsComponent::s_ImpulseSpeed = 2.85f;
+float PhysicsComponent::s_TerminalSpeed = 4.75f;
 
 float PhysicsComponent::s_ImpulseWaitTime = 0.0f;
 
 PhysicsComponent::PhysicsComponent(Entity entity) :
-	IComponent(entity), m_Velocity(0,0,0), m_ImpulseWait(0.f),
-	m_pMover(nullptr)
+	IComponent(entity), m_IsGravityOn(true), m_Velocity(0,0,0),
+	m_ImpulseWait(0.f), m_pMover(nullptr)
 {
 }
 
@@ -24,9 +24,9 @@ void PhysicsComponent::Tick(deltaTime_t dt)
 
 	if(m_Velocity[1] >= -s_TerminalSpeed)
 	{
-		m_Velocity[1] += s_Gravity * dt;
+		m_Velocity[1] += m_IsGravityOn * s_Gravity * dt;
 	}
-	m_pMover->Move(m_Velocity);
+	m_pMover->Move(m_Velocity * dt);
 }
 
 bool PhysicsComponent::Impulse()
