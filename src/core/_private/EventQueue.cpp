@@ -16,7 +16,7 @@ Event& EventQueue::Consume()
 {
 	// if done reading, index = 0, else index = m_ReadIndex
 	bool read = (m_ReadIndex-m_WriteIndex != 0);
-	size_t index = -m_ReadIndex*(!read) + m_ReadIndex;
+	size_t index = m_ReadIndex -m_ReadIndex*(!read);
 
 	// if we read, increment m_ReadIndex
 	m_ReadIndex += read;

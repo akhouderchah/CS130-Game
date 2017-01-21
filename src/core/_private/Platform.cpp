@@ -2,7 +2,7 @@
 
 bool programInitialize()
 {
-	bool success = ~false;
+	bool success = (bool)0xFF;
 #if(SYSTEM_TYPE == EP_WINDOWS)
 #ifndef _DEBUG
 	success &= FreeConsole();

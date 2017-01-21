@@ -91,9 +91,9 @@ bool Package::Load(const std::string &path)
 		m_PackagePath = path;
 
 		// Load in all data
-		size_t dataStart = m_PackageFile.tellg();
+		size_t dataStart = (size_t)m_PackageFile.tellg();
 		m_PackageFile.seekg(0, std::ios::end);
-		size_t dataEnd = m_PackageFile.tellg();
+		size_t dataEnd = (size_t)m_PackageFile.tellg();
 
 		m_FileContents.resize(dataEnd - dataStart);
 		m_PackageFile.seekg(dataStart);
@@ -226,7 +226,7 @@ bool Package::CreatePackage(const std::string &path)
 	return true;
 }
 
-bool Package::AddElement(const std::string &filename, void *pSubHeader, size_t subHeaderSize)
+bool Package::AddElement(const std::string &filename, void *pSubHeader, uint16_t subHeaderSize)
 {
 	DEBUG_ASSERT(pSubHeader);
 
@@ -263,8 +263,8 @@ bool Package::AddElement(const std::string &filename, void *pSubHeader, size_t s
 
 	// Set data size to data file size
 	dataFile.seekg(0, std::ios::end);
-	size_t dataSize = dataFile.tellg();
-	dataHeader.DataSize = dataSize;
+	size_t dataSize = (size_t)dataFile.tellg();
+	dataHeader.DataSize = (uint32_t)dataSize;
 
 #ifdef IS_BIG_ENDIAN
 	// Flip if needed

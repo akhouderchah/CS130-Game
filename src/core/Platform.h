@@ -36,6 +36,8 @@ enum EBuildTypes
 
 #if COMPILER_IS_GCC
 #define __method__ __PRETTY_FUNCTION__
+#elif COMPILER_IS_MSVC
+#define __method__ __FUNCTION__
 #else
 #define __method__ __func__
 #endif

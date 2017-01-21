@@ -5,6 +5,10 @@ project(tetrad-game)
 set(VERSION_MAJOR 1)
 set(VERSION_MINOR 0)
 
+if(CMAKE_BINARY_DIR STREQUAL CMAKE_SOURCE_DIR)
+	message(FATAL_ERROR "Please use a different build directory than the source directory")
+endif()
+
 # Add the system type for the config file
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   set(SYSTEM_TYPE 1)
@@ -17,14 +21,19 @@ else(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 # Determine Compiler
-if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+if(${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
   add_definitions(-DCOMPILER_IS_CLANG)
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
   add_definitions(-DCOMPILER_IS_GCC)
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
+elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
   add_definitions(-DCOMPILER_IS_INTEL)
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-  add_definitions(-DCOMPILER_IS_MSVC)
+elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
+  add_definitions(-DCOMPILER_IS_MSVC
+	  -DTW_STATIC
+	  -DTW_NO_LIB_PRAGMA
+	  -DTW_NO_DIRECT3D
+	  -DGLEW_STATIC
+	  -D_CRT_SECURE_NO_WARNINGS)
 endif()
 
 # Determine Endianness
@@ -58,7 +67,7 @@ add_subdirectory(external)
 
 # Define _DEBUG on debug builds
 if (MSVC)
-	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MDd")
 elseif(CMAKE_COMPILER_IS_GNUCXX)
 	set(CMAKE_CXX_FLAGS_DEBUG "-Og -D_DEBUG -Wall -g -ggdb -pedantic-errors -Wextra -lprofiler -fsanitize=address -fsanitize=leak -fsanitize=undefined")
 	set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall -pedantic-errors -lprofiler -Wextra")
@@ -115,7 +124,7 @@ set(ALL_LIBS
 	)
 
 # Compile game
-add_executable(tetrad-game ${ALL_SRC})
+add_executable(tetrad-game ${ALL_SRC} ${ALL_HEADER})
 target_link_libraries(tetrad-game ${ALL_LIBS})
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 	#set_target_properties(tetrad-game PROPERTIES COMPILE_FLAGS "--save-temps")
@@ -124,13 +133,15 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 # Compile package builder
 add_executable(packageBuilder
   ${PROJECT_SOURCE_DIR}/tools/packageBuilder.cpp
-  ${CORE_SRC})
+  ${CORE_SRC}
+  ${CORE_HEADER})
 target_link_libraries(packageBuilder ${ALL_LIBS})
 
 # Compile package reader
 add_executable(packageReader
   ${PROJECT_SOURCE_DIR}/tools/packageReader.cpp
-  ${CORE_SRC})
+  ${CORE_SRC}
+  ${CORE_HEADER})
 target_link_libraries(packageReader ${ALL_LIBS})
 
 ## Setting up Visual Studio filters
@@ -140,4 +151,3 @@ source_group(Engine\\Source FILES ${ENGINE_SRC})
 source_group(Engine\\Headers FILES ${ENGINE_HEADER})
 source_group(Core\\Source FILES ${CORE_SRC})
 source_group(Core\\Headers FILES ${CORE_HEADER})
-

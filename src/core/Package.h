@@ -53,7 +53,7 @@ public:
 #define PACKAGE_MODIFY // @TODO Remove after developing!
 #ifdef PACKAGE_MODIFY
 	bool CreatePackage(const std::string &path); // @TODO pass in more settings
-	bool AddElement(const std::string &filename, void *pSubHeader, size_t subHeaderSize); // @TODO ENDIANNESS ISSUES FOR SUBHEADER!
+	bool AddElement(const std::string &filename, void *pSubHeader, uint16_t subHeaderSize); // @TODO ENDIANNESS ISSUES FOR SUBHEADER!
 	bool RemoveElement(const std::string &filename);
 	bool FlushChanges();
 #endif //PACKAGE_MODIFY
