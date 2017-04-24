@@ -21,19 +21,25 @@ else(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 # Determine Compiler
-if(${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
+if(${CMAKE_CXX_COMPILER_ID} MATCHES Clang)
+  message("Compiler is Clang")
   add_definitions(-DCOMPILER_IS_CLANG)
-elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
+  message("Compiler is GNU")
   add_definitions(-DCOMPILER_IS_GCC)
-elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
+elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL Intel)
+  message("Compiler is GCC")
   add_definitions(-DCOMPILER_IS_INTEL)
-elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
+elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
+  message("Compiler is MSVC")
   add_definitions(-DCOMPILER_IS_MSVC
 	  -DTW_STATIC
 	  -DTW_NO_LIB_PRAGMA
 	  -DTW_NO_DIRECT3D
 	  -DGLEW_STATIC
 	  -D_CRT_SECURE_NO_WARNINGS)
+else()
+  message("Compiler is unknown!")
 endif()
 
 # Determine Endianness
@@ -63,8 +69,8 @@ endif()
 message("CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 
 find_package(OpenGL REQUIRED)
-find_package(wxWidgets COMPONENTS core base adv REQUIRED)
-include( "${wxWidgets_USE_FILE}" )
+#find_package(wxWidgets COMPONENTS core base adv REQUIRED)
+#include( "${wxWidgets_USE_FILE}" )
 add_subdirectory(external)
 
 # Define _DEBUG on debug builds
@@ -127,7 +133,8 @@ set(ALL_LIBS
 
 set(ALL_LIBS_EDITOR
   ${ALL_LIBS}
-  ${wxWidgets_LIBRARIES})
+  #${wxWidgets_LIBRARIES}
+  )
 
 # Compile game
 add_executable(tetrad-game ${ALL_SRC} ${ALL_HEADER})
@@ -137,25 +144,18 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 # Compile package builder
-add_executable(packageBuilder
-  ${PROJECT_SOURCE_DIR}/tools/packageBuilder.cpp
-  ${CORE_SRC}
-  ${CORE_HEADER})
-target_link_libraries(packageBuilder ${ALL_LIBS_EDITOR})
+#add_executable(packageBuilder
+#${PROJECT_SOURCE_DIR}/tools/packageBuilder.cpp
+#${CORE_SRC}
+#${CORE_HEADER})
+#target_link_libraries(packageBuilder ${ALL_LIBS_EDITOR})
 
 # Compile package reader
-add_executable(packageReader
-  ${PROJECT_SOURCE_DIR}/tools/packageReader.cpp
-  ${CORE_SRC}
-  ${CORE_HEADER})
-target_link_libraries(packageReader ${ALL_LIBS})
-
-# TODO REMOVE
-# Compile package test
-add_executable(packageTest
-  ${PROJECT_SOURCE_DIR}/tools/packageTest.cpp
-  ${CORE_SRC})
-target_link_libraries(packageTest ${ALL_LIBS})
+#add_executable(packageReader
+#${PROJECT_SOURCE_DIR}/tools/packageReader.cpp
+#${CORE_SRC}
+#${CORE_HEADER})
+#target_link_libraries(packageReader ${ALL_LIBS})
 
 ## Setting up Visual Studio filters
 source_group(Game\\Source FILES ${GAME_SRC})
