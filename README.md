@@ -20,12 +20,12 @@ This is a component-entity system, meaning that game objects are created by assi
 ###### Convention Notes
 Please conform to the coding style used in the existing project.
 Main points are:
-	* Vertically-aligned braces (no K&R style)
-	* Non-static member variable names begin with 'm_'
-	* Static member variable names begin with 's_'
-	* Document classes and important methods/functions in the Doxygen style (see src/engine/EntityManager.h, for example)
-	* Pointer variable names begin with 'p' (member variables that are pointers start with 'm_p' or 's_p')
-	* Don't write directly to cout/cerr. Use DEBUG_LOG("Message\n"), LOG("Message\n"), ERROR("Error message\n", EEB_CONTINUE), or ERROR("Error message\n", EEB_EXIT), depending on the context
+* Vertically-aligned braces (no K&R style)
+* Non-static member variable names begin with 'm_'
+* Static member variable names begin with 's_'
+* Document classes and important methods/functions in the Doxygen style (see src/engine/EntityManager.h, for example)
+* Pointer variable names begin with 'p' (member variables that are pointers start with 'm_p' or 's_p')
+* Don't write directly to cout/cerr. Use DEBUG_LOG("Message\n"), LOG("Message\n"), ERROR("Error message\n", EEB_CONTINUE), or ERROR("Error message\n", EEB_EXIT), depending on the context
 
 ###### Creating a new Component
 1. Make sure the Component is designed so that the relevant Systems are actually performing the desired functionality, and the Component itself is simply providing the data necessary for the System to do so. If this isn't the case, redesign.
