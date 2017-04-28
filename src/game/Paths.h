@@ -1,9 +1,8 @@
 #pragma once
 
-#include <string>
+#include "Config.h"
 
 /** General Path Locations */
-const std::string ASSET_PATH = "../../assets/";
 const std::string TEXTURE_PATH = ASSET_PATH + "textures/";
 const std::string SHADER_PATH = ASSET_PATH + "shaders/";
 const std::string FONT_PATH = ASSET_PATH + "fonts/";

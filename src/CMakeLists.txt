@@ -9,6 +9,9 @@ if(CMAKE_BINARY_DIR STREQUAL CMAKE_SOURCE_DIR)
 	message(FATAL_ERROR "Please use a different build directory than the source directory")
 endif()
 
+# Define asset path for use in the executable
+set(ASSET_PATH ${CMAKE_SOURCE_DIR}/../assets/)
+
 # Add the system type for the config file
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   set(SYSTEM_TYPE 1)
