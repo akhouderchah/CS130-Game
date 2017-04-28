@@ -9,6 +9,7 @@ if(CMAKE_BINARY_DIR STREQUAL CMAKE_SOURCE_DIR)
 	message(FATAL_ERROR "Please use a different build directory than the source directory")
 endif()
 
+
 # Define asset path for use in the executable
 set(ASSET_PATH ${CMAKE_SOURCE_DIR}/../assets/)
 
@@ -61,12 +62,9 @@ endif(CMAKE_SIZEOF_VOID_P EQUAL 8)
 
 message("CMAKE_SYSTEM_NAME: ${CMAKE_SYSTEM_NAME} ${ADDRESS_WIDTH}")
 
-# Debug by default
+# Debug by default - only runs for single configurations
 if(CMAKE_BUILD_TYPE STREQUAL "")
   set(CMAKE_BUILD_TYPE Debug)
-  set(BUILD_TYPE 0)
-else()
-  set(BUILD_TYPE 1)
 endif()
 
 message("CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
@@ -78,10 +76,10 @@ add_subdirectory(external)
 
 # Define _DEBUG on debug builds
 if (MSVC)
-	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MDd")
+	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MDd /DBUILD_TYPE=0")
 elseif(CMAKE_COMPILER_IS_GNUCXX)
-	set(CMAKE_CXX_FLAGS_DEBUG "-Og -D_DEBUG -Wall -g -ggdb -pedantic-errors -Wextra -lprofiler -fsanitize=address -fsanitize=leak -fsanitize=undefined")
-	set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall -pedantic-errors -lprofiler -Wextra")
+	set(CMAKE_CXX_FLAGS_DEBUG "-Og -D_DEBUG -DBUILD_TYPE=0 -Wall -g -ggdb -pedantic-errors -Wextra -lprofiler -fsanitize=address -fsanitize=leak -fsanitize=undefined")
+	set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DBUILD_TYPE=1 -Wall -pedantic-errors -lprofiler -Wextra")
 endif(MSVC)
 
 configure_file(

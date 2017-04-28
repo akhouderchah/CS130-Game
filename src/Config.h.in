@@ -8,7 +8,6 @@
 
 #define SYSTEM_TYPE @SYSTEM_TYPE@
 #define ADDRESS_WIDTH @ADDRESS_WIDTH@
-#define BUILD_TYPE @BUILD_TYPE@
 
 // Use full asset path for debug builds
 //
