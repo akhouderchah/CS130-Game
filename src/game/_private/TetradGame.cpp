@@ -27,7 +27,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<MovableComponent>();
 	DrawComponent *pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
-	pDraw->SetTexture("../../assets/textures/Background.tga", TextureType::RGB);
+	pDraw->SetTexture(BACKGROUND_PATH, TextureType::RGB);
 	entity.Add<MaterialComponent>()->SetTimeRate(-0.2f);
 
 	// Create floor
@@ -36,7 +36,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<MovableComponent>();
 	pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
-	pDraw->SetTexture("../../assets/textures/Floor.tga", TextureType::RGBA);
+	pDraw->SetTexture(FLOOR_PATH, TextureType::RGBA);
 	entity.Add<MaterialComponent>()->SetTimeRate(-0.75f);
 
 	// Create jumping boxes
@@ -48,7 +48,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		entity.Add<MovableComponent>();
 		pDraw = entity.Add<DrawComponent>();
 		pDraw->SetGeometry(ShapeType::PLANE);
-		pDraw->SetTexture("../../assets/textures/Black.tga", TextureType::RGB);
+		pDraw->SetTexture(TEXTURE_PATH + "Black.tga", TextureType::RGB);
 		entity.Add<PhysicsComponent>();
 		ObserverComponent* pObserver = entity.Add<ObserverComponent>();
 		pObserver->Subscribe(*m_pInputSystem);
@@ -60,7 +60,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<TransformComponent>()->Init(glm::vec3(0,0,1));
 	pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
-	pDraw->SetTexture("../../assets/textures/PauseGradient.tga", TextureType::RGBA);
+	pDraw->SetTexture(PAUSE_BACKGROUND_PATH, TextureType::RGBA);
 	entity.Add<MaterialComponent>()->SetOpacity(0.f);
 	Action_PauseGame::SetFadeScreen(entity);
 
