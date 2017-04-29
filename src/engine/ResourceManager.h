@@ -5,10 +5,13 @@
 #include <unordered_map>
 
 #include "Sound.h"
+#include <vector>
 
 enum class ShapeType : uint8_t { PLANE, CUBE };
 
 enum class TextureType : uint8_t { RGB, RGBA };
+
+
 
 /**
  * @brief Class to make sure resources are only loaded as needed
@@ -32,13 +35,16 @@ public:
 	//Added by Hovhannes
 	////Sound functions
 	//@TODO add sound file type if possible
-	static void LoadSound(const std::string &name, const std::string &str, const bool);
-	static Sound * initializeSound();
+	static std::string LoadSound(const std::string &name, const std::string &str, const bool);
+	static std::string initializeSound();
 	static Sound * returnSound();
 
 private:
 	static std::unordered_map<std::string, GLuint> s_Textures;
 	static std::unordered_map<std::string, std::pair<GLuint, GLuint>> s_Models;
+
+
+	static std::vector<SoundFileData> s_SoundFileData;
 
 	static Sound sound;
 };

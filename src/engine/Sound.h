@@ -3,17 +3,26 @@
 #include <unordered_map>
 #include "Buffer.h"
 
+struct SoundFileData
+{
+	unsigned int dataSize;
+	ALuint frequency;
+	ALenum format;
+	unsigned char* buf;
+	bool isLoop;
+	std::string name;
+};
+
 
 class Sound
 {
 public:
 	Sound();
 	~Sound();
-	void play(std::string);
-	void stop(std::string);
-	void pause(std::string);
-	std::string createSoundBuffers(std::string, std::string, bool);
-	std::string InitializeSound();
+	std::string play(std::string);
+	std::string stop(std::string);
+	std::string pause(std::string);
+	std::string InitializeSound(std::vector<SoundFileData>);
 
 
 private:
@@ -35,7 +44,6 @@ private:
 	ALuint buffers[32];
 	ALuint sources[32];
 
-	Buffer bufferObjects[32];
 	int numberOfSounds;
 	static std::unordered_map<std::string, int> sourceToNameConnection;
 	
