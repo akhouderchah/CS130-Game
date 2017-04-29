@@ -35,4 +35,6 @@ private:
 	glm::vec3 m_Velocity;
 	float m_ImpulseWait;
 	MovableComponent* m_pMover;
+
+	Sound *sound = ResourceManager::returnSound();
 };

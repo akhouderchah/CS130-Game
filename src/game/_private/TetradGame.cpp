@@ -6,6 +6,9 @@
 #include "ObserverComponent.h"
 #include "PhysicsSystem.h"
 
+//Added by Hovhannes
+#include "Sound.h"
+
 TetradGame::TetradGame() :
 	m_pDrawSystem(nullptr), m_pSystemObserver(nullptr),
 	m_pInputSystem(nullptr)
@@ -40,7 +43,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<MaterialComponent>()->SetTimeRate(-0.75f);
 
 	// Create jumping boxes
-	for(int i = 0; i < 2; ++i)
+	for(int i = 0; i < 1; ++i)
 	{
 		entity = EntityManager::CreateEntity();
 		entity.Add<TransformComponent>()->Init(glm::vec3(i*.5, 0.f, 1.f),
@@ -64,6 +67,17 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<MaterialComponent>()->SetOpacity(0.f);
 	Action_PauseGame::SetFadeScreen(entity);
 
+
+	//Added by Hovhannes Menejyan
+	//create sounds
+	ResourceManager tempResourceManager;
+	//Please add all the sound files by calling LoadSound before calling initializeSound
+	tempResourceManager.LoadSound("backgroundMusic", "../../assets/sounds/backgroundMusic.wav", true);
+	tempResourceManager.LoadSound("wingSound", "../../assets/sounds/wingSound.wav", false);
+	Sound *sound = tempResourceManager.initializeSound();
+	sound->play("backgroundMusic");
+
+	
 	m_Timer.Start();
 
 	return true;

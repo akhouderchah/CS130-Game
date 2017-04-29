@@ -9,15 +9,38 @@
 std::unordered_map<std::string, GLuint> ResourceManager::s_Textures;
 std::unordered_map<std::string, std::pair<GLuint, GLuint>> ResourceManager::s_Models;
 
+Sound ResourceManager::sound;
+
+
 using namespace glm;
 typedef PackageFormat::TextureHeader TextureHeader;
 
 ResourceManager::ResourceManager()
 {
+	
 }
 
 ResourceManager::~ResourceManager()
 {
+
+}
+
+//Added by Hovhannes
+void ResourceManager::LoadSound(const std::string &name, const std::string &str, const bool isLoop)
+{
+	sound.createSoundBuffers(name, str, isLoop);
+}
+
+Sound * ResourceManager::initializeSound()
+{
+	sound.InitializeSound();
+
+	return &sound;
+}
+
+Sound *  ResourceManager::returnSound()
+{
+	return &sound;
 }
 
 GLuint ResourceManager::LoadTexture(const std::string &str, TextureType type)

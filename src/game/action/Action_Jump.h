@@ -2,7 +2,6 @@
 
 #include "IAction.h"
 #include "EntityManager.h"
-
 /**
  * @brief Action to cause the provided entity to jump.
  *
@@ -19,5 +18,6 @@ public:
 
 private:
 	Entity m_Entity;
+	
 };
 

@@ -35,6 +35,7 @@ bool PhysicsComponent::Impulse()
 	{
 		return false;
 	}
+	sound->play("wingSound");
 
 	m_ImpulseWait = s_ImpulseWaitTime;
 	m_Velocity[1] = s_ImpulseSpeed;

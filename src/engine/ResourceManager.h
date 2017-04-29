@@ -4,6 +4,8 @@
 #include "Package.h"
 #include <unordered_map>
 
+#include "Sound.h"
+
 enum class ShapeType : uint8_t { PLANE, CUBE };
 
 enum class TextureType : uint8_t { RGB, RGBA };
@@ -27,7 +29,16 @@ public:
 	//// Model functions
 	static std::pair<GLuint, GLuint> LoadShape(ShapeType type);
 
+	//Added by Hovhannes
+	////Sound functions
+	//@TODO add sound file type if possible
+	static void LoadSound(const std::string &name, const std::string &str, const bool);
+	static Sound * initializeSound();
+	static Sound * returnSound();
+
 private:
 	static std::unordered_map<std::string, GLuint> s_Textures;
 	static std::unordered_map<std::string, std::pair<GLuint, GLuint>> s_Models;
+
+	static Sound sound;
 };
