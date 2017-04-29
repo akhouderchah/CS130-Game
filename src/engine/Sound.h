@@ -3,7 +3,6 @@
 #include <unordered_map>
 #include "Buffer.h"
 
-
 class Sound
 {
 public:
@@ -23,11 +22,11 @@ private:
 	//looks at and a second pointing up
 
 	
-	ALfloat SourcePos[3] = { 0.0, 0.0, 0.0 };
-	ALfloat SourceVel[3] = { 0.0, 0.0, 0.0 };
-	ALfloat ListenerPos[3] = { 0.0, 0.0, 0.0 };
-	ALfloat ListenerVel[3] = { 0.0, 0.0, 0.0 };
-	ALfloat ListenerOri[6] = { 0.0, 0.0, -1.0, 0.0, 1.0, 0.0 };
+	ALfloat SourcePos[3];
+	ALfloat SourceVel[3];
+	ALfloat ListenerPos[3];
+	ALfloat ListenerVel[3];
+	ALfloat ListenerOri[6];
 
 	ALCcontext *context;
 	ALCdevice *device;
@@ -38,5 +37,4 @@ private:
 	Buffer bufferObjects[32];
 	int numberOfSounds;
 	static std::unordered_map<std::string, int> sourceToNameConnection;
-	
 };

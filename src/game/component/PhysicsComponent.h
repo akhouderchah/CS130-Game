@@ -36,5 +36,5 @@ private:
 	float m_ImpulseWait;
 	MovableComponent* m_pMover;
 
-	Sound *sound = ResourceManager::returnSound();
+	Sound *sound;
 };
