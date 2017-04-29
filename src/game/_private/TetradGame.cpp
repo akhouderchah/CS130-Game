@@ -5,6 +5,7 @@
 #include "EventSystem.h"
 #include "ObserverComponent.h"
 #include "PhysicsSystem.h"
+#include "SoundSystem.h"
 
 //Added by Hovhannes
 #include "Sound.h"
@@ -67,15 +68,19 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<MaterialComponent>()->SetOpacity(0.f);
 	Action_PauseGame::SetFadeScreen(entity);
 
+	// Create sound entity
+	entity = EntityManager::CreateEntity();
+	
 
-	//Added by Hovhannes Menejyan
-	//create sounds
+
+	
 	ResourceManager tempResourceManager;
-	//Please add all the sound files by calling LoadSound before calling initializeSound
-	tempResourceManager.LoadSound("backgroundMusic", "../../assets/sounds/backgroundMusic.wav", true);
-	tempResourceManager.LoadSound("wingSound", "../../assets/sounds/wingSound.wav", false);
-	Sound *sound = tempResourceManager.initializeSound();
+	tempResourceManager.LoadSound("wingSound", SOUND_PATH + "wingSound.wav", false);
+	tempResourceManager.LoadSound("backgroundMusic", SOUND_PATH + "backgroundMusic.wav", false);
+	tempResourceManager.initializeSound();
+	Sound *sound = tempResourceManager.returnSound();
 	sound->play("backgroundMusic");
+
 
 	
 	m_Timer.Start();

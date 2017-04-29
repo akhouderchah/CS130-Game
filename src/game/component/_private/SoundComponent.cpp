@@ -2,11 +2,18 @@
 
 
 
-SoundComponent::SoundComponent()
+SoundComponent::SoundComponent(Entity entity) : IComponent(entity), m_ImpulseWait(0.f)
 {
+
 }
 
 
-SoundComponent::~SoundComponent()
+void SoundComponent::Refresh()
 {
+	//m_pMover = EntityManager::GetComponent<MovableComponent>(m_Entity);
+}
+
+void SoundComponent::Tick(deltaTime_t dt)
+{
+	m_ImpulseWait -= dt;
 }

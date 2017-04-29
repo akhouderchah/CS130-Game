@@ -9,6 +9,8 @@
 std::unordered_map<std::string, GLuint> ResourceManager::s_Textures;
 std::unordered_map<std::string, std::pair<GLuint, GLuint>> ResourceManager::s_Models;
 
+std::vector<SoundFileData> ResourceManager::s_SoundFileData;
+
 Sound ResourceManager::sound;
 
 
@@ -26,16 +28,112 @@ ResourceManager::~ResourceManager()
 }
 
 //Added by Hovhannes
-void ResourceManager::LoadSound(const std::string &name, const std::string &str, const bool isLoop)
+std::string ResourceManager::LoadSound(const std::string &name, const std::string &str, const bool isLoop)
 {
-	sound.createSoundBuffers(name, str, isLoop);
+	SoundFileData soundFileData;
+
+	soundFileData.name = name;
+	soundFileData.isLoop = isLoop;
+
+	const char * filePathChar = str.c_str();
+
+
+	//playSound local variables
+	unsigned int chunkSize;
+	short formatType, channels;
+	unsigned int sampleRate, avgBytesPerSec;
+	short bytesPerSample, bitsPerSample;
+
+	char type[4];
+	unsigned int size = 0;
+
+	if (FILE *fp = fopen(filePathChar, "rb"))
+	{
+		//checking to make sure the file is in correct format
+		fread(type, sizeof(char), 4, fp);
+		if (type[0] != 'R' || type[1] != 'I' || type[2] != 'F' || type[3] != 'F')
+		{
+			return "no RIFF";
+		}
+
+		fread(&size, sizeof(unsigned int), 1, fp);
+		fread(type, sizeof(char), 4, fp);
+		if (type[0] != 'W' || type[1] != 'A' || type[2] != 'V' || type[3] != 'E')
+		{
+			return "not WAVE";
+		}
+
+		fread(type, sizeof(char), 4, fp);
+		if (type[0] != 'f' || type[1] != 'm' || type[2] != 't' || type[3] != ' ')
+		{
+			return "not fmt";
+		}
+
+		//reading and storing the info about the WAVE file
+		fread(&chunkSize, sizeof(unsigned int), 1, fp);
+		fread(&formatType, sizeof(short), 1, fp);
+		fread(&channels, sizeof(short), 1, fp);
+		fread(&sampleRate, sizeof(unsigned int), 1, fp);
+		fread(&avgBytesPerSec, sizeof(unsigned int), 1, fp);
+		fread(&bytesPerSample, sizeof(short), 1, fp);
+		fread(&bitsPerSample, sizeof(short), 1, fp);
+
+		//Making sure that we reach the data
+		fread(type, sizeof(char), 4, fp);
+		if (type[0] != 'd' || type[1] != 'a' || type[2] != 't' || type[3] != 'a')
+		{
+			return "Missing DATA";
+		}
+
+		fread(&soundFileData.dataSize, sizeof(unsigned int), 1, fp);
+
+		//allocating memory for sound data and loading the data
+		soundFileData.buf = new unsigned char[soundFileData.dataSize];
+		fread(soundFileData.buf, sizeof(char), soundFileData.dataSize, fp);
+
+		fclose(fp);
+
+		//generating a source from which the sound is going to be played from
+		//And a buffer that will contain the sound data
+		soundFileData.frequency = sampleRate;
+		soundFileData.format = 0;
+
+		//letting OpenAL know the formate of the sound
+		if (bitsPerSample == 8)
+		{
+			if (channels == 1)
+			{
+				soundFileData.format = AL_FORMAT_MONO8;
+			}
+			else if (channels == 2)
+			{
+				soundFileData.format = AL_FORMAT_STEREO8;
+			}
+		}
+		else if (bitsPerSample == 16)
+		{
+			if (channels == 1)
+			{
+				soundFileData.format = AL_FORMAT_MONO16;
+			}
+			else if (channels == 2)
+			{
+				soundFileData.format = AL_FORMAT_STEREO16;
+			}
+		}
+
+		s_SoundFileData.push_back(soundFileData);
+		return "OK";
+	}
+	else
+	{
+		return "File not found";
+	}
 }
 
-Sound * ResourceManager::initializeSound()
+std::string ResourceManager::initializeSound()
 {
-	sound.InitializeSound();
-
-	return &sound;
+	return sound.InitializeSound(s_SoundFileData);
 }
 
 Sound *  ResourceManager::returnSound()

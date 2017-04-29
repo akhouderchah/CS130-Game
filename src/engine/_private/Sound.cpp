@@ -1,8 +1,10 @@
 #include "Sound.h"
 #include <iostream>
-
+#include <vector>
 
 std::unordered_map<std::string, int> Sound::sourceToNameConnection;
+
+
 
 Sound::Sound()
 {
@@ -19,28 +21,13 @@ Sound::~Sound()
 	alcDestroyContext(context);
 	alcCloseDevice(device);
 	*/
-	std::cout << " In Destroyer " << std::endl;
 }
 
-std::string Sound::createSoundBuffers(std::string name, std::string filePath, bool isLoop)
-{
-	std::string returnValue = bufferObjects[numberOfSounds].createBuffer(filePath, isLoop);
-	if (returnValue == "OK")
-	{
-		sourceToNameConnection.emplace(name, numberOfSounds);
-		numberOfSounds += 1;
 
-		return returnValue;
-	}
-	else
-	{
-		return returnValue;
-	}
-	
-}
-
-std::string Sound::InitializeSound()
+std::string Sound::InitializeSound(std::vector<SoundFileData> soundFileData)
 {
+	numberOfSounds = static_cast<int>(soundFileData.size());
+	std::cout << "Sound initialization " << numberOfSounds << std::endl;
 
 	//So we loaded the file, now we initialize the OpenAl
 	device = alcOpenDevice(NULL);
@@ -59,25 +46,23 @@ std::string Sound::InitializeSound()
 	alGenSources(numberOfSounds, sources);
 
 
-	for (int i = 0; i < numberOfSounds; i++)
+	int i = 0;
+	for (std::vector<SoundFileData>::iterator it = soundFileData.begin(); it != soundFileData.end(); ++it)
 	{
-		alBufferData(buffers[i], bufferObjects[i].returnFormat(), bufferObjects[i].returnBuffer(), bufferObjects[i].returnDataSize(), bufferObjects[i].returnFrequency());
-	}
+		sourceToNameConnection.emplace(it->name, i);
 
+		alBufferData(buffers[i], it->format, it->buf, it->dataSize, it->frequency);
 
+		//these values are set by the alListenerfv() and alSourcei/fv() functions And the source is associated with a buffer
 
+		if (i == 0)
+		{
+			//listener
+			alListenerfv(AL_POSITION, ListenerPos);
+			alListenerfv(AL_VELOCITY, ListenerVel);
+			alListenerfv(AL_ORIENTATION, ListenerOri);
+		}
 
-
-	//these values are set by the alListenerfv() and alSourcei/fv() functions And the source is associated with a buffer
-
-
-	//listener
-	alListenerfv(AL_POSITION, ListenerPos);
-	alListenerfv(AL_VELOCITY, ListenerVel);
-	alListenerfv(AL_ORIENTATION, ListenerOri);
-
-	for (int i = 0; i < numberOfSounds; i++)
-	{
 		//Source
 		alSourcei(sources[i], AL_BUFFER, buffers[i]);
 		alSourcei(sources[i], AL_PITCH, 1.0f);
@@ -86,7 +71,7 @@ std::string Sound::InitializeSound()
 		alSourcefv(sources[i], AL_POSITION, SourcePos);
 		alSourcefv(sources[i], AL_VELOCITY, SourceVel);
 
-		if (bufferObjects[i].returnIsLoop())
+		if (it->isLoop)
 		{
 			alSourcei(sources[i], AL_LOOPING, AL_TRUE);
 		}
@@ -94,23 +79,55 @@ std::string Sound::InitializeSound()
 		{
 			alSourcei(sources[i], AL_LOOPING, AL_FALSE);
 		}
+
+
+		i++;
 	}
-	return " ";
+	
+	return "OK";
 }
 
 
-void Sound::play(std::string name)
+std::string Sound::play(std::string name)
 {
-	alSourcePlay(sources[sourceToNameConnection[name]]);
+	std::unordered_map<std::string, int>::const_iterator iter = sourceToNameConnection.find(name);
+
+	if (iter == sourceToNameConnection.end())
+	{
+		return "Sound not found";
+	}	
+	else
+	{
+		alSourcePlay(sources[iter->second]);
+		return "OK";
+	}
 }
 
-void Sound::pause(std::string name)
+std::string Sound::pause(std::string name)
 {
-	alSourcePause(sources[sourceToNameConnection[name]]);
+	std::unordered_map<std::string, int>::const_iterator iter = sourceToNameConnection.find(name);
+	if (iter == sourceToNameConnection.end())
+	{
+		return "Sound not found";
+	}
+	else
+	{
+		alSourcePause(sources[iter->second]);
+		return "OK";
+	}
 }
 
 
-void Sound::stop(std::string name)
+std::string Sound::stop(std::string name)
 {
-	alSourceStop(sources[sourceToNameConnection[name]]);
+	std::unordered_map<std::string, int>::const_iterator iter = sourceToNameConnection.find(name);
+	if (iter == sourceToNameConnection.end())
+	{
+		return "Sound not found";
+	}
+	else
+	{
+		alSourceStop(sources[iter->second]);
+		return "OK";
+	}
 }
