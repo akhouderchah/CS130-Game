@@ -70,6 +70,9 @@ endif()
 message("CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 
 find_package(OpenGL REQUIRED)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/build")
+include(FindNewOpenAL)
+find_package(NewOpenAL REQUIRED)
 #find_package(wxWidgets COMPONENTS core base adv REQUIRED)
 #include( "${wxWidgets_USE_FILE}" )
 add_subdirectory(external)
@@ -113,6 +116,7 @@ set(ALL_HEADER ${GAME_HEADER} ${ENGINE_HEADER} ${CORE_HEADER})
 
 include_directories(
 		${PROJECT_BINARY_DIR}
+		${OPENAL_INCLUDE_DIR}		
         ${PROJECT_SOURCE_DIR}/external/glfw/include/GLFW/
 		${PROJECT_SOURCE_DIR}/external/glew/include/
 		${PROJECT_SOURCE_DIR}/external/glm/
@@ -128,6 +132,7 @@ include_directories(
 
 set(ALL_LIBS
 	${OPENGL_LIBRARIES}
+	${OPENAL_LIBRARY}	
 	glfw
 	GLEW
 	)

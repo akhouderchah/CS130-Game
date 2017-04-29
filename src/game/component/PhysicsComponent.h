@@ -35,4 +35,12 @@ private:
 	glm::vec3 m_Velocity;
 	float m_ImpulseWait;
 	MovableComponent* m_pMover;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+	Sound *sound;
+>>>>>>> origin/soundImplementation
+>>>>>>> origin/soundImplementation
 };
