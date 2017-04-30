@@ -9,7 +9,7 @@ float PhysicsComponent::s_ImpulseWaitTime = 0.0f;
 
 PhysicsComponent::PhysicsComponent(Entity entity) :
 	IComponent(entity), m_IsGravityOn(true), m_Velocity(0,0,0),
-	m_ImpulseWait(0.f), m_pMover(nullptr), sound(ResourceManager::returnSound())
+	m_ImpulseWait(0.f), m_pMover(nullptr)
 {
 }
 

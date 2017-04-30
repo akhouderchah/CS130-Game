@@ -5,14 +5,11 @@
 #include "EventSystem.h"
 #include "ObserverComponent.h"
 #include "PhysicsSystem.h"
-#include "SoundSystem.h"
 
-//Added by Hovhannes
-#include "Sound.h"
 
 TetradGame::TetradGame() :
 	m_pDrawSystem(nullptr), m_pSystemObserver(nullptr),
-	m_pInputSystem(nullptr)
+	m_pInputSystem(nullptr), m_pSoundSystem(nullptr)
 {
 }
 
@@ -61,27 +58,22 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 
 	// Create fade screen entity
 	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(0,0,1));
+	entity.Add<TransformComponent>()->Init(glm::vec3(0,0,1));\
 	pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(PAUSE_BACKGROUND_PATH, TextureType::RGBA);
 	entity.Add<MaterialComponent>()->SetOpacity(0.f);
 	Action_PauseGame::SetFadeScreen(entity);
 
+
 	// Create sound entity
 	entity = EntityManager::CreateEntity();
-	
-
-
-	
-	ResourceManager tempResourceManager;
-	tempResourceManager.LoadSound("wingSound", SOUND_PATH + "wingSound.wav", false);
-	tempResourceManager.LoadSound("backgroundMusic", SOUND_PATH + "backgroundMusic.wav", false);
-	tempResourceManager.initializeSound();
-	Sound *sound = tempResourceManager.returnSound();
-	sound->play("backgroundMusic");
-
-
+	SoundComponent *pSound = entity.Add <SoundComponent>();
+	pSound->LoadSound("sampleSound", SOUND_PATH + "sampleSound.wav", true);
+	pSound->LoadSound("backgroundMusic", SOUND_PATH + "backgroundMusic.wav", true);
+	pSound->LoadSound("footsteps", SOUND_PATH + "footsteps.wav", false);
+	pSound->LoadSound("wingsFlap", SOUND_PATH + "wingSound.wav", false);
+	pSound->PlaySound("backgroundMusic");
 	
 	m_Timer.Start();
 
@@ -98,6 +90,9 @@ void TetradGame::AddSystems()
 
 	m_pDrawSystem = new DrawSystem;
 	m_pSystems.push_back(m_pDrawSystem);
+
+	m_pSoundSystem = new SoundSystem;
+	m_pSystems.push_back(m_pSoundSystem);
 
 	// Create the system observer
 	m_pSystemObserver = EntityManager::CreateEntity().Add<ObserverComponent>();

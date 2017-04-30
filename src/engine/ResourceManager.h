@@ -3,9 +3,21 @@
 #include "Base.h"
 #include "Package.h"
 #include <unordered_map>
-
-#include "Sound.h"
 #include <vector>
+#include <al.h>
+#include <alc.h>
+
+struct SoundFileData
+{
+	unsigned int dataSize;
+	unsigned char * buf;
+	ALuint frequency;
+	ALenum format;
+	bool isLoop;
+	std::string name;
+	std::string errorCode;
+};
+
 
 enum class ShapeType : uint8_t { PLANE, CUBE };
 
@@ -35,16 +47,9 @@ public:
 	//Added by Hovhannes
 	////Sound functions
 	//@TODO add sound file type if possible
-	static std::string LoadSound(const std::string &name, const std::string &str, const bool);
-	static std::string initializeSound();
-	static Sound * returnSound();
+	static SoundFileData LoadSound(const std::string &name, const std::string &str, const bool);
 
 private:
 	static std::unordered_map<std::string, GLuint> s_Textures;
 	static std::unordered_map<std::string, std::pair<GLuint, GLuint>> s_Models;
-
-
-	static std::vector<SoundFileData> s_SoundFileData;
-
-	static Sound sound;
 };

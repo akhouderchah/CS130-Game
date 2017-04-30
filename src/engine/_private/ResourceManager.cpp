@@ -9,10 +9,6 @@
 std::unordered_map<std::string, GLuint> ResourceManager::s_Textures;
 std::unordered_map<std::string, std::pair<GLuint, GLuint>> ResourceManager::s_Models;
 
-std::vector<SoundFileData> ResourceManager::s_SoundFileData;
-
-Sound ResourceManager::sound;
-
 
 using namespace glm;
 typedef PackageFormat::TextureHeader TextureHeader;
@@ -28,7 +24,7 @@ ResourceManager::~ResourceManager()
 }
 
 //Added by Hovhannes
-std::string ResourceManager::LoadSound(const std::string &name, const std::string &str, const bool isLoop)
+SoundFileData ResourceManager::LoadSound(const std::string &name, const std::string &str, const bool isLoop)
 {
 	SoundFileData soundFileData;
 
@@ -36,7 +32,6 @@ std::string ResourceManager::LoadSound(const std::string &name, const std::strin
 	soundFileData.isLoop = isLoop;
 
 	const char * filePathChar = str.c_str();
-
 
 	//playSound local variables
 	unsigned int chunkSize;
@@ -53,20 +48,23 @@ std::string ResourceManager::LoadSound(const std::string &name, const std::strin
 		fread(type, sizeof(char), 4, fp);
 		if (type[0] != 'R' || type[1] != 'I' || type[2] != 'F' || type[3] != 'F')
 		{
-			return "no RIFF";
+			soundFileData.errorCode = "No RIFF";
+			return soundFileData;
 		}
 
 		fread(&size, sizeof(unsigned int), 1, fp);
 		fread(type, sizeof(char), 4, fp);
 		if (type[0] != 'W' || type[1] != 'A' || type[2] != 'V' || type[3] != 'E')
 		{
-			return "not WAVE";
+			soundFileData.errorCode = "Not WAVE";
+			return soundFileData;
 		}
 
 		fread(type, sizeof(char), 4, fp);
 		if (type[0] != 'f' || type[1] != 'm' || type[2] != 't' || type[3] != ' ')
 		{
-			return "not fmt";
+			soundFileData.errorCode = "Not fmt ";
+			return soundFileData;
 		}
 
 		//reading and storing the info about the WAVE file
@@ -82,7 +80,8 @@ std::string ResourceManager::LoadSound(const std::string &name, const std::strin
 		fread(type, sizeof(char), 4, fp);
 		if (type[0] != 'd' || type[1] != 'a' || type[2] != 't' || type[3] != 'a')
 		{
-			return "Missing DATA";
+			soundFileData.errorCode = "No data";
+			return soundFileData;
 		}
 
 		fread(&soundFileData.dataSize, sizeof(unsigned int), 1, fp);
@@ -122,24 +121,18 @@ std::string ResourceManager::LoadSound(const std::string &name, const std::strin
 			}
 		}
 
-		s_SoundFileData.push_back(soundFileData);
-		return "OK";
+		soundFileData.errorCode = "OK";
+		return soundFileData;
+
 	}
 	else
 	{
-		return "File not found";
+		soundFileData.errorCode = "Could not open file " + name;
+		return soundFileData;
 	}
 }
 
-std::string ResourceManager::initializeSound()
-{
-	return sound.InitializeSound(s_SoundFileData);
-}
 
-Sound *  ResourceManager::returnSound()
-{
-	return &sound;
-}
 
 GLuint ResourceManager::LoadTexture(const std::string &str, TextureType type)
 {
