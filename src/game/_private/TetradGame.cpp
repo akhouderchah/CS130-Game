@@ -16,7 +16,7 @@ TetradGame::TetradGame() :
 bool TetradGame::Initialize(const GameAttributes& attributes)
 {
 	// Game class contains important initializing functionality
-	if(!Game::Initialize(attributes))
+	if (!Game::Initialize(attributes))
 	{
 		ERROR("Failed to initialize engine systems!\n", EEB_CONTINUE);
 		return false;
@@ -24,7 +24,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 
 	// Create background
 	Entity entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(0,0,1));
+	entity.Add<TransformComponent>()->Init(glm::vec3(0, 0, 1));
 	entity.Add<MovableComponent>();
 	DrawComponent *pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
@@ -33,7 +33,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 
 	// Create floor
 	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(0,-0.9f,1), glm::vec3(1,0.1f,1));
+	entity.Add<TransformComponent>()->Init(glm::vec3(0, -0.9f, 1), glm::vec3(1, 0.1f, 1));
 	entity.Add<MovableComponent>();
 	pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
@@ -41,11 +41,11 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<MaterialComponent>()->SetTimeRate(-0.75f);
 
 	// Create jumping boxes
-	for(int i = 0; i < 1; ++i)
+	for (int i = 0; i < 1; ++i)
 	{
 		entity = EntityManager::CreateEntity();
 		entity.Add<TransformComponent>()->Init(glm::vec3(i*.5, 0.f, 1.f),
-											 glm::vec3(.2f, .2f, .2f));
+			glm::vec3(.2f, .2f, .2f));
 		entity.Add<MovableComponent>();
 		pDraw = entity.Add<DrawComponent>();
 		pDraw->SetGeometry(ShapeType::PLANE);
@@ -54,27 +54,25 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		ObserverComponent* pObserver = entity.Add<ObserverComponent>();
 		pObserver->Subscribe(*m_pInputSystem);
 		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP), new Action_Jump(entity));
+		SoundComponent *pSound = entity.Add<SoundComponent>();
+		pSound->LoadSound("wingsFlap", SOUND_PATH + "wingSound.wav", false);
 	}
 
 	// Create fade screen entity
 	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(0,0,1));\
-	pDraw = entity.Add<DrawComponent>();
+	entity.Add<TransformComponent>()->Init(glm::vec3(0, 0, 1)); \
+		pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(PAUSE_BACKGROUND_PATH, TextureType::RGBA);
 	entity.Add<MaterialComponent>()->SetOpacity(0.f);
 	Action_PauseGame::SetFadeScreen(entity);
 
-
-	// Create sound entity
+	// Create background music
 	entity = EntityManager::CreateEntity();
 	SoundComponent *pSound = entity.Add <SoundComponent>();
-	pSound->LoadSound("sampleSound", SOUND_PATH + "sampleSound.wav", true);
 	pSound->LoadSound("backgroundMusic", SOUND_PATH + "backgroundMusic.wav", true);
-	pSound->LoadSound("footsteps", SOUND_PATH + "footsteps.wav", false);
-	pSound->LoadSound("wingsFlap", SOUND_PATH + "wingSound.wav", false);
 	pSound->PlaySound("backgroundMusic");
-	
+
 	m_Timer.Start();
 
 	return true;

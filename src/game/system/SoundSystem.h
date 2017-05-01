@@ -18,4 +18,5 @@ private:
 	ALCcontext *m_pContext;
 	ALCdevice *m_pDevice;
 	ConstVector<SoundComponent*> m_pSoundComponent;
+	TransformComponent *m_pTransformComp;
 };

@@ -2,6 +2,10 @@
 
 #include "Base.h"
 #include "IComponent.h"
+#include "TransformComponent.h"
+
+class TransformComponent;
+
 
 class SoundComponent : public IComponent
 {
@@ -18,13 +22,15 @@ public:
 	void StopSound(std::string);
 
 	std::string LoadSound(std::string, std::string, bool);
-
-	void UpdatePositions();
+	TransformComponent * getTransformComponent();
+	std::vector<ALuint> & getSource();
 
 private:
-	static std::unordered_map<std::string, int> s_SourceToNameConnection;
-	static std::vector<ALuint> s_Buffers;
-	static std::vector<ALuint> s_Sources;
+	std::vector<SoundFileData> s_SoundFileData;
+	std::unordered_map<std::string, int> s_SourceToNameConnection;
+
+	std::vector<ALuint> m_Buffers;
+	std::vector<ALuint> m_Sources;
 
 	//orientation of the listener is described by two vectors, one pointing in the direction the listener
 	//looks at and a second pointing up
@@ -33,5 +39,7 @@ private:
 	ALfloat m_ListenerPos[3];
 	ALfloat m_ListenerVel[3];
 	ALfloat m_ListenerOri[6];
+
+	TransformComponent *m_pTransformComp;
 };
 

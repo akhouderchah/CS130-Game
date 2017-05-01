@@ -1,8 +1,9 @@
 #include "SoundSystem.h"
-
+#include "glm/vec3.hpp"
+#include <glm/gtc/type_ptr.hpp>
 
 SoundSystem::SoundSystem() :
-	m_pSoundComponent(EntityManager::GetAll<SoundComponent>())
+	m_pSoundComponent(EntityManager::GetAll<SoundComponent>()), m_pTransformComp(nullptr)
 {
 }
 
@@ -33,10 +34,19 @@ void SoundSystem::Shutdown()
 
 void SoundSystem::Tick(deltaTime_t dt)
 {
-	//@TODO add a way to update source and camera positions
 	for (size_t i = 1; i < m_pSoundComponent.size(); ++i)
 	{
 		m_pSoundComponent[i]->Tick(dt);
-		m_pSoundComponent[i]->UpdatePositions();
+
+
+		//Updates sound location based on its TransformComponent position
+		m_pTransformComp = m_pSoundComponent[i]->getTransformComponent();
+
+		std::vector<ALuint> sources = m_pSoundComponent[i]->getSource();
+
+		for (int j = 0; j < sources.size(); j++)
+		{
+			alSourcefv(sources[j], AL_POSITION, glm::value_ptr(m_pTransformComp->GetPosition()));
+		}
 	}
 }

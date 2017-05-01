@@ -1,11 +1,8 @@
 #include "SoundComponent.h"
-
-std::unordered_map<std::string, int> SoundComponent::s_SourceToNameConnection;
-std::vector<ALuint> SoundComponent::s_Buffers;
-std::vector<ALuint> SoundComponent::s_Sources;
+#include "TransformComponent.h"
 
 
-SoundComponent::SoundComponent(Entity entity) : IComponent(entity), m_ImpulseWait(0.f)
+SoundComponent::SoundComponent(Entity entity) : IComponent(entity), m_ImpulseWait(0.f), m_pTransformComp(nullptr)
 {
 	m_SourcePos[0] = 0.0; m_SourcePos[1] = 0.0; m_SourcePos[2] = 0.0;
 	m_SourceVel[0] = 0.0; m_SourceVel[1] = 0.0; m_SourceVel[2] = 0.0;
@@ -17,17 +14,16 @@ SoundComponent::SoundComponent(Entity entity) : IComponent(entity), m_ImpulseWai
 
 SoundComponent::~SoundComponent()
 {
-	for (unsigned int i = 0; i < s_Sources.size(); i++)
+	for (unsigned int i = 0; i < m_Sources.size(); i++)
 	{
-		alDeleteSources(1, &s_Sources[i]);
-		alDeleteBuffers(1, &s_Sources[i]);
+		alDeleteSources(1, &m_Sources[i]);
+		alDeleteBuffers(1, &m_Buffers[i]);
 	}
-	
 }
 
 void SoundComponent::Refresh()
 {
-	//m_pMover = EntityManager::GetComponent<MovableComponent>(m_Entity);
+	m_pTransformComp = EntityManager::GetComponent<TransformComponent>(m_Entity);
 }
 
 void SoundComponent::Tick(deltaTime_t dt)
@@ -41,7 +37,8 @@ std::string SoundComponent::LoadSound(std::string name, std::string filePath, bo
 	SoundFileData soundFileData = ResourceManager::LoadSound(name, filePath, isLoop);
 	if (soundFileData.errorCode == "OK")
 	{
-		s_SourceToNameConnection.emplace(name, s_Sources.size());
+		s_SourceToNameConnection.emplace(name, s_SoundFileData.size());
+		s_SoundFileData.push_back(soundFileData);
 
 		ALuint tempBuffer;
 		ALuint tempSource;
@@ -49,7 +46,7 @@ std::string SoundComponent::LoadSound(std::string name, std::string filePath, bo
 		alGenBuffers(1, &tempBuffer);
 		alGenSources(1, &tempSource);
 
-		s_SourceToNameConnection.emplace(name, s_Sources.size());
+		s_SourceToNameConnection.emplace(soundFileData.name, m_Sources.size());
 
 		alBufferData(tempBuffer, soundFileData.format, soundFileData.buf, soundFileData.dataSize, soundFileData.frequency);
 
@@ -61,6 +58,7 @@ std::string SoundComponent::LoadSound(std::string name, std::string filePath, bo
 		//Source
 		alSourcei(tempSource, AL_PITCH, 1);
 		alSourcei(tempSource, AL_GAIN, 1);
+
 		alSourcefv(tempSource, AL_POSITION, m_SourcePos);
 		alSourcefv(tempSource, AL_VELOCITY, m_SourceVel);
 		alSourcei(tempSource, AL_BUFFER, tempBuffer);
@@ -74,8 +72,8 @@ std::string SoundComponent::LoadSound(std::string name, std::string filePath, bo
 			alSourcei(tempSource, AL_LOOPING, AL_FALSE);
 		}
 
-		s_Buffers.push_back(tempBuffer);
-		s_Sources.push_back(tempSource);
+		m_Buffers.push_back(tempBuffer);
+		m_Sources.push_back(tempSource);
 
 		return "OK";
 	}
@@ -84,7 +82,6 @@ std::string SoundComponent::LoadSound(std::string name, std::string filePath, bo
 		return soundFileData.errorCode;
 	}
 }
-
 
 void SoundComponent::PlaySound(std::string name)
 {
@@ -96,9 +93,8 @@ void SoundComponent::PlaySound(std::string name)
 	}
 	else
 	{
-		alSourcePlay(s_Sources[iter->second]);
+		alSourcePlay(m_Sources[iter->second]);
 	}
-	
 }
 
 void SoundComponent::PauseSound(std::string name)
@@ -111,7 +107,7 @@ void SoundComponent::PauseSound(std::string name)
 	}
 	else
 	{
-		alSourcePause(s_Sources[iter->second]);
+		alSourcePause(m_Sources[iter->second]);
 	}
 }
 
@@ -125,11 +121,17 @@ void SoundComponent::StopSound(std::string name)
 	}
 	else
 	{
-		alSourceStop(s_Sources[iter->second]);
+		alSourceStop(m_Sources[iter->second]);
 	}
 }
 
-void SoundComponent::UpdatePositions()
+TransformComponent *SoundComponent::getTransformComponent()
 {
+	return m_pTransformComp;
+}
 
+
+std::vector<ALuint> & SoundComponent::getSource()
+{
+	return m_Sources;
 }
