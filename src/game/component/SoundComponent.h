@@ -4,6 +4,7 @@
 #include "IComponent.h"
 #include "TransformComponent.h"
 
+
 class TransformComponent;
 
 
@@ -21,7 +22,7 @@ public:
 	void PauseSound(std::string);
 	void StopSound(std::string);
 
-	std::string LoadSound(std::string, std::string, bool);
+	void LoadSound(std::string, std::string, bool);
 	TransformComponent * getTransformComponent();
 	std::vector<ALuint> & getSource();
 

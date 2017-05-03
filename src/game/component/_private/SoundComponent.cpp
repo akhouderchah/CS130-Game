@@ -31,10 +31,10 @@ void SoundComponent::Tick(deltaTime_t dt)
 	m_ImpulseWait -= dt;
 }
 
-std::string SoundComponent::LoadSound(std::string name, std::string filePath, bool isLoop)
+void SoundComponent::LoadSound(std::string name, std::string filePath, bool isLoop)
 {
 	//@TODO make sure there is no memory leak here
-	SoundFileData soundFileData = ResourceManager::LoadSound(name, filePath, isLoop);
+	SoundFileData soundFileData = ResourceManager::LoadSound(name, filePath);
 	if (soundFileData.errorCode == "OK")
 	{
 		s_SourceToNameConnection.emplace(name, s_SoundFileData.size());
@@ -46,8 +46,6 @@ std::string SoundComponent::LoadSound(std::string name, std::string filePath, bo
 		alGenBuffers(1, &tempBuffer);
 		alGenSources(1, &tempSource);
 
-		s_SourceToNameConnection.emplace(soundFileData.name, m_Sources.size());
-
 		alBufferData(tempBuffer, soundFileData.format, soundFileData.buf, soundFileData.dataSize, soundFileData.frequency);
 
 		//listener
@@ -57,13 +55,13 @@ std::string SoundComponent::LoadSound(std::string name, std::string filePath, bo
 
 		//Source
 		alSourcei(tempSource, AL_PITCH, 1);
-		alSourcei(tempSource, AL_GAIN, 1);
+		alSourcei(tempSource, AL_GAIN, 0);
 
 		alSourcefv(tempSource, AL_POSITION, m_SourcePos);
 		alSourcefv(tempSource, AL_VELOCITY, m_SourceVel);
 		alSourcei(tempSource, AL_BUFFER, tempBuffer);
 
-		if (soundFileData.isLoop)
+		if (isLoop == IS_LOOP)
 		{
 			alSourcei(tempSource, AL_LOOPING, AL_TRUE);
 		}
@@ -74,12 +72,12 @@ std::string SoundComponent::LoadSound(std::string name, std::string filePath, bo
 
 		m_Buffers.push_back(tempBuffer);
 		m_Sources.push_back(tempSource);
-
-		return "OK";
 	}
 	else
 	{
-		return soundFileData.errorCode;
+		DEBUG_LOG("ERROR: " + soundFileData.errorCode + "\n");
+		ERROR("Error: " + soundFileData.errorCode + "\n", EEB_CONTINUE);
+		return ;
 	}
 }
 

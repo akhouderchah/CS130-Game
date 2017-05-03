@@ -21,3 +21,6 @@ const float PLAYER_INVINCIBLE_TIME = 1.f;
 const std::string PAUSE_STRING = "Paused";
 const std::string OVER_STRING = "Press any key to restart";
 
+// Boolean constants //
+const bool IS_LOOP = true;
+

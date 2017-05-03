@@ -13,8 +13,6 @@ struct SoundFileData
 	unsigned char * buf;
 	ALuint frequency;
 	ALenum format;
-	bool isLoop;
-	std::string name;
 	std::string errorCode;
 };
 
@@ -47,7 +45,7 @@ public:
 	//Added by Hovhannes
 	////Sound functions
 	//@TODO add sound file type if possible
-	static SoundFileData LoadSound(const std::string &name, const std::string &str, const bool);
+	static SoundFileData LoadSound(const std::string &name, const std::string &str);
 
 private:
 	static std::unordered_map<std::string, GLuint> s_Textures;

@@ -44,7 +44,7 @@ void SoundSystem::Tick(deltaTime_t dt)
 
 		std::vector<ALuint> sources = m_pSoundComponent[i]->getSource();
 
-		for (int j = 0; j < sources.size(); j++)
+		for (unsigned int j = 0; j < sources.size(); j++)
 		{
 			alSourcefv(sources[j], AL_POSITION, glm::value_ptr(m_pTransformComp->GetPosition()));
 		}

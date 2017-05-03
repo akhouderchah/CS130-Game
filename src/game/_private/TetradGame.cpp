@@ -55,7 +55,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		pObserver->Subscribe(*m_pInputSystem);
 		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP), new Action_Jump(entity));
 		SoundComponent *pSound = entity.Add<SoundComponent>();
-		pSound->LoadSound("wingsFlap", SOUND_PATH + "wingSound.wav", false);
+		pSound->LoadSound("wingsFlap", SOUND_PATH + "wingSound.wav", !IS_LOOP);
 	}
 
 	// Create fade screen entity
@@ -70,7 +70,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	// Create background music
 	entity = EntityManager::CreateEntity();
 	SoundComponent *pSound = entity.Add <SoundComponent>();
-	pSound->LoadSound("backgroundMusic", SOUND_PATH + "backgroundMusic.wav", true);
+	pSound->LoadSound("backgroundMusic", SOUND_PATH + "backgroundMusic.wav", IS_LOOP);
 	pSound->PlaySound("backgroundMusic");
 
 	m_Timer.Start();

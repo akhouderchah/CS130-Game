@@ -24,12 +24,9 @@ ResourceManager::~ResourceManager()
 }
 
 //Added by Hovhannes
-SoundFileData ResourceManager::LoadSound(const std::string &name, const std::string &str, const bool isLoop)
+SoundFileData ResourceManager::LoadSound(const std::string &name, const std::string &str)
 {
 	SoundFileData soundFileData;
-
-	soundFileData.name = name;
-	soundFileData.isLoop = isLoop;
 
 	const char * filePathChar = str.c_str();
 
