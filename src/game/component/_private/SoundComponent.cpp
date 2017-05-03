@@ -87,7 +87,8 @@ void SoundComponent::PlaySound(std::string name)
 
 	if (iter == s_SourceToNameConnection.end())
 	{
-		;;
+		DEBUG_LOG("ERROR: Cant play sound " + name +"\n");
+		ERROR("ERROR: Cant play sound " + name + "\n", EEB_CONTINUE);
 	}
 	else
 	{
@@ -101,7 +102,8 @@ void SoundComponent::PauseSound(std::string name)
 
 	if (iter == s_SourceToNameConnection.end())
 	{
-		;;
+		DEBUG_LOG("ERROR: Cant play sound " + name + "\n");
+		ERROR("ERROR: Cant play sound " + name + "\n", EEB_CONTINUE);
 	}
 	else
 	{
@@ -115,7 +117,8 @@ void SoundComponent::StopSound(std::string name)
 
 	if (iter == s_SourceToNameConnection.end())
 	{
-		;;
+		DEBUG_LOG("ERROR: Cant play sound " + name + "\n");
+		ERROR("ERROR: Cant play sound " + name + "\n", EEB_CONTINUE);
 	}
 	else
 	{

@@ -42,9 +42,7 @@ public:
 	//// Model functions
 	static std::pair<GLuint, GLuint> LoadShape(ShapeType type);
 
-	//Added by Hovhannes
 	////Sound functions
-	//@TODO add sound file type if possible
 	static SoundFileData LoadSound(const std::string &name, const std::string &str);
 
 private:
