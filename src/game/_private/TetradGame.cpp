@@ -6,19 +6,17 @@
 #include "ObserverComponent.h"
 #include "PhysicsSystem.h"
 
-//Added by Hovhannes
-#include "Sound.h"
 
 TetradGame::TetradGame() :
 	m_pDrawSystem(nullptr), m_pSystemObserver(nullptr),
-	m_pInputSystem(nullptr)
+	m_pInputSystem(nullptr), m_pSoundSystem(nullptr)
 {
 }
 
 bool TetradGame::Initialize(const GameAttributes& attributes)
 {
 	// Game class contains important initializing functionality
-	if(!Game::Initialize(attributes))
+	if (!Game::Initialize(attributes))
 	{
 		ERROR("Failed to initialize engine systems!\n", EEB_CONTINUE);
 		return false;
@@ -26,7 +24,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 
 	// Create background
 	Entity entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(0,0,1));
+	entity.Add<TransformComponent>()->Init(glm::vec3(0, 0, 1));
 	entity.Add<MovableComponent>();
 	DrawComponent *pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
@@ -35,7 +33,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 
 	// Create floor
 	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(0,-0.9f,1), glm::vec3(1,0.1f,1));
+	entity.Add<TransformComponent>()->Init(glm::vec3(0, -0.9f, 1), glm::vec3(1, 0.1f, 1));
 	entity.Add<MovableComponent>();
 	pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
@@ -43,41 +41,38 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<MaterialComponent>()->SetTimeRate(-0.75f);
 
 	// Create jumping boxes
-	for(int i = 0; i < 1; ++i)
+	for (int i = 0; i < 1; ++i)
 	{
 		entity = EntityManager::CreateEntity();
 		entity.Add<TransformComponent>()->Init(glm::vec3(i*.5, 0.f, 1.f),
-											 glm::vec3(.2f, .2f, .2f));
+			glm::vec3(.2f, .2f, .2f));
 		entity.Add<MovableComponent>();
 		pDraw = entity.Add<DrawComponent>();
 		pDraw->SetGeometry(ShapeType::PLANE);
 		pDraw->SetTexture(TEXTURE_PATH + "Black.tga", TextureType::RGB);
 		entity.Add<PhysicsComponent>();
-		ObserverComponent* pObserver = entity.Add<ObserverComponent>();
+		ObserverComponent *pObserver = entity.Add<ObserverComponent>();
 		pObserver->Subscribe(*m_pInputSystem);
 		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP), new Action_Jump(entity));
+		SoundComponent *pSound = entity.Add<SoundComponent>();
+		pSound->LoadSound("wingsFlap", SOUND_PATH + "wingSound.wav", !IS_LOOP);
 	}
 
 	// Create fade screen entity
 	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(0,0,1));
+	entity.Add<TransformComponent>()->Init(glm::vec3(0, 0, 1));
 	pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(PAUSE_BACKGROUND_PATH, TextureType::RGBA);
 	entity.Add<MaterialComponent>()->SetOpacity(0.f);
 	Action_PauseGame::SetFadeScreen(entity);
 
+	// Create background music
+	entity = EntityManager::CreateEntity();
+	SoundComponent *pSound = entity.Add <SoundComponent>();
+	pSound->LoadSound("backgroundMusic", SOUND_PATH + "backgroundMusic.wav", IS_LOOP);
+	pSound->PlaySound("backgroundMusic");
 
-	//Added by Hovhannes Menejyan
-	//create sounds
-	ResourceManager tempResourceManager;
-	//Please add all the sound files by calling LoadSound before calling initializeSound
-	tempResourceManager.LoadSound("backgroundMusic", "../../assets/sounds/backgroundMusic.wav", true);
-	tempResourceManager.LoadSound("wingSound", "../../assets/sounds/wingSound.wav", false);
-	Sound *sound = tempResourceManager.initializeSound();
-	sound->play("backgroundMusic");
-
-	
 	m_Timer.Start();
 
 	return true;
@@ -93,6 +88,9 @@ void TetradGame::AddSystems()
 
 	m_pDrawSystem = new DrawSystem;
 	m_pSystems.push_back(m_pDrawSystem);
+
+	m_pSoundSystem = new SoundSystem;
+	m_pSystems.push_back(m_pSoundSystem);
 
 	// Create the system observer
 	m_pSystemObserver = EntityManager::CreateEntity().Add<ObserverComponent>();

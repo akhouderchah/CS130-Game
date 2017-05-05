@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game.h"
+#include "SoundSystem.h"
 
 class EventSystem;
 class ObserverComponent;
@@ -19,4 +20,5 @@ private:
 	DrawSystem *m_pDrawSystem;
 	ObserverComponent *m_pSystemObserver;
 	EventSystem *m_pInputSystem;
+	SoundSystem *m_pSoundSystem;
 };

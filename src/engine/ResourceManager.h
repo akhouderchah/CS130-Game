@@ -3,12 +3,25 @@
 #include "Base.h"
 #include "Package.h"
 #include <unordered_map>
+#include <vector>
+#include <al.h>
+#include <alc.h>
 
-#include "Sound.h"
+struct SoundFileData
+{
+	unsigned int dataSize;
+	unsigned char * buf;
+	ALuint frequency;
+	ALenum format;
+	std::string errorCode;
+};
+
 
 enum class ShapeType : uint8_t { PLANE, CUBE };
 
 enum class TextureType : uint8_t { RGB, RGBA };
+
+
 
 /**
  * @brief Class to make sure resources are only loaded as needed
@@ -29,16 +42,10 @@ public:
 	//// Model functions
 	static std::pair<GLuint, GLuint> LoadShape(ShapeType type);
 
-	//Added by Hovhannes
 	////Sound functions
-	//@TODO add sound file type if possible
-	static void LoadSound(const std::string &name, const std::string &str, const bool);
-	static Sound * initializeSound();
-	static Sound * returnSound();
+	static SoundFileData LoadSound(const std::string &name, const std::string &str);
 
 private:
 	static std::unordered_map<std::string, GLuint> s_Textures;
 	static std::unordered_map<std::string, std::pair<GLuint, GLuint>> s_Models;
-
-	static Sound sound;
 };

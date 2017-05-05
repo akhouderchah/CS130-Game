@@ -70,13 +70,23 @@ endif()
 message("CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 
 find_package(OpenGL REQUIRED)
+
+# Find OpenAL - script works well for Linux + Mac, manually set for Windows
+if(WIN32)
+	set(OPENAL_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/external/openal/include)
+	set(OPENAL_LIBRARY ${CMAKE_SOURCE_DIR}/external/openal/libs/Win${ADDRESS_WIDTH}/OpenAL32.lib)
+else()
+	find_package(OpenAL	REQUIRED)
+endif()
+
 #find_package(wxWidgets COMPONENTS core base adv REQUIRED)
 #include( "${wxWidgets_USE_FILE}" )
 add_subdirectory(external)
 
 # Define _DEBUG on debug builds
 if (MSVC)
-	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MDd /DBUILD_TYPE=0")
+	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MDd /DBUILD_TYPE=0 /MP")
+	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /DBUILD_TYPE=1 /MP")
 elseif(CMAKE_COMPILER_IS_GNUCXX)
 	set(CMAKE_CXX_FLAGS_DEBUG "-Og -D_DEBUG -DBUILD_TYPE=0 -Wall -g -ggdb -pedantic-errors -Wextra -lprofiler -fsanitize=address -fsanitize=leak -fsanitize=undefined")
 	set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DBUILD_TYPE=1 -Wall -pedantic-errors -lprofiler -Wextra")
@@ -113,6 +123,7 @@ set(ALL_HEADER ${GAME_HEADER} ${ENGINE_HEADER} ${CORE_HEADER})
 
 include_directories(
 		${PROJECT_BINARY_DIR}
+		${OPENAL_INCLUDE_DIR}		
         ${PROJECT_SOURCE_DIR}/external/glfw/include/GLFW/
 		${PROJECT_SOURCE_DIR}/external/glew/include/
 		${PROJECT_SOURCE_DIR}/external/glm/
@@ -128,6 +139,7 @@ include_directories(
 
 set(ALL_LIBS
 	${OPENGL_LIBRARIES}
+	${OPENAL_LIBRARY}	
 	glfw
 	GLEW
 	)
