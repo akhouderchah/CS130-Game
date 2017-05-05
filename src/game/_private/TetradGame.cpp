@@ -51,7 +51,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		pDraw->SetGeometry(ShapeType::PLANE);
 		pDraw->SetTexture(TEXTURE_PATH + "Black.tga", TextureType::RGB);
 		entity.Add<PhysicsComponent>();
-		ObserverComponent* pObserver = entity.Add<ObserverComponent>();
+		ObserverComponent *pObserver = entity.Add<ObserverComponent>();
 		pObserver->Subscribe(*m_pInputSystem);
 		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP), new Action_Jump(entity));
 		SoundComponent *pSound = entity.Add<SoundComponent>();
@@ -60,8 +60,8 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 
 	// Create fade screen entity
 	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(0, 0, 1)); \
-		pDraw = entity.Add<DrawComponent>();
+	entity.Add<TransformComponent>()->Init(glm::vec3(0, 0, 1));
+	pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(PAUSE_BACKGROUND_PATH, TextureType::RGBA);
 	entity.Add<MaterialComponent>()->SetOpacity(0.f);

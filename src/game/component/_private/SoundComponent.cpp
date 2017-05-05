@@ -72,12 +72,12 @@ void SoundComponent::LoadSound(std::string name, std::string filePath, bool isLo
 
 		m_Buffers.push_back(tempBuffer);
 		m_Sources.push_back(tempSource);
+
+		delete[] soundFileData.buf;
 	}
 	else
 	{
-		DEBUG_LOG("ERROR: " + soundFileData.errorCode + "\n");
-		ERROR("Error: " + soundFileData.errorCode + "\n", EEB_CONTINUE);
-		return ;
+		ERROR(soundFileData.errorCode << "\n", EEB_CONTINUE);
 	}
 }
 
@@ -87,8 +87,7 @@ void SoundComponent::PlaySound(std::string name)
 
 	if (iter == s_SourceToNameConnection.end())
 	{
-		DEBUG_LOG("ERROR: Cant play sound " + name +"\n");
-		ERROR("ERROR: Cant play sound " + name + "\n", EEB_CONTINUE);
+		ERROR("Can't play sound " << name << "\n", EEB_CONTINUE);
 	}
 	else
 	{
@@ -102,8 +101,7 @@ void SoundComponent::PauseSound(std::string name)
 
 	if (iter == s_SourceToNameConnection.end())
 	{
-		DEBUG_LOG("ERROR: Cant play sound " + name + "\n");
-		ERROR("ERROR: Cant play sound " + name + "\n", EEB_CONTINUE);
+		ERROR("Can't play sound " << name << "\n", EEB_CONTINUE);
 	}
 	else
 	{
@@ -117,8 +115,7 @@ void SoundComponent::StopSound(std::string name)
 
 	if (iter == s_SourceToNameConnection.end())
 	{
-		DEBUG_LOG("ERROR: Cant play sound " + name + "\n");
-		ERROR("ERROR: Cant play sound " + name + "\n", EEB_CONTINUE);
+		ERROR("Can't play sound " << name << "\n", EEB_CONTINUE);
 	}
 	else
 	{
