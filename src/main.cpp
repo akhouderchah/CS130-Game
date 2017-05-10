@@ -15,7 +15,7 @@ int main()
 	}
 
 	TetradGame game;
-	GameAttributes attributes(640, 480, "Tetrad " + VERSION_STRING, false, 4);
+	GameAttributes attributes(1280, 960, "Tetrad " + VERSION_STRING, false, 4);
 	if(!game.Initialize(attributes))
 	{
 		return -1;
