@@ -59,6 +59,8 @@ void DrawSystem::Shutdown()
 
 void DrawSystem::Tick(deltaTime_t dt)
 {
+	DEBUG_ASSERT(m_pCurrentCamera);
+
 	// Clear screen
 	glClear(GL_COLOR_BUFFER_BIT);
 
@@ -77,14 +79,25 @@ void DrawSystem::Tick(deltaTime_t dt)
 		m_pMaterialComponents[i]->Tick(dt);
 	}
 
+	static glm::mat4 MVP;
+	const glm::mat4& cameraMat = m_pCurrentCamera->GetCameraMatrix();
+
 	// Iterate over all drawables and draw them
 	for(size_t i = 1; i < m_pDrawComponents.size(); ++i)
 	{
 		DEBUG_ASSERT(m_pDrawComponents[i]->m_pTransformComp);
+
+		// Update material globals in shaders
 		glUniform1f(m_AlphaLoc, m_pDrawComponents[i]->GetOpacity());
 		glUniform1f(m_TimeLoc, m_pDrawComponents[i]->GetTime());
 
-		glUniformMatrix4fv(m_WorldLoc, 1, GL_TRUE, &m_pDrawComponents[i]->m_pTransformComp->GetWorldMatrix()[0][0]);
+		// Create final MVP matrix
+		//
+		// This could be done in the vertex shader, but would result in
+		// duplicating this computation for every vertex in a model
+		MVP = cameraMat * m_pDrawComponents[i]->m_pTransformComp->GetWorldMatrix();
+		glUniformMatrix4fv(m_WorldLoc, 1, GL_FALSE, &MVP[0][0]);
+
 		glBindBuffer(GL_ARRAY_BUFFER, m_pDrawComponents[i]->m_VBO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pDrawComponents[i]->m_IBO);
 

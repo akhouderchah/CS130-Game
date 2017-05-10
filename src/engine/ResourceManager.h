@@ -16,12 +16,9 @@ struct SoundFileData
 	std::string errorCode;
 };
 
-
 enum class ShapeType : uint8_t { PLANE, CUBE };
 
 enum class TextureType : uint8_t { RGB, RGBA };
-
-
 
 /**
  * @brief Class to make sure resources are only loaded as needed

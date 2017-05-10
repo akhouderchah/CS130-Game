@@ -9,18 +9,15 @@
 std::unordered_map<std::string, GLuint> ResourceManager::s_Textures;
 std::unordered_map<std::string, std::pair<GLuint, GLuint>> ResourceManager::s_Models;
 
-
 using namespace glm;
 typedef PackageFormat::TextureHeader TextureHeader;
 
 ResourceManager::ResourceManager()
 {
-	
 }
 
 ResourceManager::~ResourceManager()
 {
-
 }
 
 //Added by Hovhannes

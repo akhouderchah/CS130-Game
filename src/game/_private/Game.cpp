@@ -120,7 +120,10 @@ bool Game::CreatePrimaryWindow(const GameAttributes& attributes)
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
+	// Create window and inform cameras of window size
 	m_pWindow = glfwCreateWindow(attributes.m_Width, attributes.m_Height, attributes.m_WindowTitle.c_str(), pMonitor, NULL);
+
+	CameraComponent::SetWindowSize(attributes.m_Width, attributes.m_Height);
 
 	if(!m_pWindow)
 	{

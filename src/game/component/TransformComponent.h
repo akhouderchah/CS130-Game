@@ -25,9 +25,9 @@ public:
 			  const glm::vec3& scale = glm::vec3(1,1,1));
 	void Refresh(){}
 	const glm::mat4& GetWorldMatrix() const;
-	const glm::mat4& GetCameraMatrix() const;
 
-	inline void MarkDirty(){ m_PosMatrix[3][0] = 1.f; }
+	inline void MarkDirty(){ m_PosMatrix[0][3] = 1.f; }
+	inline bool IsDirty(){ return m_PosMatrix[0][3] == 1.f; }
 
 	inline const glm::vec3& GetPosition() const{ return m_Position; }
 	inline const glm::quat& GetOrientation() const{ return m_Orientation; }
