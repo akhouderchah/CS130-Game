@@ -36,7 +36,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 
 	// Create floor
 	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(0, -1.f, 1), glm::vec3(1.5f, 0.15f, 1));
+	entity.Add<TransformComponent>()->Init(glm::vec3(0, -1.f, 1), glm::vec3(1.5f, 0.1f, 1));
 	entity.Add<MovableComponent>();
 	pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
