@@ -16,7 +16,7 @@ TetradGame::TetradGame() :
 bool TetradGame::Initialize(const GameAttributes& attributes)
 {
 	// Game class contains important initializing functionality
-	if(!Game::Initialize(attributes))
+	if (!Game::Initialize(attributes))
 	{
 		ERROR("Failed to initialize engine systems!\n", EEB_CONTINUE);
 		return false;
@@ -45,16 +45,19 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 
 	// Create camera
 	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(0, 0, 3));
+	entity.Add<TransformComponent>()->Init(glm::vec3(0, 0, 300));
 	entity.Add<MovableComponent>();
 	CameraComponent *pCamera = entity.Add<CameraComponent>();
 	m_pDrawSystem->SetCurrentCamera(pCamera);
+	SoundComponent *pSound = entity.Add <SoundComponent>(); //Background sound is declared here to make sure that its position is always the same with camera
+	pSound->LoadSound("backgroundMusic", SOUND_PATH + "backgroundMusic.wav", IS_LOOP);
+	pSound->PlaySound("backgroundMusic");
 
 	// Create jumping boxes
-	for(int i = 0; i < 2; ++i)
+	for (int i = 0; i < 2; ++i)
 	{
 		entity = EntityManager::CreateEntity();
-		entity.Add<TransformComponent>()->Init(glm::vec3(i-1, 0.f, 1.f),
+		entity.Add<TransformComponent>()->Init(glm::vec3(i - 1, 0.f, 1.f),
 			glm::vec3(.2f, .2f, .2f));
 		entity.Add<MovableComponent>();
 		pDraw = entity.Add<DrawComponent>();
@@ -63,7 +66,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		entity.Add<PhysicsComponent>();
 		ObserverComponent *pObserver = entity.Add<ObserverComponent>();
 		pObserver->Subscribe(*m_pInputSystem);
-		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP+i), new Action_Jump(entity));
+		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP + i), new Action_Jump(entity));
 		SoundComponent *pSound = entity.Add<SoundComponent>();
 		pSound->LoadSound("wingsFlap", SOUND_PATH + "wingSound.wav", !IS_LOOP);
 	}
@@ -76,12 +79,6 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	pDraw->SetTexture(PAUSE_BACKGROUND_PATH, TextureType::RGBA);
 	entity.Add<MaterialComponent>()->SetOpacity(0.f);
 	Action_PauseGame::SetFadeScreen(entity);
-
-	// Create background music
-	entity = EntityManager::CreateEntity();
-	SoundComponent *pSound = entity.Add <SoundComponent>();
-	pSound->LoadSound("backgroundMusic", SOUND_PATH + "backgroundMusic.wav", IS_LOOP);
-	pSound->PlaySound("backgroundMusic");
 
 	m_Timer.Start();
 

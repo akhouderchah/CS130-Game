@@ -1,9 +1,10 @@
 #include "SoundSystem.h"
 #include "glm/vec3.hpp"
 #include <glm/gtc/type_ptr.hpp>
+#include "PhysicsComponent.h"
 
 SoundSystem::SoundSystem() :
-	m_pSoundComponent(EntityManager::GetAll<SoundComponent>()), m_pTransformComp(nullptr)
+	m_pSoundComponent(EntityManager::GetAll<SoundComponent>())
 {
 }
 
@@ -34,19 +35,37 @@ void SoundSystem::Shutdown()
 
 void SoundSystem::Tick(deltaTime_t dt)
 {
+	//Updates sound location and velocity based on its TransformComponent position and PhysicsComponent speed
 	for (size_t i = 1; i < m_pSoundComponent.size(); ++i)
 	{
 		m_pSoundComponent[i]->Tick(dt);
 
-
-		//Updates sound location based on its TransformComponent position
-		m_pTransformComp = m_pSoundComponent[i]->getTransformComponent();
+		TransformComponent *pTransform = EntityManager::GetComponent<TransformComponent>(m_pSoundComponent[i]->GetEntity());
+		PhysicsComponent *pPhysics= EntityManager::GetComponent<PhysicsComponent>(m_pSoundComponent[i]->GetEntity());
 
 		std::vector<ALuint> sources = m_pSoundComponent[i]->getSource();
 
 		for (unsigned int j = 0; j < sources.size(); j++)
 		{
-			alSourcefv(sources[j], AL_POSITION, glm::value_ptr(m_pTransformComp->GetPosition()));
+			alSourcefv(sources[j], AL_POSITION, glm::value_ptr(pTransform->GetPosition()));
+			alSourcefv(sources[j], AL_VELOCITY, glm::value_ptr(pPhysics->GetVelocity()));
 		}
+	}
+
+	//Updating the listener position and orientation
+	ConstVector<CameraComponent *> m_pCameraComp = EntityManager::GetAll<CameraComponent>();
+	for(size_t i = 1; i < m_pCameraComp.size(); i++)
+	{
+		TransformComponent *pTrans = EntityManager::GetComponent<TransformComponent>(m_pCameraComp[i]->GetEntity());
+		alListenerfv(AL_POSITION, glm::value_ptr(pTrans->GetPosition()));
+
+		glm::mat3 orientationMatrix = glm::toMat3(pTrans->GetOrientation());
+		glm::vec3 facingDir(0, 0, -1);
+		facingDir = normalize(orientationMatrix * facingDir);
+		glm::vec3 upDir(0, 1, 0);
+		upDir = normalize(orientationMatrix * upDir);
+
+		float listenerOri[6] = { facingDir[0], facingDir[1], facingDir[2], upDir[0], upDir[1], upDir[2] };
+		alListenerfv(AL_ORIENTATION, listenerOri);
 	}
 }
