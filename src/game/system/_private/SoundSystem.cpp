@@ -53,19 +53,17 @@ void SoundSystem::Tick(deltaTime_t dt)
 	}
 
 	//Updating the listener position and orientation
-	ConstVector<CameraComponent *> m_pCameraComp = EntityManager::GetAll<CameraComponent>();
-	for(size_t i = 1; i < m_pCameraComp.size(); i++)
-	{
-		TransformComponent *pTrans = EntityManager::GetComponent<TransformComponent>(m_pCameraComp[i]->GetEntity());
-		alListenerfv(AL_POSITION, glm::value_ptr(pTrans->GetPosition()));
+	CameraComponent * pCurrentCamera = CameraComponent::GetCurrnetCamera();
 
-		glm::mat3 orientationMatrix = glm::toMat3(pTrans->GetOrientation());
-		glm::vec3 facingDir(0, 0, -1);
-		facingDir = normalize(orientationMatrix * facingDir);
-		glm::vec3 upDir(0, 1, 0);
-		upDir = normalize(orientationMatrix * upDir);
+	TransformComponent *pTrans = EntityManager::GetComponent<TransformComponent>(pCurrentCamera->GetEntity());
+	alListenerfv(AL_POSITION, glm::value_ptr(pTrans->GetPosition()));
 
-		float listenerOri[6] = { facingDir[0], facingDir[1], facingDir[2], upDir[0], upDir[1], upDir[2] };
-		alListenerfv(AL_ORIENTATION, listenerOri);
-	}
+	glm::mat3 orientationMatrix = glm::toMat3(pTrans->GetOrientation());
+	glm::vec3 facingDir(0, 0, -1);
+	facingDir = normalize(orientationMatrix * facingDir);
+	glm::vec3 upDir(0, 1, 0);
+	upDir = normalize(orientationMatrix * upDir);
+
+	float listenerOri[6] = { facingDir[0], facingDir[1], facingDir[2], upDir[0], upDir[1], upDir[2] };
+	alListenerfv(AL_ORIENTATION, listenerOri);
 }
