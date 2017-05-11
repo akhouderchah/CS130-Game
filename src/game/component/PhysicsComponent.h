@@ -24,6 +24,7 @@ public:
 	void IncrementVelocity(glm::vec3 velocity){ m_Velocity += velocity; }
 
 	void SetGravity(bool on){ m_IsGravityOn = on; }
+	const glm::vec3 GetVelocity() { return m_Velocity; }
 
 private:
 	static float s_Gravity;

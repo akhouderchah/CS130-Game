@@ -2,6 +2,7 @@
 
 #include "ISystem.h"
 #include "SoundComponent.h"
+#include "CameraComponent.h"
 
 class SoundSystem : public ISystem
 {
@@ -18,5 +19,4 @@ private:
 	ALCcontext *m_pContext;
 	ALCdevice *m_pDevice;
 	ConstVector<SoundComponent*> m_pSoundComponent;
-	TransformComponent *m_pTransformComp;
 };

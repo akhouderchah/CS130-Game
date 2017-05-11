@@ -123,11 +123,6 @@ void SoundComponent::StopSound(std::string name)
 	}
 }
 
-TransformComponent *SoundComponent::getTransformComponent()
-{
-	return m_pTransformComp;
-}
-
 
 std::vector<ALuint> & SoundComponent::getSource()
 {
