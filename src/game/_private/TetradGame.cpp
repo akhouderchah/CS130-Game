@@ -45,7 +45,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 
 	// Create camera
 	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(0, 0, 300));
+	entity.Add<TransformComponent>()->Init(glm::vec3(0, 0, 3));
 	entity.Add<MovableComponent>();
 	CameraComponent *pCamera = entity.Add<CameraComponent>();
 	m_pDrawSystem->SetCurrentCamera(pCamera);
@@ -54,10 +54,10 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	pSound->PlaySound("backgroundMusic");
 
 	// Create jumping boxes
-	for (int i = 0; i < 2; ++i)
+	for(int i = 0; i < 2; ++i)
 	{
 		entity = EntityManager::CreateEntity();
-		entity.Add<TransformComponent>()->Init(glm::vec3(i - 1, 0.f, 1.f),
+		entity.Add<TransformComponent>()->Init(glm::vec3(i-1, 0.f, 1.f),
 			glm::vec3(.2f, .2f, .2f));
 		entity.Add<MovableComponent>();
 		pDraw = entity.Add<DrawComponent>();
@@ -66,7 +66,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		entity.Add<PhysicsComponent>();
 		ObserverComponent *pObserver = entity.Add<ObserverComponent>();
 		pObserver->Subscribe(*m_pInputSystem);
-		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP + i), new Action_Jump(entity));
+		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP+i), new Action_Jump(entity));
 		SoundComponent *pSound = entity.Add<SoundComponent>();
 		pSound->LoadSound("wingsFlap", SOUND_PATH + "wingSound.wav", !IS_LOOP);
 	}
