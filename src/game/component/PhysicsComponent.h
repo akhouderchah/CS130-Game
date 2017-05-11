@@ -4,6 +4,7 @@
 #include "IComponent.h"
 
 class MovableComponent;
+class CollisionComponent;
 
 /**
  * @brief Component to give physical simulation capabilities.
@@ -24,8 +25,7 @@ public:
 	void IncrementVelocity(glm::vec3 velocity){ m_Velocity += velocity; }
 
 	void SetGravity(bool on){ m_IsGravityOn = on; }
-	const glm::vec3 GetVelocity() { return m_Velocity; }
-
+	const glm::vec3 GetVelocity() const { return m_Velocity; }
 private:
 	static float s_Gravity;
 	static float s_TerminalSpeed;
@@ -36,4 +36,6 @@ private:
 	glm::vec3 m_Velocity;
 	float m_ImpulseWait;
 	MovableComponent* m_pMover;
+	ConstVector<CollisionComponent*> m_pCollisionComp;
+	CollisionComponent * m_pColission;
 };

@@ -120,6 +120,9 @@ void KeyCallback(GLFWwindow* pWindow, int key, int scancode, int action, int mod
 		case GLFW_KEY_V:
 			event.event = EGE_PLAYER4_JUMP;
 			break;
+		case GLFW_KEY_O:
+			event.event = EGE_TOGGLE_COLLISIONS;
+			break;
 		default:
 			event.event = EGE_NONE;
 		}
