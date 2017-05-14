@@ -31,7 +31,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<MovableComponent>();
 	DrawComponent *pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
-	pDraw->SetTexture(BACKGROUND_PATH, TextureType::RGB);
+	pDraw->SetTexture(TEXTURE_PATH + "City.tga", TextureType::RGB);
 	entity.Add<MaterialComponent>()->SetTimeRate(-0.2f);
 
 	// Create floor
@@ -66,7 +66,14 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		entity.Add<MovableComponent>();
 		pDraw = entity.Add<DrawComponent>();
 		pDraw->SetGeometry(ShapeType::PLANE);
-		pDraw->SetTexture(TEXTURE_PATH + "Black.tga", TextureType::RGB);
+		pDraw->SetTexture(TEXTURE_PATH + "bird//bird1.tga", TextureType::RGBA);
+		pDraw->SetTexture(TEXTURE_PATH + "bird//bird2.tga", TextureType::RGBA);
+		pDraw->SetTexture(TEXTURE_PATH + "bird//bird3.tga", TextureType::RGBA);
+		pDraw->SetTexture(TEXTURE_PATH + "bird//bird4.tga", TextureType::RGBA);
+		pDraw->SetTexture(TEXTURE_PATH + "bird//bird5.tga", TextureType::RGBA);
+		pDraw->SetTexture(TEXTURE_PATH + "bird//bird6.tga", TextureType::RGBA);
+		pDraw->SetTexture(TEXTURE_PATH + "bird//bird7.tga", TextureType::RGBA);
+		pDraw->SetTexture(TEXTURE_PATH + "bird//bird8.tga", TextureType::RGBA);
 		entity.Add<PhysicsComponent>();
 		ObserverComponent *pObserver = entity.Add<ObserverComponent>();
 		pObserver->Subscribe(*m_pInputSystem);
@@ -74,7 +81,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		SoundComponent *pSound = entity.Add<SoundComponent>();
 		pSound->LoadSound("wingsFlap", SOUND_PATH + "wingSound.wav", !IS_LOOP);
 		CollisionComponent *pCol = entity.Add<CollisionComponent>();
-		pCol->init(glm::vec3(i - 1, 0.f, 1.f), glm::vec3(.2f, .2f, .2f));
+		pCol->init(glm::vec3(i - 1, 0.05f, 1.f), glm::vec3(.2f, .15f, .2f));
 		pCol->createEntities();
 	}
 

@@ -61,6 +61,7 @@ void DrawSystem::Shutdown()
 
 void DrawSystem::Tick(deltaTime_t dt)
 {
+
 	//Getting the current camera
 	m_pCurrentCamera = CameraComponent::GetCurrnetCamera();
 
@@ -90,6 +91,9 @@ void DrawSystem::Tick(deltaTime_t dt)
 	// Iterate over all drawables and draw them
 	for(size_t i = 1; i < m_pDrawComponents.size(); ++i)
 	{
+
+		m_pDrawComponents[i]->changeTexture();
+
 		DEBUG_ASSERT(m_pDrawComponents[i]->m_pTransformComp);
 
 		// Update material globals in shaders
