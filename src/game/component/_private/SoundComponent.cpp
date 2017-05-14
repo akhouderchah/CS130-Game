@@ -2,6 +2,8 @@
 #include "TransformComponent.h"
 
 
+
+
 SoundComponent::SoundComponent(Entity entity) : IComponent(entity), m_ImpulseWait(0.f), m_pTransformComp(nullptr)
 {
 	m_SourcePos[0] = 0.0; m_SourcePos[1] = 0.0; m_SourcePos[2] = 0.0;
