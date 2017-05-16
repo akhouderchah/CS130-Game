@@ -1,0 +1,16 @@
+﻿Build started 2017/5/15 20:11:09.
+     1>Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\external\GLEW.vcxproj" on node 2 (Rebuild target(s)).
+     1>CustomBuild:
+         Building Custom Rule E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/external/CMakeLists.txt
+         CMake does not need to re-run because E:/Study@UCLA/2017/Spring/CS130/CS130-Game/build2/external/CMakeFiles/generate.stamp is up-to-date.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\glfw\include\GLFW" /I"E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\glew\include" /Zi /nologo /W3 /WX- /MP /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D COMPILER_IS_MSVC /D TW_STATIC /D TW_NO_LIB_PRAGMA /D TW_NO_DIRECT3D /D GLEW_STATIC /D _CRT_SECURE_NO_WARNINGS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"GLEW.dir\Debug\\" /Fd"GLEW.dir\Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\glew\src\glew.c"
+         glew.c
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\external\Debug\GLEW.lib" /NOLOGO   /machine:X86 GLEW.dir\Debug\glew.obj
+         GLEW.vcxproj -> E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\external\Debug\GLEW.lib
+     1>Done Building Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\external\GLEW.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.85

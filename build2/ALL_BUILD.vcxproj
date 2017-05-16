@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|Win32">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|Win32">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{71E3C472-C86E-31F2-9F14-0B3CA769AEE8}</ProjectGUID>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+    <PropertyGroup>
+      <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\openal\include;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\glfw\include\GLFW;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\glew\include;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\glm;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\stb;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\engine\_inc;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\engine;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\action;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\component;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\system;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\openal\include;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\glfw\include\GLFW;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\glew\include;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\glm;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\stb;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\engine\_inc;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\engine;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\action;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\component;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\system;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\openal\include;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\glfw\include\GLFW;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\glew\include;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\glm;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\stb;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\engine\_inc;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\engine;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\action;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\component;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\system;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\openal\include;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\glfw\include\GLFW;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\glew\include;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\glm;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\stb;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\engine\_inc;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\engine;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\action;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\component;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\system;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
+"C:\Program Files\cmake-3.8.1-win64-x64\bin\cmake.exe" -HE:/Study@UCLA/2017/Spring/CS130/CS130-Game/src -BE:/Study@UCLA/2017/Spring/CS130/CS130-Game/build2 --check-stamp-file E:/Study@UCLA/2017/Spring/CS130/CS130-Game/build2/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/CMakeLists.txt;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\CMakeLists.txt;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\CMakeFiles\3.8.1\CMakeSystem.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeSystemSpecificInitialize.cmake;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\CMakeFiles\3.8.1\CMakeCCompiler.cmake;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\CMakeFiles\3.8.1\CMakeCXXCompiler.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeGenericSystem.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\Windows.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\WindowsPaths.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeCInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\CMakeFiles\3.8.1\CMakeRCCompiler.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeRCInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeCXXInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\TestBigEndian.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindOpenGL.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindPackageMessage.cmake;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\Config.h.in;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindDoxygen.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindPackageMessage.cmake;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
+"C:\Program Files\cmake-3.8.1-win64-x64\bin\cmake.exe" -HE:/Study@UCLA/2017/Spring/CS130/CS130-Game/src -BE:/Study@UCLA/2017/Spring/CS130/CS130-Game/build2 --check-stamp-file E:/Study@UCLA/2017/Spring/CS130/CS130-Game/build2/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/CMakeLists.txt;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\CMakeLists.txt;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\CMakeFiles\3.8.1\CMakeSystem.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeSystemSpecificInitialize.cmake;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\CMakeFiles\3.8.1\CMakeCCompiler.cmake;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\CMakeFiles\3.8.1\CMakeCXXCompiler.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeGenericSystem.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\Windows.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\WindowsPaths.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeCInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\CMakeFiles\3.8.1\CMakeRCCompiler.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeRCInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeCXXInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\TestBigEndian.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindOpenGL.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindPackageMessage.cmake;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\Config.h.in;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindDoxygen.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindPackageMessage.cmake;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
+"C:\Program Files\cmake-3.8.1-win64-x64\bin\cmake.exe" -HE:/Study@UCLA/2017/Spring/CS130/CS130-Game/src -BE:/Study@UCLA/2017/Spring/CS130/CS130-Game/build2 --check-stamp-file E:/Study@UCLA/2017/Spring/CS130/CS130-Game/build2/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/CMakeLists.txt;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\CMakeLists.txt;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\CMakeFiles\3.8.1\CMakeSystem.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeSystemSpecificInitialize.cmake;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\CMakeFiles\3.8.1\CMakeCCompiler.cmake;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\CMakeFiles\3.8.1\CMakeCXXCompiler.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeGenericSystem.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\Windows.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\WindowsPaths.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeCInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\CMakeFiles\3.8.1\CMakeRCCompiler.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeRCInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeCXXInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\TestBigEndian.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindOpenGL.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindPackageMessage.cmake;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\Config.h.in;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindDoxygen.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindPackageMessage.cmake;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
+"C:\Program Files\cmake-3.8.1-win64-x64\bin\cmake.exe" -HE:/Study@UCLA/2017/Spring/CS130/CS130-Game/src -BE:/Study@UCLA/2017/Spring/CS130/CS130-Game/build2 --check-stamp-file E:/Study@UCLA/2017/Spring/CS130/CS130-Game/build2/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/CMakeLists.txt;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\CMakeLists.txt;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\CMakeFiles\3.8.1\CMakeSystem.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeSystemSpecificInitialize.cmake;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\CMakeFiles\3.8.1\CMakeCCompiler.cmake;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\CMakeFiles\3.8.1\CMakeCXXCompiler.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeGenericSystem.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\Windows.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\WindowsPaths.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeCInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\CMakeFiles\3.8.1\CMakeRCCompiler.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeRCInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeCXXInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeLanguageInformation.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\TestBigEndian.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindOpenGL.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindPackageMessage.cmake;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\Config.h.in;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindDoxygen.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\FindPackageMessage.cmake;E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\ZERO_CHECK.vcxproj">
+      <Project>{3E4D05CF-1656-3F47-BC5F-EC474CA0FCDC}</Project>
+      <Name>ZERO_CHECK</Name>
+    </ProjectReference>
+    <ProjectReference Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\external\GLEW.vcxproj">
+      <Project>{4B7EF634-4172-3730-AA8C-656A91BE8680}</Project>
+      <Name>GLEW</Name>
+    </ProjectReference>
+    <ProjectReference Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\external\glfw\src\glfw.vcxproj">
+      <Project>{6422F699-9A6A-34E6-8E78-383B7C4CA5F4}</Project>
+      <Name>glfw</Name>
+    </ProjectReference>
+    <ProjectReference Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\tetrad-game.vcxproj">
+      <Project>{22508B30-6397-3F43-A130-15E5C79DA4E8}</Project>
+      <Name>tetrad-game</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

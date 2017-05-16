@@ -1,0 +1,10 @@
+﻿Build started 2017/5/15 20:11:21.
+     1>Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\ALL_BUILD.vcxproj" on node 2 (Rebuild target(s)).
+     1>CustomBuild:
+         Building Custom Rule E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/CMakeLists.txt
+         CMake does not need to re-run because E:/Study@UCLA/2017/Spring/CS130/CS130-Game/build2/CMakeFiles/generate.stamp is up-to-date.
+     1>Done Building Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\ALL_BUILD.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.09

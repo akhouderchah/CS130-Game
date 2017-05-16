@@ -100,8 +100,27 @@ void KeyCallback(GLFWwindow* pWindow, int key, int scancode, int action, int mod
 
 	assert(EventSystem::s_pInputSystem);
 
+	INIParser("test.ini");
+	assert(actions.size()>0);
+	init_event_map();
 	// @TODO - GO THROUGH AN INPUT MAPPER!!!!
+	
 	if(action == GLFW_PRESS)
+	{
+		
+	std::map<int, std::string>::const_iterator iterator_actions = actions.find(key);
+	if (iterator_actions!=actions.end())
+		{
+			std::map<std::string,int >::const_iterator iterator_event_map = event_map.find((std::string)(iterator_actions ->second));
+			event.event = (EGameEvent)(iterator_event_map -> second);
+			
+		}
+		else{
+			event.event=EGE_NONE;
+			
+		}
+	// @TODO - GO THROUGH AN INPUT MAPPER!!!!
+	/*if(action == GLFW_PRESS)
 	{
 		switch(key)
 		{
@@ -122,7 +141,7 @@ void KeyCallback(GLFWwindow* pWindow, int key, int scancode, int action, int mod
 			break;
 		default:
 			event.event = EGE_NONE;
-		}
+		}*/
 
 		// @TODO we need to store the game mode and use it to set this
 		event.state = EGS_STARTED;

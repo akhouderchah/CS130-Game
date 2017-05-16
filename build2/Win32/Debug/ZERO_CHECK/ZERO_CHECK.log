@@ -1,0 +1,13 @@
+﻿Build started 2017/5/15 20:11:08.
+     1>Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\ZERO_CHECK.vcxproj" on node 2 (Rebuild target(s)).
+     1>CustomBuild:
+         Checking Build System
+         CMake does not need to re-run because E:/Study@UCLA/2017/Spring/CS130/CS130-Game/build2/CMakeFiles/generate.stamp is up-to-date.
+         CMake does not need to re-run because E:/Study@UCLA/2017/Spring/CS130/CS130-Game/build2/external/CMakeFiles/generate.stamp is up-to-date.
+         CMake does not need to re-run because E:/Study@UCLA/2017/Spring/CS130/CS130-Game/build2/external/glfw/CMakeFiles/generate.stamp is up-to-date.
+         CMake does not need to re-run because E:/Study@UCLA/2017/Spring/CS130/CS130-Game/build2/external/glfw/src/CMakeFiles/generate.stamp is up-to-date.
+     1>Done Building Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\build2\ZERO_CHECK.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.30
