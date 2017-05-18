@@ -4,7 +4,6 @@
 #include "Action_Jump.h"
 #include "EventQueue.h"
 #include "ISystem.h"
-#include "Action_ToggleHitboxView.h"
 
 struct Event;
 class ObserverComponent;
