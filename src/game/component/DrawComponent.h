@@ -2,8 +2,6 @@
 
 #include "IComponent.h"
 
-#include <chrono>
-
 class DrawSystem;
 class TransformComponent;
 class MaterialComponent;
@@ -27,12 +25,11 @@ public:
 	void SetGeometry(ShapeType shape);
 	// TODO void SetGeometry(std::string model);
 
-	void SetTexture(std::string texture, TextureType type, int animationTimer = 60);
+	void SetTexture(std::string texture, TextureType type);
 
 	float GetOpacity() const;
 	float GetTime() const;
 	void Refresh();
-	void changeTexture();
 
 	struct Vertex
 	{
@@ -49,9 +46,5 @@ private:
 	GLuint m_VBO;
 	GLuint m_IBO;
 	GLuint m_Tex;
-	std::vector<GLuint> m_TexVector;
-	std::chrono::time_point<std::chrono::system_clock> m_timer;
-	int m_AnimationTimer;
-	int currentTextureIndex;
 };
 

@@ -20,9 +20,6 @@ DrawComponent::DrawComponent(Entity entity) :
 									         2, 3, 0,
 											 0, 1, 2 };
 	*/
-
-	m_timer = std::chrono::system_clock::now();
-	currentTextureIndex = 0;
 }
 
 DrawComponent::~DrawComponent()
@@ -36,12 +33,9 @@ void DrawComponent::SetGeometry(ShapeType shape)
 	m_IBO = model.second;
 }
 
-void DrawComponent::SetTexture(std::string texture, TextureType type, int animationTimer)
+void DrawComponent::SetTexture(std::string texture, TextureType type)
 {
-	m_TexVector.emplace_back(ResourceManager::LoadTexture(texture, type));
-	m_Tex = m_TexVector[0];
-
-	m_AnimationTimer = animationTimer;
+	m_Tex = ResourceManager::LoadTexture(texture, type);
 }
 
 float DrawComponent::GetOpacity() const
@@ -60,32 +54,3 @@ void DrawComponent::Refresh()
 	m_pMaterialComp = EntityManager::GetComponent<MaterialComponent>(m_Entity);
 }
 
-void DrawComponent::changeTexture()
-{
-	std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
-	auto duration = now.time_since_epoch();
-	auto millis = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
-
-
-	auto duration2 = m_timer.time_since_epoch();
-	auto millis2 = std::chrono::duration_cast<std::chrono::milliseconds>(duration2).count();
-
-	
-	if (millis >= millis2 + m_AnimationTimer)
-	{
-		std::cout << "Changing textures" << std::endl;
-		
-		if (currentTextureIndex >= m_TexVector.size() - 1)
-		{
-			currentTextureIndex = 0;
-			m_Tex = m_TexVector[currentTextureIndex];
-		}
-		else
-		{
-			currentTextureIndex += 1;
-			m_Tex = m_TexVector[currentTextureIndex];
-		}
-		
-		m_timer = std::chrono::system_clock::now();
-	}
-}

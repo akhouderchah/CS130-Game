@@ -5,7 +5,7 @@
 #include "EventSystem.h"
 #include "ObserverComponent.h"
 #include "PhysicsSystem.h"
-#include "CollisionComponent.h"
+
 
 TetradGame::TetradGame() :
 	m_pDrawSystem(nullptr), m_pSystemObserver(nullptr),
@@ -16,7 +16,7 @@ TetradGame::TetradGame() :
 bool TetradGame::Initialize(const GameAttributes& attributes)
 {
 	// Game class contains important initializing functionality
-	if (!Game::Initialize(attributes))
+	if(!Game::Initialize(attributes))
 	{
 		ERROR("Failed to initialize engine systems!\n", EEB_CONTINUE);
 		return false;
@@ -31,7 +31,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<MovableComponent>();
 	DrawComponent *pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
-	pDraw->SetTexture(TEXTURE_PATH + "City.tga", TextureType::RGB);
+	pDraw->SetTexture(BACKGROUND_PATH, TextureType::RGB);
 	entity.Add<MaterialComponent>()->SetTimeRate(-0.2f);
 
 	// Create floor
@@ -42,20 +42,13 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(FLOOR_PATH, TextureType::RGBA);
 	entity.Add<MaterialComponent>()->SetTimeRate(-0.75f);
-	CollisionComponent *pCol = entity.Add<CollisionComponent>();
-	pCol->init(glm::vec3(0, -1.1f, 1), glm::vec3(1.5f, 0.1f, 1));
-	pCol->createEntities();
-	
 
 	// Create camera
 	entity = EntityManager::CreateEntity();
 	entity.Add<TransformComponent>()->Init(glm::vec3(0, 0, 3));
 	entity.Add<MovableComponent>();
 	CameraComponent *pCamera = entity.Add<CameraComponent>();
-	pCamera->SetCurrentCamera(pCamera);
-	SoundComponent *pSound = entity.Add <SoundComponent>(); //Background sound is declared here to make sure that its position is always the same with camera
-	pSound->LoadSound("backgroundMusic", SOUND_PATH + "backgroundMusic.wav", IS_LOOP);
-	pSound->PlaySound("backgroundMusic");
+	m_pDrawSystem->SetCurrentCamera(pCamera);
 
 	// Create jumping boxes
 	for(int i = 0; i < 2; ++i)
@@ -66,23 +59,13 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		entity.Add<MovableComponent>();
 		pDraw = entity.Add<DrawComponent>();
 		pDraw->SetGeometry(ShapeType::PLANE);
-		pDraw->SetTexture(TEXTURE_PATH + "bird//bird1.tga", TextureType::RGBA);
-		pDraw->SetTexture(TEXTURE_PATH + "bird//bird2.tga", TextureType::RGBA);
-		pDraw->SetTexture(TEXTURE_PATH + "bird//bird3.tga", TextureType::RGBA);
-		pDraw->SetTexture(TEXTURE_PATH + "bird//bird4.tga", TextureType::RGBA);
-		pDraw->SetTexture(TEXTURE_PATH + "bird//bird5.tga", TextureType::RGBA);
-		pDraw->SetTexture(TEXTURE_PATH + "bird//bird6.tga", TextureType::RGBA);
-		pDraw->SetTexture(TEXTURE_PATH + "bird//bird7.tga", TextureType::RGBA);
-		pDraw->SetTexture(TEXTURE_PATH + "bird//bird8.tga", TextureType::RGBA);
+		pDraw->SetTexture(TEXTURE_PATH + "Black.tga", TextureType::RGB);
 		entity.Add<PhysicsComponent>();
 		ObserverComponent *pObserver = entity.Add<ObserverComponent>();
 		pObserver->Subscribe(*m_pInputSystem);
 		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP+i), new Action_Jump(entity));
 		SoundComponent *pSound = entity.Add<SoundComponent>();
 		pSound->LoadSound("wingsFlap", SOUND_PATH + "wingSound.wav", !IS_LOOP);
-		CollisionComponent *pCol = entity.Add<CollisionComponent>();
-		pCol->init(glm::vec3(i - 1, 0.05f, 1.f), glm::vec3(.2f, .15f, .2f));
-		pCol->createEntities();
 	}
 
 	// Create fade screen entity
@@ -94,12 +77,11 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<MaterialComponent>()->SetOpacity(0.f);
 	Action_PauseGame::SetFadeScreen(entity);
 
-
-	//Turns on/off the hit box view for collision. Press O to activate
+	// Create background music
 	entity = EntityManager::CreateEntity();
-	ObserverComponent *pObs = entity.Add<ObserverComponent>();
-	pObs->Subscribe(*m_pInputSystem);
-	pObs->AddEvent(EGE_TOGGLE_COLLISIONS, new Action_ToggleHitboxView());
+	SoundComponent *pSound = entity.Add <SoundComponent>();
+	pSound->LoadSound("backgroundMusic", SOUND_PATH + "backgroundMusic.wav", IS_LOOP);
+	pSound->PlaySound("backgroundMusic");
 
 	m_Timer.Start();
 
