@@ -51,7 +51,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	m_pDrawSystem->SetCurrentCamera(pCamera);
 
 	// Create jumping boxes
-	for(int i = 0; i < 2; ++i)
+	for(int i = 0; i < 2; i++)
 	{
 		entity = EntityManager::CreateEntity();
 		entity.Add<TransformComponent>()->Init(glm::vec3(i-1, 0.f, 1.f),

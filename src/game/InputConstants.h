@@ -1,19 +1,33 @@
 #pragma once
-#ifndef _INPUTCONSTANTS_H
-#define _INPUTCONSTANTS_H
+
 #ifndef INI_MAX_LINE
 #define INI_MAX_LINE 200
 #endif
+
+#define EVENTS(f)\
+	f(EGE_NONE, 0) \
+	 f(EGE_END, 1)\
+	f(EGE_PAUSE, 2)\
+	f(EGE_PLAYER1_JUMP,3) \
+	f(EGE_PLAYER2_JUMP,4)
+
+	
+#define _EVENT_ENUM(name, val) name = val,
+enum EGameEvent{ EVENTS(_EVENT_ENUM) };
+#define _Q(x) #x
+#define _QUOTE(x) _Q(x)
+#define _INSERT(name, val) std::make_pair(_QUOTE(name), val),
 
 #include <stdio.h>
 #include <string>
 #include <stdlib.h>
 #include <fstream>
 #include <map>
+#include <unordered_map>
+typedef std::map<std::string,int> E_map;
+typedef std::map<int,std::string> A_map;
 
-static std::map<int,std::string> actions;
-static std::map<std::string,int> event_map;
-static void init_event_map()
+/*static void init_event_map()
 {
 	event_map.insert(std::make_pair("EGE_NONE",0));
 	event_map.insert(std::make_pair("EGE_PLAYER1_JUMP",1));
@@ -23,18 +37,22 @@ static void init_event_map()
 	event_map.insert(std::make_pair("EGE_PAUSE",5));
 	event_map.insert(std::make_pair("EGE_ERROR",6));
 	event_map.insert(std::make_pair("EGE_END",7));
+};*/
+static E_map event_map
+{
+	EVENTS(_INSERT)
 };
-
-static void INIParser(std::string filename)
+static A_map INIParser(std::string filename)
 {
 	std::ifstream infile;
 	std::string line;
-	std::string key;
-	int value;
+	std::string value;
+	int key;
 	int lineno=0;
 	std::string KEYBOARD_PATH=KEY_PATH+filename;//ini file in /asset/config folder
 	infile.open(KEYBOARD_PATH);
 	int error=0;
+	A_map ret;
 	//assert(infile.is_open());
 
 	while ( std::getline(infile, line))
@@ -43,11 +61,20 @@ static void INIParser(std::string filename)
 		size_t pch = line.find(';');//remove the comments
 		if (pch) 
 			line= line.substr(0,pch);
-		if (pch = line.find(':'))
+		if (pch = line.find('='))
 		{
-			key = line.substr(0,pch);
-			value = atoi((line.substr(pch+1)).c_str());
-			actions.insert(std::make_pair(value,key));
+			value = line.substr(0,pch);
+			key = atoi((line.substr(pch+1)).c_str());
+			ret.insert(std::make_pair(key,value));
+			E_map::iterator event_it=event_map.find(value);
+			if (event_it==event_map.end())
+			{
+				//event_map.insert(std::make_pair(value,event_map.size()));//we only have 2 active entity
+				
+			}
+			else{
+				
+			};
 		}
 		else 
 		{
@@ -56,13 +83,13 @@ static void INIParser(std::string filename)
 	}
 	
 	infile.close();
-	
+	return ret;
 }
 
+static A_map actions=INIParser("test.ini");
 
 
-
-enum EGameEvent
+/*enum EGameEvent
 {
 	EGE_NONE = 0,      // No Observer reacts to this event. Effectively a "null event".
 	EGE_PLAYER1_JUMP,  // Tell Player1 to jump
@@ -72,7 +99,7 @@ enum EGameEvent
 	EGE_PAUSE,         // Pause the game. This event can be captured by the "system observer", as well as by any components that need special behavior when paused.
 	EGE_ERROR,          // Event (mainly for the system observer) to signal that something bad happened.
 	EGE_END           // Event that the EventQueue is empty. Can also be used as the size of an array containing the different Events.
-};
+};*/
 
 enum EGameState
 {
@@ -95,5 +122,5 @@ struct Event
 	EGameEvent event;
 	EGameState state;
 };
-#endif
+
 

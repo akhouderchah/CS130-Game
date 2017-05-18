@@ -4,7 +4,7 @@
 ObserverComponent::ObserverComponent(Entity entity) :
 	IComponent(entity)
 {
-	for(size_t i = 0; i < EGE_END; ++i)
+	for(size_t i = 0; i < EGE_PLAYER2_JUMP; ++i)
 	{
 		m_pAction[i] = nullptr;
 	}
@@ -12,7 +12,7 @@ ObserverComponent::ObserverComponent(Entity entity) :
 
 ObserverComponent::~ObserverComponent()
 {
-	for(size_t i = 0; i < EGE_END; ++i)
+	for(size_t i = 0; i < EGE_PLAYER2_JUMP; ++i)
 	{
 		delete m_pAction[i];
 	}

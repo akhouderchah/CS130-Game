@@ -99,10 +99,7 @@ void KeyCallback(GLFWwindow* pWindow, int key, int scancode, int action, int mod
 	Event event;
 
 	assert(EventSystem::s_pInputSystem);
-
-	INIParser("test.ini");
-	assert(actions.size()>0);
-	init_event_map();
+		
 	// @TODO - GO THROUGH AN INPUT MAPPER!!!!
 	
 	if(action == GLFW_PRESS)
@@ -112,7 +109,12 @@ void KeyCallback(GLFWwindow* pWindow, int key, int scancode, int action, int mod
 	if (iterator_actions!=actions.end())
 		{
 			std::map<std::string,int >::const_iterator iterator_event_map = event_map.find((std::string)(iterator_actions ->second));
-			event.event = (EGameEvent)(iterator_event_map -> second);
+			if (iterator_event_map != event_map.end()){
+				event.event = (EGameEvent)(iterator_event_map -> second);
+			}
+			else{
+				event.event = EGE_NONE;
+			}
 			
 		}
 		else{
