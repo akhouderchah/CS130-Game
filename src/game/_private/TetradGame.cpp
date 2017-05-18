@@ -31,8 +31,8 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<MovableComponent>();
 	DrawComponent *pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
-	pDraw->SetTexture(TEXTURE_PATH + "City.tga", TextureType::RGB);
-	entity.Add<MaterialComponent>()->SetTimeRate(-0.2f);
+	pDraw->SetTexture(BACKGROUND_PATH, TextureType::RGB);
+	entity.Add<MaterialComponent>()->SetScrollRate(-0.2f);
 
 	// Create floor
 	entity = EntityManager::CreateEntity();
@@ -41,7 +41,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(FLOOR_PATH, TextureType::RGBA);
-	entity.Add<MaterialComponent>()->SetTimeRate(-0.75f);
+	entity.Add<MaterialComponent>()->SetScrollRate(-0.75f);
 
 	// Create camera
 	entity = EntityManager::CreateEntity();

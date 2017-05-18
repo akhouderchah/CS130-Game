@@ -29,7 +29,7 @@ public:
 
 	static handle_t  constructRawHandle(ID_t ID, type_t type, version_t version);
 	static ObjHandle constructHandle(ID_t ID, type_t type, version_t version);
-	
+
 	ID_t      GetID()      const;
 	type_t    GetType()    const;
 	version_t GetVersion() const;
@@ -37,7 +37,7 @@ public:
 public:
 	static const ObjHandle null;
 	static const ID_t MAX_ID;
-	
+
 private:
 	ObjHandle(handle_t handleVal);
 	handle_t m_Handle;

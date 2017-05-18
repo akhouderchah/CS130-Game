@@ -33,13 +33,11 @@ void SoundSystem::Shutdown()
 	alcCloseDevice(m_pDevice);
 }
 
-void SoundSystem::Tick(deltaTime_t dt)
+void SoundSystem::Tick(deltaTime_t)
 {
 	//Updates sound location and velocity based on its TransformComponent position and PhysicsComponent speed
 	for (size_t i = 1; i < m_pSoundComponent.size(); ++i)
 	{
-		m_pSoundComponent[i]->Tick(dt);
-
 		TransformComponent *pTransform = EntityManager::GetComponent<TransformComponent>(m_pSoundComponent[i]->GetEntity());
 		PhysicsComponent *pPhysics= EntityManager::GetComponent<PhysicsComponent>(m_pSoundComponent[i]->GetEntity());
 
@@ -67,3 +65,4 @@ void SoundSystem::Tick(deltaTime_t dt)
 	float listenerOri[6] = { facingDir[0], facingDir[1], facingDir[2], upDir[0], upDir[1], upDir[2] };
 	alListenerfv(AL_ORIENTATION, listenerOri);
 }
+

@@ -40,32 +40,49 @@ public:
 
 	virtual void Tick(deltaTime_t dt);
 
-	// Function call to make the EventSystem the system to handle input.
-	// Returns true iff there is no current InputSystem.
+	/**
+	 * @brief Method to designate this EventSystem as the one to handle input
+	 * @return true iff there is no current InputSystem.
+	 */
 	bool MakeInputSystem();
-	// Sets s_pInputSystem to nullptr if the current system is the InputSystem.
+
+	/**
+	 * @brief Method to undesignate this EventSystem as the one to handle input
+	 *
+	 * @note This method only does anything if this EventSystem is currently
+	 * handling input. Otherwise the call is ignored.
+	*/
 	void UnmakeInputSystem();
 
-	// Tell all Observers that an Event has happened
+	/**
+	 * @brief Inform all registered observers of an event
+	 */
 	void Inform(const Event& event);
 
 private:
 	friend class ObserverComponent;
 
-	// Registers an observer with the system. Returs true if there was no error.
-	// NOTE: observers will be added multiple times if multiple calls to this
-	// function is made with the same observer.
+	/**
+	 * @brief Registers an observer with the system. Returs true if there was no error
+	 *
+	 * @note Observers will be added multiple times if multiple calls to this
+	 * function is made with the same observer! Debug builds will check for this
+	 * and log a warning, but release builds will not perform any such checks.
+	 */
 	bool RegisterObserver(ObserverComponent& observer);
 
-	// Unregisters an observer with the system.
-	// NOTE: only removes the first instance of observer found in the system.
-	// If the observer has been registered multiple times, the observer won't be
-	// completely unregistered.
+	/**
+	 * @brief Unregisters an observer with the system
+	 *
+	 * @note Only removes the first instance of observer found in the system.
+	 * If the observer has been registered multiple times, the observer won't be
+	 * completely unregistered.
+	 */
 	void UnregisterObserver(ObserverComponent& observer);
 
 private:
 	// This system doesn't necessarily only handle input, but it's the only one
-	// will get input events
+	// that will get input events
 	static EventSystem* s_pInputSystem;
 	friend void KeyCallback(GLFWwindow*, int, int, int, int);
 
