@@ -53,7 +53,7 @@ void SoundSystem::Tick(deltaTime_t dt)
 	}
 
 	//Updating the listener position and orientation
-	CameraComponent * pCurrentCamera = CameraComponent::GetCurrnetCamera();
+	CameraComponent * pCurrentCamera = CameraComponent::GetCurrentCamera();
 
 	TransformComponent *pTrans = EntityManager::GetComponent<TransformComponent>(pCurrentCamera->GetEntity());
 	alListenerfv(AL_POSITION, glm::value_ptr(pTrans->GetPosition()));
