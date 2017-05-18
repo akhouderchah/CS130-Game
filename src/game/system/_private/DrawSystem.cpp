@@ -3,12 +3,14 @@
 #include "Paths.h"
 #include "PhysicsComponent.h"
 #include "LogSystem.h"
+#include "CameraComponent.h"
 
 GLuint vertexArrayID;
 
 DrawSystem::DrawSystem() :
 	m_pDrawComponents(EntityManager::GetAll<DrawComponent>()),
-	m_pMaterialComponents(EntityManager::GetAll<MaterialComponent>())
+	m_pMaterialComponents(EntityManager::GetAll<MaterialComponent>()),
+	m_pCurrentCamera(nullptr)
 {
 }
 
@@ -59,6 +61,10 @@ void DrawSystem::Shutdown()
 
 void DrawSystem::Tick(deltaTime_t dt)
 {
+
+	//Getting the current camera
+	m_pCurrentCamera = CameraComponent::GetCurrnetCamera();
+
 	DEBUG_ASSERT(m_pCurrentCamera);
 
 	// Clear screen

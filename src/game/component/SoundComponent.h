@@ -23,7 +23,6 @@ public:
 	void StopSound(std::string);
 
 	void LoadSound(std::string, std::string, bool);
-	TransformComponent * getTransformComponent();
 	std::vector<ALuint> & getSource();
 
 private:

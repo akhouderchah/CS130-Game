@@ -31,7 +31,6 @@ public:
 	virtual bool Initialize();
 	virtual void Shutdown();
 
-	void SetCurrentCamera(CameraComponent* pCamera){ m_pCurrentCamera = pCamera; }
 	virtual void Tick(deltaTime_t dt);
 
 private:
