@@ -18,6 +18,5 @@ public:
 
 private:
 	Entity m_Entity;
-	
 };
 

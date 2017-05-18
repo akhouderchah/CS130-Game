@@ -17,11 +17,12 @@ public:
 
 	virtual void Tick(deltaTime_t dt) = 0;
 
-	/** Used to allow systems interact with the window if needed */
+	/**
+	 * @brief Used to allow systems interact with the window if needed.
+	 *
+	 * @see Game::Initialize
+	 */
 	static void SetWindow(GLFWwindow* pWindow){ s_pWindow = pWindow; }
-
-protected:
-	//static sf::Window* GetWindow(){ return m_pWindow; }
 
 protected:
 	static GLFWwindow* s_pWindow;
