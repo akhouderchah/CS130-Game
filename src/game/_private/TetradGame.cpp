@@ -31,7 +31,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<MovableComponent>();
 	DrawComponent *pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
-	pDraw->SetTexture(BACKGROUND_PATH, TextureType::RGB);
+	pDraw->SetTexture(TEXTURE_PATH + "City.tga", TextureType::RGB);
 	entity.Add<MaterialComponent>()->SetTimeRate(-0.2f);
 
 	// Create floor
@@ -48,7 +48,10 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<TransformComponent>()->Init(glm::vec3(0, 0, 3));
 	entity.Add<MovableComponent>();
 	CameraComponent *pCamera = entity.Add<CameraComponent>();
-	m_pDrawSystem->SetCurrentCamera(pCamera);
+	pCamera->SetCurrentCamera(pCamera);
+	SoundComponent *pSound = entity.Add<SoundComponent>();
+	pSound->LoadSound("backgroundMusic", SOUND_PATH + "backgroundMusic.wav", IS_LOOP);
+	pSound->PlaySound("backgroundMusic");
 
 	// Create jumping boxes
 	for(int i = 0; i < 2; ++i)
@@ -59,7 +62,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		entity.Add<MovableComponent>();
 		pDraw = entity.Add<DrawComponent>();
 		pDraw->SetGeometry(ShapeType::PLANE);
-		pDraw->SetTexture(TEXTURE_PATH + "Black.tga", TextureType::RGB);
+		pDraw->SetTexture(TEXTURE_PATH + "bird.tga", TextureType::RGBA);
 		entity.Add<PhysicsComponent>();
 		ObserverComponent *pObserver = entity.Add<ObserverComponent>();
 		pObserver->Subscribe(*m_pInputSystem);
@@ -77,11 +80,6 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<MaterialComponent>()->SetOpacity(0.f);
 	Action_PauseGame::SetFadeScreen(entity);
 
-	// Create background music
-	entity = EntityManager::CreateEntity();
-	SoundComponent *pSound = entity.Add <SoundComponent>();
-	pSound->LoadSound("backgroundMusic", SOUND_PATH + "backgroundMusic.wav", IS_LOOP);
-	pSound->PlaySound("backgroundMusic");
 
 	m_Timer.Start();
 
