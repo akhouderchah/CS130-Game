@@ -47,7 +47,7 @@ public:
 private:
 	// Array of IAction pointers, used to map Events to Actions.
 	// @note This is only acceptable if the number of game events is quite low.
-	IAction* m_pAction[EGE_PLAYER2_JUMP];
+	IAction* m_pAction[EGE_END];
 	std::vector<EventSystem*> m_pEventSystems;
 };
 

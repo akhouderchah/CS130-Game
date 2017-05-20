@@ -6,7 +6,6 @@
 #include "ObserverComponent.h"
 #include "PhysicsSystem.h"
 
-
 TetradGame::TetradGame() :
 	m_pDrawSystem(nullptr), m_pSystemObserver(nullptr),
 	m_pInputSystem(nullptr), m_pSoundSystem(nullptr)
@@ -21,6 +20,9 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		ERROR("Failed to initialize engine systems!\n", EEB_CONTINUE);
 		return false;
 	}
+
+	// Load user-provided key configurations
+	EventSystem::SetInputConfig(KEY_PATH + "test.conf");
 
 	// Create background
 	// TODO - transform values only work for this particular aspect ratio
@@ -51,7 +53,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	m_pDrawSystem->SetCurrentCamera(pCamera);
 
 	// Create jumping boxes
-	for(int i = 0; i < 2; i++)
+	for(int i = 0; i < 2; ++i)
 	{
 		entity = EntityManager::CreateEntity();
 		entity.Add<TransformComponent>()->Init(glm::vec3(i-1, 0.f, 1.f),
