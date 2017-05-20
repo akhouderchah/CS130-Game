@@ -1,4 +1,66 @@
 #pragma once
+#ifndef _INPUTCONSTANTS_H
+#define _INPUTCONSTANTS_H
+#ifndef INI_MAX_LINE
+#define INI_MAX_LINE 200
+#endif
+
+#include <stdio.h>
+#include <string>
+#include <stdlib.h>
+#include <fstream>
+#include <map>
+
+static std::map<int,std::string> actions;
+static std::map<std::string,int> event_map;
+static void init_event_map()
+{
+	event_map.insert(std::make_pair("EGE_NONE",0));
+	event_map.insert(std::make_pair("EGE_PLAYER1_JUMP",1));
+	event_map.insert(std::make_pair("EGE_PLAYER2_JUMP",2));
+	event_map.insert(std::make_pair("EGE_PLAYER3_JUMP",3));
+	event_map.insert(std::make_pair("EGE_PLAYER4_JUMP",4));
+	event_map.insert(std::make_pair("EGE_PAUSE",5));
+	event_map.insert(std::make_pair("EGE_ERROR",6));
+	event_map.insert(std::make_pair("EGE_END",7));
+};
+
+static void INIParser(std::string filename)
+{
+	std::ifstream infile;
+	std::string line;
+	std::string key;
+	int value;
+	int lineno=0;
+	std::string KEYBOARD_PATH=KEY_PATH+filename;//ini file in /asset/config folder
+	infile.open(KEYBOARD_PATH);
+	int error=0;
+	//assert(infile.is_open());
+
+	while ( std::getline(infile, line))
+	{
+		lineno++;
+		size_t pch = line.find(';');//remove the comments
+		if (pch) 
+			line= line.substr(0,pch);
+		if (pch = line.find(':'))
+		{
+			key = line.substr(0,pch);
+			value = atoi((line.substr(pch+1)).c_str());
+			actions.insert(std::make_pair(value,key));
+		}
+		else 
+		{
+			error=lineno;
+		}
+	}
+	
+	infile.close();
+	
+}
+
+
+
 
 enum EGameEvent
 {
@@ -33,5 +95,5 @@ struct Event
 	EGameEvent event;
 	EGameState state;
 };
-
+#endif
 
