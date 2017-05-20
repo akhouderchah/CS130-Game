@@ -5,6 +5,7 @@
 #include "EventSystem.h"
 #include "ObserverComponent.h"
 #include "PhysicsSystem.h"
+#include "CollisionComponent.h"
 
 
 TetradGame::TetradGame() :
@@ -38,10 +39,13 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity = EntityManager::CreateEntity();
 	entity.Add<TransformComponent>()->Init(glm::vec3(0, -1.f, 1), glm::vec3(1.5f, 0.1f, 1));
 	entity.Add<MovableComponent>();
+	entity.Add<PhysicsComponent>();
 	pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(FLOOR_PATH, TextureType::RGBA);
 	entity.Add<MaterialComponent>()->SetTimeRate(-0.75f);
+	CollisionComponent * pCol = entity.Add<CollisionComponent>();
+	pCol->addPlane();
 
 	// Create camera
 	entity = EntityManager::CreateEntity();
@@ -54,7 +58,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	pSound->PlaySound("backgroundMusic");
 
 	// Create jumping boxes
-	for(int i = 0; i < 2; ++i)
+	for(int i = 0; i < 1; ++i)
 	{
 		entity = EntityManager::CreateEntity();
 		entity.Add<TransformComponent>()->Init(glm::vec3(i-1, 0.f, 1.f),
@@ -66,9 +70,13 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		entity.Add<PhysicsComponent>();
 		ObserverComponent *pObserver = entity.Add<ObserverComponent>();
 		pObserver->Subscribe(*m_pInputSystem);
-		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP+i), new Action_Jump(entity));
+		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP), new Action_Jump(entity, 0));
+		pObserver->AddEvent(EGameEvent(EGE_PLAYER2_JUMP), new Action_Jump(entity, 1));
+
 		SoundComponent *pSound = entity.Add<SoundComponent>();
 		pSound->LoadSound("wingsFlap", SOUND_PATH + "wingSound.wav", !IS_LOOP);
+		CollisionComponent * pCol = entity.Add<CollisionComponent>();
+		pCol->addBox(1.0f);
 	}
 
 	// Create fade screen entity
@@ -99,6 +107,9 @@ void TetradGame::AddSystems()
 
 	m_pSoundSystem = new SoundSystem;
 	m_pSystems.push_back(m_pSoundSystem);
+
+	m_pCollisionSystem = new CollisionSystem;
+	m_pSystems.push_back(m_pCollisionSystem);
 
 	// Create the system observer
 	m_pSystemObserver = EntityManager::CreateEntity().Add<ObserverComponent>();

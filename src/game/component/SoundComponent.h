@@ -6,6 +6,7 @@
 
 
 class TransformComponent;
+class CollisionComponent;
 
 
 class SoundComponent : public IComponent

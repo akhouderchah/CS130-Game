@@ -4,6 +4,8 @@
 
 #include <iostream>
 
+#include "btBulletDynamicsCommon.h"
+
 
 using namespace std;
 

@@ -127,6 +127,7 @@ include_directories(
         ${PROJECT_SOURCE_DIR}/external/glfw/include/GLFW/
 		${PROJECT_SOURCE_DIR}/external/glew/include/
 		${PROJECT_SOURCE_DIR}/external/glm/
+		${PROJECT_SOURCE_DIR}/external/bullet/src
 		${PROJECT_SOURCE_DIR}/external/stb/
 		${PROJECT_SOURCE_DIR}/core
 		${PROJECT_SOURCE_DIR}/engine/_inc
@@ -142,6 +143,9 @@ set(ALL_LIBS
 	${OPENAL_LIBRARY}	
 	glfw
 	GLEW
+	LinearMath
+	BulletCollision
+	BulletDynamics
 	)
 
 set(ALL_LIBS_EDITOR

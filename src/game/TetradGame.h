@@ -2,6 +2,7 @@
 
 #include "Game.h"
 #include "SoundSystem.h"
+#include "CollisionSystem.h"
 
 class EventSystem;
 class ObserverComponent;
@@ -21,4 +22,5 @@ private:
 	ObserverComponent *m_pSystemObserver;
 	EventSystem *m_pInputSystem;
 	SoundSystem *m_pSoundSystem;
+	CollisionSystem * m_pCollisionSystem;
 };
