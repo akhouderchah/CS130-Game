@@ -13,9 +13,9 @@ bool Action_ToggleHitboxView::operator()()
 {
 	ConstVector<CollisionComponent*> pCol = EntityManager::GetAll<CollisionComponent>();
 
-	for (int i = 1; i < pCol.size(); i++)
+	for (unsigned int i = 1; i < pCol.size(); i++)
 	{
-		pCol[i]->toggleHitboxView();
+		//pCol[i]->toggleHitboxView();
 	}
 
 	return false;

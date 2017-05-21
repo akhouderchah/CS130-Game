@@ -12,10 +12,10 @@
 class MovableComponent;
 
 /**
- * @brief Component to give physical simulation capabilities.
- *
- * Requires the MovableComponent to function properly.
- */
+* @brief Component to give physical simulation capabilities.
+*
+* Requires the MovableComponent to function properly.
+*/
 class PhysicsComponent : public IComponent
 {
 public:
@@ -26,16 +26,16 @@ public:
 
 	void Tick(deltaTime_t dt);
 	bool Impulse();  // Returns true only if the impulse was successful
+	bool ImpulseRight();
 
-	void SetVelocity(glm::vec3 velocity){ m_Velocity = velocity; }
-	void IncrementVelocity(glm::vec3 velocity){ m_Velocity += velocity; }
+	void SetVelocity(glm::vec3 velocity) { m_Velocity = velocity; }
+	void IncrementVelocity(glm::vec3 velocity) { m_Velocity += velocity; }
 
-	void SetGravity(bool on){ m_IsGravityOn = on; }
-	const glm::vec3 GetVelocity() const { return m_Velocity; }
+	void SetGravity(float, float, float);
+	//const glm::vec3 GetVelocity() const { return m_Velocity; }
+	glm::vec3  GetVelocity();
 
 private:
-	static float s_Gravity;
-	static float s_TerminalSpeed;
 	static float s_ImpulseSpeed;
 	static float s_ImpulseWaitTime;
 	bool m_IsGravityOn;
@@ -51,8 +51,9 @@ private:
 	static btConstraintSolver * s_pSolver; //How much force is applied and all that
 	static std::vector<int> s_WorldObjectsID;
 
-	void renderPlane(bulletObject *);
-	void renderSphere(bulletObject *);
-	void renderBox(bulletObject *);
-	void renderCylinder(bulletObject *);
+	void updatePlane(bulletObject *);
+	void updateSphere(bulletObject *, CollisionComponent *);
+	void updateBox(bulletObject *);
+	void updateCylinder(bulletObject *);
+	void updateWorldObjects();
 };

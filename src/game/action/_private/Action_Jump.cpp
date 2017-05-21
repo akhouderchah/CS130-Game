@@ -27,7 +27,7 @@ bool Action_Jump::operator()()
 		}
 		else if (m_type == 1)
 		{
-			//pPhys->ImpulseRight();
+			pPhys->ImpulseRight();
 			pSnd->PlaySound("wingsFlap");
 		}
 	}
