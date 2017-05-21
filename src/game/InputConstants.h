@@ -5,14 +5,14 @@
 #include <stdlib.h>
 #include <fstream>
 
-#define EVENTS(f)														          \
-    f(EGE_NONE, "No Observer reacts to this event. Serves as a null event")       \
-    f(EGE_PAUSE, "Pause the game. This event can be captured by the system observer as well as by any components that need special behavior when paused.")	           \
-    f(EGE_PLAYER1_JUMP, "Tell Player1 to jump")							          \
-    f(EGE_PLAYER2_JUMP, "Tell Player2 to jump")							          \
-    f(EGE_ERROR, "Event (mainly for the system observer) to signal errors.")
+#define EVENTS(f)														\
+    f(NONE, "No Observer reacts to this event. Serves as a null event")	\
+    f(PAUSE, "Pause the game. This event can be captured by the system observer as well as by any components that need special behavior when paused.") \
+    f(PLAYER1_JUMP, "Tell Player1 to jump")								\
+    f(PLAYER2_JUMP, "Tell Player2 to jump")								\
+    f(ERROR, "Event (mainly for the system observer) to signal errors.")
 
-#define _EVENT_ENUM(name, comment) name,
+#define _EVENT_ENUM(name, comment) EGE_ ## name,
 enum EGameEvent{ EVENTS(_EVENT_ENUM) EGE_END };
 
 enum EGameState
