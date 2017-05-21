@@ -9,6 +9,8 @@ using namespace glm;
 int32_t CameraComponent::s_ScreenWidth = 0;
 int32_t CameraComponent::s_ScreenHeight = 0;
 
+CameraComponent *CameraComponent::s_pCurrentCamera = nullptr;
+
 #define DEFAULT_FOV 45.f
 #define DEFAULT_NEAR 0.1f
 #define DEFAULT_FAR 1000.f

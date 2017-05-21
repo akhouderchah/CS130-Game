@@ -7,7 +7,12 @@
 
 class TransformComponent;
 
-
+/**
+ * @brief Component that allows an entity to play sounds
+ *
+ * Provides the functionality to attach any number of sounds to an entity,
+ * and to play/pause/stop those sounds by referencing them by name.
+ */
 class SoundComponent : public IComponent
 {
 public:
@@ -15,15 +20,12 @@ public:
 	~SoundComponent();
 
 	void Refresh();
-	void Tick(deltaTime_t dt);
-	float m_ImpulseWait;
 
 	void PlaySound(std::string);
 	void PauseSound(std::string);
 	void StopSound(std::string);
 
 	void LoadSound(std::string, std::string, bool);
-	TransformComponent * getTransformComponent();
 	std::vector<ALuint> & getSource();
 
 private:

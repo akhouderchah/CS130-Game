@@ -34,23 +34,26 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	DrawComponent *pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(BACKGROUND_PATH, TextureType::RGB);
-	entity.Add<MaterialComponent>()->SetTimeRate(-0.2f);
+	entity.Add<MaterialComponent>()->SetScrollRate(-0.2f);
 
 	// Create floor
 	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(0, -1.f, 1), glm::vec3(1.5f, 0.1f, 1));
+	entity.Add<TransformComponent>()->Init(glm::vec3(0, -1.05f, 1), glm::vec3(1.5f, 0.1f, 1));
 	entity.Add<MovableComponent>();
 	pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(FLOOR_PATH, TextureType::RGBA);
-	entity.Add<MaterialComponent>()->SetTimeRate(-0.75f);
+	entity.Add<MaterialComponent>()->SetScrollRate(-0.75f);
 
 	// Create camera
 	entity = EntityManager::CreateEntity();
 	entity.Add<TransformComponent>()->Init(glm::vec3(0, 0, 3));
 	entity.Add<MovableComponent>();
 	CameraComponent *pCamera = entity.Add<CameraComponent>();
-	m_pDrawSystem->SetCurrentCamera(pCamera);
+	pCamera->SetCurrentCamera(pCamera);
+	SoundComponent *pSound = entity.Add<SoundComponent>();
+	pSound->LoadSound("backgroundMusic", SOUND_PATH + "backgroundMusic.wav", IS_LOOP);
+	pSound->PlaySound("backgroundMusic");
 
 	// Create jumping boxes
 	for(int i = 0; i < 2; ++i)
@@ -61,7 +64,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		entity.Add<MovableComponent>();
 		pDraw = entity.Add<DrawComponent>();
 		pDraw->SetGeometry(ShapeType::PLANE);
-		pDraw->SetTexture(TEXTURE_PATH + "Black.tga", TextureType::RGB);
+		pDraw->SetTexture(TEXTURE_PATH + "bird.tga", TextureType::RGBA);
 		entity.Add<PhysicsComponent>();
 		ObserverComponent *pObserver = entity.Add<ObserverComponent>();
 		pObserver->Subscribe(*m_pInputSystem);
@@ -79,11 +82,6 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<MaterialComponent>()->SetOpacity(0.f);
 	Action_PauseGame::SetFadeScreen(entity);
 
-	// Create background music
-	entity = EntityManager::CreateEntity();
-	SoundComponent *pSound = entity.Add <SoundComponent>();
-	pSound->LoadSound("backgroundMusic", SOUND_PATH + "backgroundMusic.wav", IS_LOOP);
-	pSound->PlaySound("backgroundMusic");
 
 	m_Timer.Start();
 

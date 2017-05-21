@@ -3,7 +3,7 @@
 
 MaterialComponent::MaterialComponent(Entity entity) :
 	IComponent(entity), m_T(0.f), m_Opacity(1.f),
-	m_Time(0.f), m_TimeRate(0.f)
+	m_Time(0.f), m_ScrollRate(0.f)
 {
 }
 
@@ -60,8 +60,8 @@ void MaterialComponent::Tick(deltaTime_t dt)
 	    m_T *= !(IncrementOpacity(dt/m_T));
 	}
 
-	if(m_TimeRate != 0.f)
+	if(m_ScrollRate != 0.f)
 	{
-		m_Time += m_TimeRate * dt;
+		m_Time += m_ScrollRate * dt;
 	}
 }

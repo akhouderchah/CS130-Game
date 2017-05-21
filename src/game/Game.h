@@ -38,7 +38,7 @@ public:
 	 *
 	 * A game object can call very few methods before being successfully initialized.
 	 *
-	 * Returns true unless the initialization fails, in which case the engine will
+	 * @return true unless the initialization fails, in which case the engine will
 	 * be in an uninitialized state until a successful Initialize occurs.
 	 */
 	virtual bool Initialize(const GameAttributes& attributes);
