@@ -4,6 +4,7 @@
 #include "Action_Jump.h"
 #include "EventQueue.h"
 #include "ISystem.h"
+#include "InputMapper.h"
 
 struct Event;
 class ObserverComponent;
@@ -55,6 +56,13 @@ public:
 	void UnmakeInputSystem();
 
 	/**
+	 * @brief Uses the specifed file to provide input key mapping
+	 *
+	 * @return True unless there was an error loading or parsing the file
+	 */
+	static bool SetInputConfig(std::string filename);
+
+	/**
 	 * @brief Inform all registered observers of an event
 	 */
 	void Inform(const Event& event);
@@ -84,6 +92,7 @@ private:
 	// This system doesn't necessarily only handle input, but it's the only one
 	// that will get input events
 	static EventSystem* s_pInputSystem;
+	static InputMapper s_InputMapper;
 	friend void KeyCallback(GLFWwindow*, int, int, int, int);
 
 	EventQueue m_EventQueue;

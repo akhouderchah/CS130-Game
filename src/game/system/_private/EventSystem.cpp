@@ -1,8 +1,11 @@
 #include "EventSystem.h"
 #include "InputConstants.h"
 #include "ObserverComponent.h"
+#include "ErrorSystem.h"
+#include "InputMapper.h"
 
 EventSystem* EventSystem::s_pInputSystem = nullptr;
+InputMapper EventSystem::s_InputMapper;
 
 EventSystem::EventSystem()
 {
@@ -87,6 +90,11 @@ void EventSystem::UnregisterObserver(ObserverComponent& observer)
 	}
 }
 
+bool EventSystem::SetInputConfig(std::string filename)
+{
+	return s_InputMapper.Initialize(filename);
+}
+
 void EventSystem::Inform(const Event& event)
 {
 	// @TODO - log error if it occurs
@@ -98,31 +106,10 @@ void KeyCallback(GLFWwindow* pWindow, int key, int scancode, int action, int mod
 	(void)pWindow; (void)scancode; (void)mods; (void)action;
 	Event event;
 
-	assert(EventSystem::s_pInputSystem);
-
-	// @TODO - GO THROUGH AN INPUT MAPPER!!!!
+	RELEASE_ASSERT(EventSystem::s_pInputSystem);
 	if(action == GLFW_PRESS)
 	{
-		switch(key)
-		{
-		case GLFW_KEY_ESCAPE:
-			event.event = EGE_PAUSE;
-			break;
-		case GLFW_KEY_Z:
-			event.event = EGE_PLAYER1_JUMP;
-			break;
-		case GLFW_KEY_X:
-			event.event = EGE_PLAYER2_JUMP;
-			break;
-		case GLFW_KEY_C:
-			event.event = EGE_PLAYER3_JUMP;
-			break;
-		case GLFW_KEY_V:
-			event.event = EGE_PLAYER4_JUMP;
-			break;
-		default:
-			event.event = EGE_NONE;
-		}
+		event.event = EventSystem::s_InputMapper.GetEvent(key);
 
 		// @TODO we need to store the game mode and use it to set this
 		event.state = EGS_STARTED;

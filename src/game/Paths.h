@@ -7,6 +7,7 @@ const std::string TEXTURE_PATH = ASSET_PATH + "textures/";
 const std::string SHADER_PATH = ASSET_PATH + "shaders/";
 const std::string FONT_PATH = ASSET_PATH + "fonts/";
 const std::string SOUND_PATH = ASSET_PATH + "sounds/";
+const std::string KEY_PATH = ASSET_PATH + "config/";
 
 /** Textures */
 const std::string FLOOR_PATH = TEXTURE_PATH + "Floor.tga";
