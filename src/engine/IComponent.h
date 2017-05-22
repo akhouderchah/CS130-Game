@@ -13,7 +13,7 @@ public:
 	virtual ~IComponent(){}
 
 	/**
-	 * @brief Function to refresh ptrs to other components
+	 * @brief Method to refresh ptrs to other components
 	 *
 	 * In order to keep the entity system efficent, components will cache
 	 * pointers to components they need. This method provides the entity
@@ -23,7 +23,16 @@ public:
 	 */
 	virtual void Refresh() = 0;
 
+	/**
+	 * @brief Method to get the Entity associated with this component
+	 */
 	Entity GetEntity() const{ return m_Entity; }
+
+	/**
+	 * @brief Method to retrieve the ID portion of the associated entity
+	 *
+	 * Only needed by the underlying entity system.
+	 */
 	ObjHandle::ID_t GetID() const{ return ((ObjHandle)m_Entity).GetID(); }
 
 protected:

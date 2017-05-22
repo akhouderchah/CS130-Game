@@ -2,7 +2,8 @@
 #include "TransformComponent.h"
 
 
-SoundComponent::SoundComponent(Entity entity) : IComponent(entity), m_ImpulseWait(0.f), m_pTransformComp(nullptr)
+SoundComponent::SoundComponent(Entity entity) :
+	IComponent(entity), m_pTransformComp(nullptr)
 {
 	m_SourcePos[0] = 0.0; m_SourcePos[1] = 0.0; m_SourcePos[2] = 0.0;
 	m_SourceVel[0] = 0.0; m_SourceVel[1] = 0.0; m_SourceVel[2] = 0.0;
@@ -24,11 +25,6 @@ SoundComponent::~SoundComponent()
 void SoundComponent::Refresh()
 {
 	m_pTransformComp = EntityManager::GetComponent<TransformComponent>(m_Entity);
-}
-
-void SoundComponent::Tick(deltaTime_t dt)
-{
-	m_ImpulseWait -= dt;
 }
 
 void SoundComponent::LoadSound(std::string name, std::string filePath, bool isLoop)

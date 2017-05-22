@@ -7,6 +7,9 @@
 class EventSystem;
 class ObserverComponent;
 
+/**
+ * @brief Small game to display engine functionality
+ */
 class TetradGame : public Game
 {
 public:

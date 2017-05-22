@@ -37,6 +37,7 @@ Main points are:
 	* It declares and defines the method "void Refresh()" (see the next bullet point for more information on this; also you'll get a compile error if you forget to do this)
 	* If this component relies on another component in an entity, create a private pointer to that component in the class (let's just call it m_pComp for the rest of this bullet point). Then in the Refresh() method, write m_pComp = EntityManager::GetComponent<COMPONENT_TYPE>(m_Entity);, where COMPONENT_TYPE is the type of the component
 1. In the relevant Systems that will use this, you must create a member variable of type ConstVector<COMPONENT_TYPE*>, and in the member initialization list, set that variable to EntityManager::GetAll<COMPONENT_TYPE>()
+1. Document the component class and any important methods in the Doxygen style (see the Convention Notes for more information).
 1. See the note below regarding compiling with new files, then recompile!
 
 ###### Creating a new System
@@ -46,6 +47,7 @@ Main points are:
     * It publicly inherits from ISystem
 	* It declares and defines methods: bool Initialize(), void Shutdown(), void Tick(deltaTime_t dt)
 	* If/when iterating over all components of a certain type (as is likely in the Tick method), ensure to start at 1 rather than 0. The 0th element in the array of components is the null array, which should not be used.
+1. Document the system class and any important methods in the Doxygen style (see the Convention Notes for more information).
 1. In dynamically allocate a system instance and push_back to m_pSystems in TetradGame::AddSystems
 
 ###### Recompiling with new files
