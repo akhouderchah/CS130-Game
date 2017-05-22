@@ -61,9 +61,8 @@ void DrawSystem::Shutdown()
 
 void DrawSystem::Tick(deltaTime_t dt)
 {
-
 	//Getting the current camera
-	m_pCurrentCamera = CameraComponent::GetCurrnetCamera();
+	m_pCurrentCamera = CameraComponent::GetCurrentCamera();
 
 	DEBUG_ASSERT(m_pCurrentCamera);
 

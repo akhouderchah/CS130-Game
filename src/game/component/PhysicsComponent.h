@@ -32,6 +32,7 @@ public:
 	void SetVelocity(glm::vec3 velocity) { m_Velocity = velocity; }
 	void IncrementVelocity(glm::vec3 velocity) { m_Velocity += velocity; }
 
+
 	void SetGravity(float, float, float);
 	//const glm::vec3 GetVelocity() const { return m_Velocity; }
 	glm::vec3  GetVelocity();

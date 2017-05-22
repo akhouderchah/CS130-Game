@@ -4,6 +4,9 @@
 #include "SoundComponent.h"
 #include "CameraComponent.h"
 
+/**
+ * @brief System to set up OpenAL and update sound positions
+ */
 class SoundSystem : public ISystem
 {
 public:
@@ -20,3 +23,4 @@ private:
 	ALCdevice *m_pDevice;
 	ConstVector<SoundComponent*> m_pSoundComponent;
 };
+
