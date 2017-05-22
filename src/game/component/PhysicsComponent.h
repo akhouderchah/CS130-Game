@@ -13,7 +13,7 @@ class MovableComponent;
 
 /**
 * @brief Component to give physical simulation capabilities.
-*
+* 
 * Requires the MovableComponent to function properly.
 */
 class PhysicsComponent : public IComponent
@@ -26,6 +26,7 @@ public:
 
 	void Tick(deltaTime_t dt);
 	bool Impulse();  // Returns true only if the impulse was successful
+	bool ImpulseLeft();
 	bool ImpulseRight();
 
 	void SetVelocity(glm::vec3 velocity) { m_Velocity = velocity; }
@@ -49,11 +50,10 @@ private:
 	static btCollisionConfiguration * s_pCollisionConfig; //stuff to do with collisions
 	static btBroadphaseInterface * s_pBroadphase; //way to store data, like in a grid
 	static btConstraintSolver * s_pSolver; //How much force is applied and all that
-	static std::vector<int> s_WorldObjectsID;
+	static std::vector<int> s_WorldCollisionComponentID;
 
 	void updatePlane(bulletObject *);
 	void updateSphere(bulletObject *, CollisionComponent *);
-	void updateBox(bulletObject *);
+	void updateBox(bulletObject *, CollisionComponent *);
 	void updateCylinder(bulletObject *);
-	void updateWorldObjects();
 };

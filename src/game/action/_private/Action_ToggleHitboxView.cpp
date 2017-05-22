@@ -15,7 +15,7 @@ bool Action_ToggleHitboxView::operator()()
 
 	for (unsigned int i = 1; i < pCol.size(); i++)
 	{
-		//pCol[i]->toggleHitboxView();
+		pCol[i]->toggleHitboxView();
 	}
 
 	return false;

@@ -9,7 +9,7 @@ btDispatcher * PhysicsComponent::s_pDispatcher = nullptr;
 btCollisionConfiguration * PhysicsComponent::s_pCollisionConfig = nullptr;
 btBroadphaseInterface * PhysicsComponent::s_pBroadphase = nullptr;
 btConstraintSolver * PhysicsComponent::s_pSolver = nullptr;
-std::vector<int> PhysicsComponent::s_WorldObjectsID;
+std::vector<int> PhysicsComponent::s_WorldCollisionComponentID;
 
 
 PhysicsComponent::PhysicsComponent(Entity entity) :
@@ -29,34 +29,11 @@ PhysicsComponent::PhysicsComponent(Entity entity) :
 
 PhysicsComponent::~PhysicsComponent()
 {
-	//static ConstVector<CollisionComponent*> tempCollision = EntityManager::GetAll<CollisionComponent>();
-	/*
-	for (int i = 0; i < tempCollision.size(); i++)
-	{
-		std::vector<bulletObject *> bodies = tempCollision[i]->getBodyVector();
-
-		for (int i = 0; i < bodies.size(); i++)
-		{
-			s_pWorld->removeCollisionObject(bodies[i]->body);
-			btMotionState *motionState = bodies[i]->body->getMotionState();
-			btCollisionShape *shape = bodies[i]->body->getCollisionShape();
-
-			delete bodies[i]->body;
-			delete shape;
-			delete motionState;
-			delete bodies[i];
-		}
-	}
-	*/
-
 	//delete s_pDispatcher;
 	//delete s_pCollisionConfig;
 	//delete s_pSolver;
 	//delete s_pBroadphase;
 	//delete s_pWorld;
-
-	int i = 0;
-
 }
 
 void PhysicsComponent::Refresh()
@@ -67,37 +44,33 @@ void PhysicsComponent::Refresh()
 
 void PhysicsComponent::Tick(deltaTime_t dt)
 {
+	bulletObject * pBody = m_pColission->getBodyStructure();
 
-	//Check to see if there is a need to add new body to the world
-	if (m_pColission->getTotalBodies() > s_WorldObjectsID.size())
+	//check to see if current body has already been added to the world
+	if (std::find(s_WorldCollisionComponentID.begin(), s_WorldCollisionComponentID.end(), m_pColission->GetID()) == s_WorldCollisionComponentID.end())
 	{
-		updateWorldObjects();
+		s_pWorld->addRigidBody(pBody->body);
+		s_WorldCollisionComponentID.push_back(m_pColission->GetID());
 	}
 	
-	std::vector<bulletObject *> bodies = m_pColission->getBodyVector();
+	
+	pBody->hit = false;
 
-	for (unsigned int i = 0; i < bodies.size(); i++)
+	s_pWorld->stepSimulation(dt); //FPS for the physics calculations in seconds
+
+	if (pBody->body->getCollisionShape()->getShapeType() == STATIC_PLANE_PROXYTYPE)
 	{
-		bodies[i]->hit = false;
+		updatePlane(pBody);		
+	}
+	else if (pBody->body->getCollisionShape()->getShapeType() == BOX_SHAPE_PROXYTYPE)
+	{
+		updateBox(pBody, m_pColission);
+	}
+	else if (pBody->body->getCollisionShape()->getShapeType() == SPHERE_SHAPE_PROXYTYPE)
+	{
+		updateSphere(pBody, m_pColission);
 	}
 
-	s_pWorld->stepSimulation(1.0 / 5000.0); //FPS for the physics calculations in seconds
-
-	for (unsigned int i = 0; i < bodies.size(); i++)
-	{
-		if (bodies[i]->body->getCollisionShape()->getShapeType() == STATIC_PLANE_PROXYTYPE)
-		{
-			updatePlane(bodies[i]);		
-		}
-		else if (bodies[i]->body->getCollisionShape()->getShapeType() == BOX_SHAPE_PROXYTYPE)
-		{
-			updateBox(bodies[i]);
-		}
-		else if (bodies[i]->body->getCollisionShape()->getShapeType() == SPHERE_SHAPE_PROXYTYPE)
-		{
-			updateSphere(bodies[i], m_pColission);
-		}
-	}
 }
 
 bool PhysicsComponent::Impulse()
@@ -109,12 +82,26 @@ bool PhysicsComponent::Impulse()
 
 	m_ImpulseWait = s_ImpulseWaitTime;
 
-	std::vector<bulletObject *> bodies = m_pColission->getBodyVector();
-	for (unsigned int i = 0; i < bodies.size(); i++)
+
+	m_pColission->getBodyStructure()->body->activate();
+	m_pColission->getBodyStructure()->body->setLinearVelocity(btVector3(0.0, 5.0, 0.0));
+
+	return true;
+}
+
+bool PhysicsComponent::ImpulseLeft()
+{
+	if (m_ImpulseWait > 0.f)
 	{
-		bodies[i]->body->activate();
-		bodies[i]->body->setLinearVelocity(btVector3(0.0, 5.0, 0.0));
+		return false;
 	}
+
+	m_ImpulseWait = s_ImpulseWaitTime;
+
+	bulletObject * bodies = m_pColission->getBodyStructure();
+
+	bodies->body->activate();
+	bodies->body->setLinearVelocity(btVector3(-2.0, 0.0, 0.0));
 	return true;
 }
 
@@ -127,12 +114,10 @@ bool PhysicsComponent::ImpulseRight()
 
 	m_ImpulseWait = s_ImpulseWaitTime;
 
-	std::vector<bulletObject *> bodies = m_pColission->getBodyVector();
-	for (unsigned int i = 0; i < bodies.size(); i++)
-	{
-		bodies[i]->body->activate();
-		bodies[i]->body->setLinearVelocity(btVector3(1.0, 0.0, 0.0));
-	}
+	bulletObject * bodies = m_pColission->getBodyStructure();
+
+	bodies->body->activate();
+	bodies->body->setLinearVelocity(btVector3(2.0, 0.0, 0.0));
 	return true;
 }
 
@@ -149,12 +134,18 @@ void PhysicsComponent::updatePlane(bulletObject *obj)
 	}
 }
 
-void PhysicsComponent::updateBox(bulletObject *obj)
+void PhysicsComponent::updateBox(bulletObject *obj, CollisionComponent *col)
 {
 	btRigidBody *box = obj->body;
 
 	if (box->getCollisionShape()->getShapeType() == BOX_SHAPE_PROXYTYPE)
 	{
+		if (!obj->enableRotation)
+		{
+			box->setInvInertiaDiagLocal(btVector3(0, 0, 0));
+			box->updateInertiaTensor();
+		}
+
 		btTransform transform;
 		box->getMotionState()->getWorldTransform(transform);
 
@@ -169,6 +160,7 @@ void PhysicsComponent::updateBox(bulletObject *obj)
 		btMatrix3x3 mat = transform.getBasis();
 
 		m_pMover->Move(moveVec);
+		col->updateHitboxPosition(moveVec);
 	}
 }
 
@@ -196,18 +188,8 @@ void PhysicsComponent::updateSphere(bulletObject *obj, CollisionComponent *col)
 		moveVec[1] = -(moveVec[1] - vec[1]);
 		moveVec[2] = -(moveVec[2] - vec[2]);
 
-		/*
-		btMatrix3x3 mat = transform.getBasis();
-
-		for (int i = 0; i < 3; i++)
-		{
-			std::cout << mat[i][0] << " " << mat[i][1] << " " << mat[i][2] << std::endl;
-		}
-		std::cout << std::endl << std::endl;
-		//std::cout << "Sphere" << obj->id << " " << vec[0] << " " << vec[1] << " " << vec[2] << std::endl;
-		*/
 		m_pMover->Move(moveVec);
-		col->toggleHitboxView(moveVec);
+		col->updateHitboxPosition(moveVec);
 	}
 }
 
@@ -236,31 +218,11 @@ glm::vec3 PhysicsComponent::GetVelocity()
 {
 	if (m_pColission != nullptr)
 	{
-		btVector3 btVelocity = m_pColission->getBodyVector()[0]->body->getLinearVelocity();
+		btVector3 btVelocity = m_pColission->getBodyStructure()->body->getLinearVelocity();
 		return glm::vec3(btVelocity[0], btVelocity[1], btVelocity[2]);
 	}
 	else
 	{
 		return glm::vec3(0, 0, 0);
-	}
-}
-
-
-void PhysicsComponent::updateWorldObjects()
-{
-	ConstVector<CollisionComponent*> tempCollision = EntityManager::GetAll<CollisionComponent>();
-	for (unsigned int i = 1; i < tempCollision.size(); i++)
-	{
-		std::vector<bulletObject *> bodies = tempCollision[i]->getBodyVector();
-
-		for (unsigned int i = 0; i < bodies.size(); i++)
-		{
-			//We are looking for bodies that were not added to the world
-			if (std::find(s_WorldObjectsID.begin(), s_WorldObjectsID.end(), bodies[i]->id) == s_WorldObjectsID.end())
-			{
-				s_pWorld->addRigidBody(bodies[i]->body);
-				s_WorldObjectsID.push_back(bodies[i]->id);
-			}
-		}
 	}
 }

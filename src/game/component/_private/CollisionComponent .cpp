@@ -4,13 +4,12 @@
 
 #include "EntityManager.h"
 #include "MaterialComponent.h"
+#include <algorithm> 
 
-unsigned int CollisionComponent::s_LastBodyID = 0;
-unsigned int CollisionComponent::s_TotalBodies = 0;
 
 
 CollisionComponent::CollisionComponent(Entity entity) :
-	IComponent(entity),  m_pMover(nullptr), m_pDraw(nullptr),
+	IComponent(entity), m_pMover(nullptr), m_pDraw(nullptr),
 	m_pTransform(nullptr)
 {
 	isCollisionViewEnabled = true;
@@ -24,14 +23,14 @@ CollisionComponent::~CollisionComponent()
 	/*
 	for (int i = 0; i < m_pBodies.size(); i++)
 	{
-		world->removeCollisionObject(m_pBodies[i]->body);
-		btMotionState *motionState = m_pBodies[i]->body->getMotionState();
-		btCollisionShape *shape = m_pBodies[i]->body->getCollisionShape();
+	world->removeCollisionObject(m_pBodies[i]->body);
+	btMotionState *motionState = m_pBodies[i]->body->getMotionState();
+	btCollisionShape *shape = m_pBodies[i]->body->getCollisionShape();
 
-		delete m_pBodies[i]->body;
-		delete shape;
-		delete motionState;
-		delete m_pBodies[i];
+	delete m_pBodies[i]->body;
+	delete shape;
+	delete motionState;
+	delete m_pBodies[i];
 	}
 	*/
 }
@@ -57,44 +56,29 @@ void CollisionComponent::Tick(deltaTime_t dt)
 }
 
 
-
-
-
-
-void CollisionComponent::EnableHitboxView()
+void CollisionComponent::toggleHitboxView()
 {
-	/*
-	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(m_AdditionToPosition + m_pTransform->GetPosition()), glm::vec3(m_AdditionToScale + m_pTransform->GetScale()));
-	entity.Add<MovableComponent>();
-	entity.Add<MaterialComponent>()->SetOpacity(0.5f);
-	DrawComponent *pDraw = entity.Add<DrawComponent>();
-	pDraw->SetGeometry(ShapeType::PLANE);
-	pDraw->SetTexture(TEXTURE_PATH + "green.tga", TextureType::RGB);
-	//toggleHitboxView();
-	*/
+	MovableComponent * pMove = EntityManager::GetComponent<MovableComponent>(entity);
+	
+	if (pMove && m_pBody->body->getCollisionShape()->getShapeType() != STATIC_PLANE_PROXYTYPE)
+	{
+		glm::vec3 vec;
+		if (isCollisionViewEnabled == true)
+		{
+			vec = { 100, 100, 100 };
+			isCollisionViewEnabled = false;
+		}
+		else
+		{
+			vec = { -100, -100, -100 };
+			isCollisionViewEnabled = true;
+		}
+		pMove->Move(vec);
+	}
 }
 
-
-void CollisionComponent::toggleHitboxView(glm::vec3 vec)
+void CollisionComponent::updateHitboxPosition(glm::vec3 vec)
 {
-	/*
-	MovableComponent * move = EntityManager::GetComponent<MovableComponent>(entity);
-	glm::vec3 vec;
-	if (isCollisionViewEnabled == true)
-	{
-		vec = { 100, 100, 100 };
-		isCollisionViewEnabled = false;
-	}
-	else
-	{
-		vec = { -100, -100, -100 };
-		isCollisionViewEnabled = true;
-	}
-	
-	move->Move(vec);
-	*/
-
 	MovableComponent * move = EntityManager::GetComponent<MovableComponent>(entity);
 	move->Move(vec);
 }
@@ -103,43 +87,41 @@ void CollisionComponent::toggleHitboxView(glm::vec3 vec)
 
 void CollisionComponent::addPlane(float additionToX, float additionToY, float additionToZ)
 {
-	btTransform transform; 
+	btTransform transform;
 	transform.setIdentity();
 
-	//transform.setOrigin(btVector3(m_pTransform->GetPosition()[0] + additionToX, m_pTransform->GetPosition()[1] + additionToY, m_pTransform->GetPosition()[2] + additionToZ));
-	transform.setOrigin(btVector3(additionToX, additionToY, additionToZ));
+	transform.setOrigin(btVector3(m_pTransform->GetPosition()[0] + additionToX, m_pTransform->GetPosition()[1] + additionToY, m_pTransform->GetPosition()[2] + additionToZ));
 
-	btStaticPlaneShape *plane = new btStaticPlaneShape(btVector3(0, 1, 0), 0);
+
+	btStaticPlaneShape *plane = new btStaticPlaneShape(btVector3(0.f, 1.f, 0.f), 0.f);
 
 	btMotionState *motion = new btDefaultMotionState(transform);
 
 	btRigidBody::btRigidBodyConstructionInfo info(0.0, motion, plane);
 	btRigidBody *body = new btRigidBody(info);
 
-	m_pBodies.push_back(new bulletObject(body,HitboxShapeType::PLANE, s_LastBodyID, false));
-	s_LastBodyID += 1;
-	s_TotalBodies += 1;
+	body->setRestitution(1); //Bounciness of the object
 
-
-	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(additionToX, additionToY, additionToZ), glm::vec3(0.1, 0.1, 0.1));
-	entity.Add<MovableComponent>();
-	entity.Add<MaterialComponent>()->SetOpacity(0.5f);
-	DrawComponent *pDraw = entity.Add<DrawComponent>();
-	pDraw->SetGeometry(ShapeType::PLANE);
-	pDraw->SetTexture(TEXTURE_PATH + "green.tga", TextureType::RGB);
-
+	m_pBody = new bulletObject(body, false);
 }
 
 
-void CollisionComponent::addBox(float mass, float additionTowidth, float additionToheight, float additionTodepth, float additionToX, float additionToY, float additionToZ, bool enableRotation)
+void CollisionComponent::addBox(float mass, bool enableRotation, float bounciness, float additionTowidth, float additionToheight,
+	float additionTodepth, float additionToX, float additionToY, float additionToZ)
 {
+	float X = m_pTransform->GetPosition()[0] + additionToX;
+	float Y = m_pTransform->GetPosition()[1] + additionToY;
+	float Z = m_pTransform->GetPosition()[2] + additionToZ;
+	float width = m_pTransform->GetScale()[0] + additionTowidth;
+	float height = m_pTransform->GetScale()[1] + additionToheight;
+	float depth = m_pTransform->GetScale()[2] + additionTodepth;
+
+
 	btTransform transform;
 	transform.setIdentity();
-	transform.setOrigin(btVector3(m_pTransform->GetPosition()[0] + additionToX, m_pTransform->GetPosition()[1] + additionToY, m_pTransform->GetPosition()[2] + additionToZ));
+	transform.setOrigin(btVector3(X,Y, Z));
 
-	//btBoxShape *box = new btBoxShape(btVector3( (m_pTransform->GetScale()[0] + additionTowidth) / 2.0, (m_pTransform->GetScale()[1] + additionToheight) / 2.0, (m_pTransform->GetScale()[2] + additionTodepth) / 2.0));
-	btBoxShape *box = new btBoxShape(btVector3((additionTowidth), (additionToheight), (additionTodepth)));
+	btBoxShape *box = new btBoxShape(btVector3(width, height, depth));
 
 	btVector3 inertia(0, 0, 0);
 	if (mass != 0.0)
@@ -150,23 +132,32 @@ void CollisionComponent::addBox(float mass, float additionTowidth, float additio
 	btMotionState *motion = new btDefaultMotionState(transform);
 	btRigidBody::btRigidBodyConstructionInfo info(mass, motion, box, inertia);//note that we passed mass to not make it static
 	btRigidBody *body = new btRigidBody(info);
-	
 
-	m_pBodies.push_back(new bulletObject(body, HitboxShapeType::BOX, s_LastBodyID, enableRotation));
-	s_LastBodyID += 1;
-	s_TotalBodies += 1;
+	body->setRestitution(bounciness);
 
+	m_pBody = new bulletObject(body, enableRotation);
 
+	entity = EntityManager::CreateEntity();
+	entity.Add<TransformComponent>()->Init(glm::vec3(X, Y, Z), glm::vec3(width, height, depth));
+	entity.Add<MovableComponent>();
+	entity.Add<MaterialComponent>()->SetOpacity(0.5f);
+	DrawComponent *pDraw = entity.Add<DrawComponent>();
+	pDraw->SetGeometry(ShapeType::PLANE);
+	pDraw->SetTexture(TEXTURE_PATH + "green.tga", TextureType::RGB);
 }
 
-void CollisionComponent::addSphere(float mass, float radius, float additionToX, float additionToY, float additionToZ, bool enableRotation)
+void CollisionComponent::addSphere(float mass, bool enableRotation, float bounciness, float additionToRadius, float additionToX, float additionToY, float additionToZ)
 {
+	float f[3] = { m_pTransform->GetScale()[0], m_pTransform->GetScale()[1], m_pTransform->GetScale()[2] };
+	float radius = std::max(std::max(f[1],f[2]), f[3]) + additionToRadius;
+	float X = m_pTransform->GetPosition()[0] + additionToX;
+	float Y = m_pTransform->GetPosition()[1] + additionToY;
+	float Z = m_pTransform->GetPosition()[2] + additionToZ;
+
 	btTransform transform;
 	transform.setIdentity();
 
-	//transform.setOrigin(btVector3(m_pTransform->GetPosition()[0] + additionToX, m_pTransform->GetPosition()[1] + additionToY, m_pTransform->GetPosition()[2] + additionToZ));
-	transform.setOrigin(btVector3(additionToX, additionToY, additionToZ));
-
+	transform.setOrigin(btVector3(X, Y, Z));
 
 	btSphereShape *sphere = new btSphereShape(radius);
 
@@ -180,13 +171,12 @@ void CollisionComponent::addSphere(float mass, float radius, float additionToX, 
 	btRigidBody::btRigidBodyConstructionInfo info(mass, motion, sphere, inertia);//note that we passed mass to not make it static
 	btRigidBody *body = new btRigidBody(info);
 
-	m_pBodies.push_back(new bulletObject(body, HitboxShapeType::SPHERE, s_LastBodyID, enableRotation));
-	s_LastBodyID += 1;
-	s_TotalBodies += 1;
+	body->setRestitution(bounciness);
 
+	m_pBody = new bulletObject(body, enableRotation);
 
 	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(additionToX, additionToY, additionToZ), glm::vec3(radius, radius, radius));
+	entity.Add<TransformComponent>()->Init(glm::vec3(X, Y, Z), glm::vec3(radius, radius, radius));
 	entity.Add<MovableComponent>();
 	entity.Add<MaterialComponent>()->SetOpacity(0.5f);
 	DrawComponent *pDraw = entity.Add<DrawComponent>();
@@ -195,13 +185,19 @@ void CollisionComponent::addSphere(float mass, float radius, float additionToX, 
 }
 
 
-void CollisionComponent::addCylinder(float diameter, float height, float x, float y, float z, float mass, bool enableRotation)
+void CollisionComponent::addCylinder(float mass, float enableRotation, float bounciness, float additionTodiameter, float additionToHeight, float additionToX, float additionToY, float additionToZ)
 {
+	float X = m_pTransform->GetPosition()[0] + additionToX;
+	float Y = m_pTransform->GetPosition()[1] + additionToY;
+	float Z = m_pTransform->GetPosition()[2] + additionToZ;
+	float diameter = m_pTransform->GetScale()[0] + additionTodiameter;
+	float height = m_pTransform->GetScale()[1] + additionToHeight;
+
 	btTransform transform;
 	transform.setIdentity();
-	transform.setOrigin(btVector3(x, y, z));
+	transform.setOrigin(btVector3(X, Y, Z));
 
-	btCylinderShape *cylinder = new btCylinderShape(btVector3(diameter / 2.0, height / 2.0, diameter / 2.0));
+	btCylinderShape *cylinder = new btCylinderShape(btVector3(diameter, height, diameter));
 
 	btVector3 inertia(0, 0, 0);
 	if (mass != 0.0)
@@ -213,37 +209,7 @@ void CollisionComponent::addCylinder(float diameter, float height, float x, floa
 	btRigidBody::btRigidBodyConstructionInfo info(mass, motion, cylinder, inertia);
 	btRigidBody *body = new btRigidBody(info);
 
-	m_pBodies.push_back(new bulletObject(body, HitboxShapeType::CYLINDER, s_LastBodyID, enableRotation));
-	s_LastBodyID += 1;
-	s_TotalBodies += 1;
+	body->setRestitution(bounciness);
+
+	m_pBody = new bulletObject(body, enableRotation);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

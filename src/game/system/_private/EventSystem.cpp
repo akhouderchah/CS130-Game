@@ -120,6 +120,12 @@ void KeyCallback(GLFWwindow* pWindow, int key, int scancode, int action, int mod
 		case GLFW_KEY_V:
 			event.event = EGE_PLAYER4_JUMP;
 			break;
+		case GLFW_KEY_LEFT:
+			event.event = EGE_PLAYER1_LEFT;
+			break;
+		case GLFW_KEY_RIGHT:
+			event.event = EGE_PLAYER1_RIGHT;
+			break;
 		default:
 			event.event = EGE_NONE;
 		}

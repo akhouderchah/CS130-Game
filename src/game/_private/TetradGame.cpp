@@ -39,13 +39,13 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity = EntityManager::CreateEntity();
 	entity.Add<TransformComponent>()->Init(glm::vec3(0, -1.f, 1), glm::vec3(1.5f, 0.1f, 1));
 	entity.Add<MovableComponent>();
-	//entity.Add<PhysicsComponent>();
+	entity.Add<PhysicsComponent>();
 	pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(FLOOR_PATH, TextureType::RGBA);
 	entity.Add<MaterialComponent>()->SetTimeRate(-0.75f);
 	CollisionComponent * pCol = entity.Add<CollisionComponent>();
-	pCol->addPlane(0,-1,1);
+	pCol->addPlane();
 
 	// Create camera
 	entity = EntityManager::CreateEntity();
@@ -72,16 +72,17 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		entity.Add<PhysicsComponent>();
 		ObserverComponent *pObserver = entity.Add<ObserverComponent>();
 		pObserver->Subscribe(*m_pInputSystem);
-		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP), new Action_Jump(entity, 0));
-		pObserver->AddEvent(EGameEvent(EGE_PLAYER2_JUMP), new Action_Jump(entity, 1));
+		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP), new Action_Jump(entity));
+		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_LEFT), new Action_Left_Right(entity, LEFT));
+		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_RIGHT), new Action_Left_Right(entity, RIGHT));
 
 		SoundComponent *pSound = entity.Add<SoundComponent>();
 		pSound->LoadSound("wingsFlap", SOUND_PATH + "wingSound.wav", !IS_LOOP);
 		CollisionComponent * pCol = entity.Add<CollisionComponent>();
-		pCol->addSphere(1, 0.2f, 0.0f, 1.0f, 0.0f, ENABLE_ROTATION);
+		//pCol->addSphere(1, !ENABLE_ROTATION);
+		pCol->addBox(1, !ENABLE_ROTATION, 0, 0.0, 0.0, 0.0);
 	}
 
-	/*
 	entity = EntityManager::CreateEntity();
 	entity.Add<TransformComponent>()->Init(glm::vec3(0.5f, 1.f, 0.f),
 		glm::vec3(.2f, .2f, .2f));
@@ -90,12 +91,8 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(TEXTURE_PATH + "bird.tga", TextureType::RGBA);
 	entity.Add<PhysicsComponent>();
-	ObserverComponent *pObserver = entity.Add<ObserverComponent>();
 	CollisionComponent * pCol2 = entity.Add<CollisionComponent>();
-	pCol2->addSphere(1, 0.2f, 0.5f, 1.0f, 0.0f);
-	*/
-
-
+	pCol2->addSphere(1.0f);
 
 
 	// Create fade screen entity
@@ -107,6 +104,11 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<MaterialComponent>()->SetOpacity(0.f);
 	Action_PauseGame::SetFadeScreen(entity);
 
+	entity = EntityManager::CreateEntity();
+	ObserverComponent *pObserver = entity.Add<ObserverComponent>();
+	pObserver->Subscribe(*m_pInputSystem);
+	pObserver->AddEvent(EGameEvent(EGE_PLAYER4_JUMP), new Action_ToggleHitboxView());
+		
 
 	m_Timer.Start();
 
