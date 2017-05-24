@@ -44,33 +44,38 @@ void PhysicsComponent::Refresh()
 
 void PhysicsComponent::Tick(deltaTime_t dt)
 {
-	bulletObject * pBody = m_pColission->getBodyStructure();
-
-	//check to see if current body has already been added to the world
-	if (std::find(s_WorldCollisionComponentID.begin(), s_WorldCollisionComponentID.end(), m_pColission->GetID()) == s_WorldCollisionComponentID.end())
+	if (m_pColission != nullptr && m_pColission->GetID() !=0)
 	{
-		s_pWorld->addRigidBody(pBody->body);
-		s_WorldCollisionComponentID.push_back(m_pColission->GetID());
-	}
-	
-	
-	pBody->hit = false;
+		bulletObject * pBody = m_pColission->getBodyStructure();
 
-	s_pWorld->stepSimulation(dt); //FPS for the physics calculations in seconds
+		//check to see if current body has already been added to the world
+		if (std::find(s_WorldCollisionComponentID.begin(), s_WorldCollisionComponentID.end(), m_pColission->GetID()) == s_WorldCollisionComponentID.end())
+		{
+			if (pBody != nullptr)
+			{
+				s_pWorld->addRigidBody(pBody->body);
+				s_WorldCollisionComponentID.push_back(m_pColission->GetID());
+			}
+		}
 
-	if (pBody->body->getCollisionShape()->getShapeType() == STATIC_PLANE_PROXYTYPE)
-	{
-		updatePlane(pBody);		
-	}
-	else if (pBody->body->getCollisionShape()->getShapeType() == BOX_SHAPE_PROXYTYPE)
-	{
-		updateBox(pBody, m_pColission);
-	}
-	else if (pBody->body->getCollisionShape()->getShapeType() == SPHERE_SHAPE_PROXYTYPE)
-	{
-		updateSphere(pBody, m_pColission);
-	}
 
+		pBody->hit = false;
+
+		s_pWorld->stepSimulation(dt); //FPS for the physics calculations in seconds
+
+		if (pBody->body->getCollisionShape()->getShapeType() == STATIC_PLANE_PROXYTYPE)
+		{
+			updatePlane(pBody);
+		}
+		else if (pBody->body->getCollisionShape()->getShapeType() == BOX_SHAPE_PROXYTYPE)
+		{
+			updateBox(pBody, m_pColission);
+		}
+		else if (pBody->body->getCollisionShape()->getShapeType() == SPHERE_SHAPE_PROXYTYPE)
+		{
+			updateSphere(pBody, m_pColission);
+		}
+	}
 }
 
 bool PhysicsComponent::Impulse()
@@ -82,10 +87,12 @@ bool PhysicsComponent::Impulse()
 
 	m_ImpulseWait = s_ImpulseWaitTime;
 
-
-	m_pColission->getBodyStructure()->body->activate();
-	m_pColission->getBodyStructure()->body->setLinearVelocity(btVector3(0.0, 5.0, 0.0));
-
+	if (m_pColission != nullptr && m_pColission->GetID() != 0)
+	{
+		m_pColission->getBodyStructure()->body->activate();
+		m_pColission->getBodyStructure()->body->setLinearVelocity(btVector3(0.0, 5.0, 0.0));
+	}
+	
 	return true;
 }
 
@@ -98,10 +105,11 @@ bool PhysicsComponent::ImpulseLeft()
 
 	m_ImpulseWait = s_ImpulseWaitTime;
 
-	bulletObject * bodies = m_pColission->getBodyStructure();
-
-	bodies->body->activate();
-	bodies->body->setLinearVelocity(btVector3(-2.0, 0.0, 0.0));
+	if (m_pColission != nullptr && m_pColission->GetID() != 0)
+	{
+		m_pColission->getBodyStructure()->body->activate();
+		m_pColission->getBodyStructure()->body->setLinearVelocity(btVector3(-2.0, 0.0, 0.0));
+	}
 	return true;
 }
 
@@ -114,14 +122,13 @@ bool PhysicsComponent::ImpulseRight()
 
 	m_ImpulseWait = s_ImpulseWaitTime;
 
-	bulletObject * bodies = m_pColission->getBodyStructure();
-
-	bodies->body->activate();
-	bodies->body->setLinearVelocity(btVector3(2.0, 0.0, 0.0));
+	if (m_pColission != nullptr && m_pColission->GetID() != 0)
+	{
+		m_pColission->getBodyStructure()->body->activate();
+		m_pColission->getBodyStructure()->body->setLinearVelocity(btVector3(2.0, 0.0, 0.0));
+	}
 	return true;
 }
-
-
 
 void PhysicsComponent::updatePlane(bulletObject *obj)
 {
@@ -131,6 +138,8 @@ void PhysicsComponent::updatePlane(bulletObject *obj)
 	{
 		btTransform transform;
 		plane->getMotionState()->getWorldTransform(transform);
+
+		btVector3 vec = transform.getOrigin();
 	}
 }
 
@@ -140,30 +149,33 @@ void PhysicsComponent::updateBox(bulletObject *obj, CollisionComponent *col)
 
 	if (box->getCollisionShape()->getShapeType() == BOX_SHAPE_PROXYTYPE)
 	{
-		if (!obj->enableRotation)
-		{
-			box->setInvInertiaDiagLocal(btVector3(0, 0, 0));
-			box->updateInertiaTensor();
-		}
+		setRotationAxis(box, obj->rotationFlags);
+		setMovementAxis(box, obj->movementFlags);
 
 		btTransform transform;
 		box->getMotionState()->getWorldTransform(transform);
 
 		btVector3 vec = transform.getOrigin();
+		btQuaternion ori = transform.getRotation();
 
 		glm::vec3 moveVec = EntityManager::GetComponent<TransformComponent>(m_pMover->GetEntity())->GetPosition();
+		glm::quat quatArray;
+		for (int i = 0; i < 3; i++)
+		{
+			moveVec[i] = vec[i] - moveVec[i];
+		}
 
-		moveVec[0] = -(moveVec[0] - vec[0]);
-		moveVec[1] = -(moveVec[1] - vec[1]);
-		moveVec[2] = -(moveVec[2] - vec[2]);
-
-		btMatrix3x3 mat = transform.getBasis();
+		for (int i = 0; i < 4; i++)
+		{
+			quatArray[i] = ori[i];
+		}
 
 		m_pMover->Move(moveVec);
+		m_pMover->SetOrientation(quatArray);
 		col->updateHitboxPosition(moveVec);
+		col->updateHitboxAngle(quatArray);
 	}
 }
-
 
 void PhysicsComponent::updateSphere(bulletObject *obj, CollisionComponent *col)
 {
@@ -171,28 +183,33 @@ void PhysicsComponent::updateSphere(bulletObject *obj, CollisionComponent *col)
 
 	if (sphere->getCollisionShape()->getShapeType() == SPHERE_SHAPE_PROXYTYPE)
 	{
-		if (!obj->enableRotation)
-		{
-			sphere->setInvInertiaDiagLocal(btVector3(0, 0, 0));
-			sphere->updateInertiaTensor();
-		}
-
+		setRotationAxis(sphere, obj->rotationFlags);
+		setMovementAxis(sphere, obj->movementFlags);
+		
 		btTransform transform;
 		sphere->getMotionState()->getWorldTransform(transform);
 
 		btVector3 vec = transform.getOrigin();
+		btQuaternion ori = transform.getRotation();
 
 		glm::vec3 moveVec = EntityManager::GetComponent<TransformComponent>(m_pMover->GetEntity())->GetPosition();
+		glm::quat quatArray;
+		for (int i = 0; i < 3; i++)
+		{
+			moveVec[i] = vec[i] - moveVec[i];
+		}
 
-		moveVec[0] = -(moveVec[0] - vec[0]);
-		moveVec[1] = -(moveVec[1] - vec[1]);
-		moveVec[2] = -(moveVec[2] - vec[2]);
+		for (int i = 0; i < 4; i++)
+		{
+			quatArray[i] = ori[i];
+		}
 
 		m_pMover->Move(moveVec);
+		m_pMover->SetOrientation(quatArray);
 		col->updateHitboxPosition(moveVec);
+		col->updateHitboxAngle(quatArray);
 	}
 }
-
 
 void PhysicsComponent::updateCylinder(bulletObject *obj)
 {
@@ -200,15 +217,36 @@ void PhysicsComponent::updateCylinder(bulletObject *obj)
 
 	if (cylinder->getCollisionShape()->getShapeType() == CYLINDER_SHAPE_PROXYTYPE)
 	{
+		setRotationAxis(cylinder, obj->rotationFlags);
+		setMovementAxis(cylinder, obj->movementFlags);
+
 		btTransform transform;
 		cylinder->getMotionState()->getWorldTransform(transform);
 
 		//Note that this actually puts cylinder on Y axis, so if you need to rotate, do it here.
+
 		btVector3 vec = transform.getOrigin();
+		btQuaternion ori = transform.getRotation();
+
+		glm::vec3 moveVec = EntityManager::GetComponent<TransformComponent>(m_pMover->GetEntity())->GetPosition();
+		glm::quat quatArray;
+		for (int i = 0; i < 3; i++)
+		{
+			moveVec[i] = vec[i] - moveVec[i];
+		}
+
+		for (int i = 0; i < 4; i++)
+		{
+			quatArray[i] = ori[i];
+		}
+
+		m_pMover->Move(moveVec);
+		m_pMover->SetOrientation(quatArray);
+		//col->updateHitboxPosition(moveVec);
+		//col->updateHitboxAngle(quatArray);
 	}
 }
  
-
 void PhysicsComponent::SetGravity(float x, float y, float z)
 {
 	s_pWorld->setGravity(btVector3(x, y,  z));
@@ -216,7 +254,7 @@ void PhysicsComponent::SetGravity(float x, float y, float z)
 
 glm::vec3 PhysicsComponent::GetVelocity()
 {
-	if (m_pColission != nullptr)
+	if (m_pColission != nullptr && m_pColission->GetID() != 0)
 	{
 		btVector3 btVelocity = m_pColission->getBodyStructure()->body->getLinearVelocity();
 		return glm::vec3(btVelocity[0], btVelocity[1], btVelocity[2]);
@@ -224,5 +262,78 @@ glm::vec3 PhysicsComponent::GetVelocity()
 	else
 	{
 		return glm::vec3(0, 0, 0);
+	}
+}
+
+void PhysicsComponent::setRotationAxis(btRigidBody *body, RotationAndMovementFlags rotationFlags)
+{
+	if (rotationFlags == NONE)
+	{
+		body->setAngularFactor(btVector3(0, 0, 0));
+	}
+	else if (rotationFlags == X)
+	{
+		body->setAngularFactor(btVector3(1, 0, 0));
+	}
+	else if (rotationFlags == Y)
+	{
+		body->setAngularFactor(btVector3(0, 1, 0));
+	}
+	else if (rotationFlags == Z)
+	{
+		body->setAngularFactor(btVector3(0, 0, 1));
+	}
+	else if (rotationFlags == XY)
+	{
+		body->setAngularFactor(btVector3(1, 1, 0));
+	}
+	else if (rotationFlags == XZ)
+	{
+		body->setAngularFactor(btVector3(1, 0, 1));
+	}
+	else if (rotationFlags == YZ)
+	{
+		body->setAngularFactor(btVector3(0, 1, 1));
+	}
+	else if (rotationFlags == XYZ)
+	{
+		body->setAngularFactor(btVector3(1, 1, 1));
+	}
+}
+
+void PhysicsComponent::setMovementAxis(btRigidBody *body, RotationAndMovementFlags rotationFlags)
+{
+
+	if (rotationFlags == NONE)
+	{
+		body->setLinearFactor(btVector3(0, 0, 0));
+	}
+	else if (rotationFlags == X)
+	{
+		body->setLinearFactor(btVector3(1, 0, 0));
+	}
+	else if (rotationFlags == Y)
+	{
+		body->setLinearFactor(btVector3(0, 1, 0));
+	}
+	else if (rotationFlags == Z)
+	{
+		body->setLinearFactor(btVector3(0, 0, 1));
+	}
+	else if (rotationFlags == XY)
+	{
+		body->setLinearFactor(btVector3(1, 1, 0));
+	}
+	else if (rotationFlags == XZ)
+	{
+		body->setLinearFactor(btVector3(1, 0, 1));
+	}
+	else if (rotationFlags == YZ)
+	{
+		body->setLinearFactor(btVector3(0, 1, 1));
+	}
+	else if (rotationFlags == XYZ)
+	{
+		body->setLinearFactor(btVector3(1, 1, 1));
 	}
 }

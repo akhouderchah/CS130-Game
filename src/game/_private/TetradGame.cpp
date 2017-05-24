@@ -37,28 +37,29 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	pDraw->SetTexture(BACKGROUND_PATH, TextureType::RGB);
 	entity.Add<MaterialComponent>()->SetScrollRate(-0.2f);
 
-
 	// Create floor
 	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(0, -1.05f, 1), glm::vec3(1.5f, 0.1f, 1));
+	entity.Add<TransformComponent>()->Init(glm::vec3(0, -1.5f, 0.0f), glm::vec3(2.5f, 0.2f, 100)); //Set to 100 so we wont fall off of Z coordinate
 	entity.Add<MovableComponent>();
 	entity.Add<PhysicsComponent>();
 	pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(FLOOR_PATH, TextureType::RGBA);
 	entity.Add<MaterialComponent>()->SetScrollRate(-0.75f);
-
+	CollisionComponent * pCol = entity.Add<CollisionComponent>();
+	//pCol->addPlane();
+	pCol->addBox(0);
+	pCol->setBounciness(1.0);
 
 	// Create camera
 	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(0, 0, 5));
+	entity.Add<TransformComponent>()->Init(glm::vec3(0, 0, 3));
 	entity.Add<MovableComponent>();
 	CameraComponent *pCamera = entity.Add<CameraComponent>();
 	pCamera->SetCurrentCamera(pCamera);
 	SoundComponent *pSound = entity.Add<SoundComponent>();
 	pSound->LoadSound("backgroundMusic", SOUND_PATH + "backgroundMusic.wav", IS_LOOP);
 	pSound->PlaySound("backgroundMusic");
-
 
 	// Create jumping boxes
 	for(int i = 0; i < 1; ++i)
@@ -76,12 +77,13 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP), new Action_Jump(entity));
 		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_LEFT), new Action_Left_Right(entity, LEFT));
 		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_RIGHT), new Action_Left_Right(entity, RIGHT));
-
 		SoundComponent *pSound = entity.Add<SoundComponent>();
 		pSound->LoadSound("wingsFlap", SOUND_PATH + "wingSound.wav", !IS_LOOP);
 		CollisionComponent * pCol = entity.Add<CollisionComponent>();
-		//pCol->addSphere(1, !ENABLE_ROTATION);
-		pCol->addBox(1, !ENABLE_ROTATION, 0, 0.0, 0.0, 0.0);
+		pCol->addSphere(1);
+		//pCol->addBox(1);
+		pCol->setBounciness(0.5);
+		pCol->setMovement(XY);
 	}
 
 	entity = EntityManager::CreateEntity();
@@ -92,8 +94,38 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(TEXTURE_PATH + "bird.tga", TextureType::RGBA);
 	entity.Add<PhysicsComponent>();
-	CollisionComponent * pCol2 = entity.Add<CollisionComponent>();
-	pCol2->addSphere(1.0f);
+	pCol = entity.Add<CollisionComponent>();
+	pCol->addBox(1.0f);
+	pCol->setMovement(XY);
+
+
+	entity = EntityManager::CreateEntity();
+	entity.Add<TransformComponent>()->Init(glm::vec3(-1.f, 1.f, 0.f),
+		glm::vec3(.5f, .5f, .5f));
+	entity.Add<MovableComponent>();
+	pDraw = entity.Add<DrawComponent>();
+	pDraw->SetGeometry(ShapeType::PLANE);
+	pDraw->SetTexture(TEXTURE_PATH + "Black.tga", TextureType::RGBA);
+	entity.Add<PhysicsComponent>();
+	pCol = entity.Add<CollisionComponent>();
+	pCol->addBox(5.0f);
+	pCol->setMovement(XY);
+
+	entity = EntityManager::CreateEntity();
+	entity.Add<TransformComponent>()->Init(glm::vec3(-1.f, 1.8f, 0.f),
+		glm::vec3(.2f, .2f, .2f));
+	entity.Add<MovableComponent>();
+	pDraw = entity.Add<DrawComponent>();
+	pDraw->SetGeometry(ShapeType::PLANE);
+	pDraw->SetTexture(TEXTURE_PATH + "bird.tga", TextureType::RGBA);
+	entity.Add<PhysicsComponent>();
+	pCol = entity.Add<CollisionComponent>();
+	pCol->addSphere(1.0f);
+	pCol->setMovement(XY);
+
+
+
+
 
 
 	// Create fade screen entity
@@ -104,8 +136,6 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	pDraw->SetTexture(PAUSE_BACKGROUND_PATH, TextureType::RGBA);
 	entity.Add<MaterialComponent>()->SetOpacity(0.f);
 	Action_PauseGame::SetFadeScreen(entity);
-
-
 
 	m_Timer.Start();
 

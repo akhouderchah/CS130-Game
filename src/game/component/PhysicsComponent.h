@@ -57,4 +57,7 @@ private:
 	void updateSphere(bulletObject *, CollisionComponent *);
 	void updateBox(bulletObject *, CollisionComponent *);
 	void updateCylinder(bulletObject *);
+
+	void setRotationAxis(btRigidBody *, RotationAndMovementFlags);
+	void setMovementAxis(btRigidBody *, RotationAndMovementFlags);
 };
