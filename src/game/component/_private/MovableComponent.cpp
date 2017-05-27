@@ -52,6 +52,12 @@ void MovableComponent::Rotate(float rotationRads, const vec3& rotationAxis)
 	m_pTransformComp->MarkDirty();
 	m_pTransformComp->m_Orientation = glm::angleAxis((rotationRads), rotationAxis) *
 		m_pTransformComp->m_Orientation;
+void MovableComponent::Rotate(const mat3& rotationMatrix)
+{
+	DEBUG_ASSERT(m_pTransformComp);
+	m_pTransformComp->MarkDirty();
+	m_pTransformComp->m_Orientation = toQuat(rotationMatrix) *
+		m_pTransformComp->m_Orientation;
 }
 
 void MovableComponent::SetScale(const vec3& scale)
