@@ -4,6 +4,7 @@
 #include "EntityManager.h"
 #include "MaterialComponent.h"
 #include <algorithm> 
+#include "PhysicsComponent.h"
 
 
 CollisionComponent::CollisionComponent(Entity entity) :
@@ -15,19 +16,17 @@ CollisionComponent::CollisionComponent(Entity entity) :
 
 CollisionComponent::~CollisionComponent()
 {
-	/*
-	for (int i = 0; i < m_pBodies.size(); i++)
+	if (EntityManager::GetComponent<CollisionComponent>(m_Entity)->GetID() != 0)
 	{
-	world->removeCollisionObject(m_pBodies[i]->body);
-	btMotionState *motionState = m_pBodies[i]->body->getMotionState();
-	btCollisionShape *shape = m_pBodies[i]->body->getCollisionShape();
+		PhysicsComponent::getWorld()->removeCollisionObject(m_pBody->body);
+		btMotionState *motionState = m_pBody->body->getMotionState();
+		btCollisionShape *shape = m_pBody->body->getCollisionShape();
 
-	delete m_pBodies[i]->body;
-	delete shape;
-	delete motionState;
-	delete m_pBodies[i];
+		delete m_pBody->body;
+		delete shape;
+		delete motionState;
+		delete m_pBody;
 	}
-	*/
 }
 
 void CollisionComponent::Refresh()
@@ -35,19 +34,6 @@ void CollisionComponent::Refresh()
 	m_pMover = EntityManager::GetComponent<MovableComponent>(m_Entity);
 	m_pDraw = EntityManager::GetComponent<DrawComponent>(m_Entity);
 	m_pTransform = EntityManager::GetComponent<TransformComponent>(m_Entity);
-}
-
-void CollisionComponent::Tick(deltaTime_t dt)
-{
-	//@TODO This have a huge performance hit, need to find a better way to do this...
-	//glm::vec3 deltaPosition = m_pTransform->GetPosition() - m_OldPosition;
-	//glm::vec3 deltaScale = m_pTransform->GetScale() - m_OldScale;
-
-	//m_OldPosition = m_pTransform->GetPosition();
-	//m_OldScale = m_pTransform->GetScale();
-
-	//EntityManager::GetComponent<MovableComponent>(entity)->Move(deltaPosition);
-	//EntityManager::GetComponent<MovableComponent>(entity)->Scale(deltaScale);
 }
 
 
@@ -81,16 +67,16 @@ void CollisionComponent::updateHitboxPosition(glm::vec3 vec)
 
 void CollisionComponent::updateHitboxAngle(glm::quat q)
 {
-	//MovableComponent * move = EntityManager::GetComponent<MovableComponent>(entity);
-	//move->SetOrientation(q);
+	MovableComponent * move = EntityManager::GetComponent<MovableComponent>(entity);
+	move->SetOrientation(q);
 }
 
 
-void CollisionComponent::addPlane(float additionToX, float additionToY, float additionToZ)
+void CollisionComponent::addPlane()
 {
-	float X = m_pTransform->GetPosition()[0] + additionToX;
-	float Y = m_pTransform->GetPosition()[1] + additionToY;
-	float Z = m_pTransform->GetPosition()[2] + additionToZ;
+	float X = m_pTransform->GetPosition()[0];
+	float Y = m_pTransform->GetPosition()[1];
+	float Z = m_pTransform->GetPosition()[2];
 
 	btTransform transform;
 	transform.setIdentity();
@@ -106,8 +92,8 @@ void CollisionComponent::addPlane(float additionToX, float additionToY, float ad
 
 	body->setRestitution(1); //Bounciness of the object
 
-	m_pBody = new bulletObject(body, NONE, NONE);
-
+	m_pBody = new bulletObject(body, btVector3(0,0,0), btVector3(0, 0, 0));
+	
 
 	entity = EntityManager::CreateEntity();
 	entity.Add<TransformComponent>()->Init(glm::vec3(X, Y, Z), 
@@ -117,19 +103,21 @@ void CollisionComponent::addPlane(float additionToX, float additionToY, float ad
 	DrawComponent *pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(TEXTURE_PATH + "green.tga", TextureType::RGB);
+
+	PhysicsComponent::AddBodyToWorld(m_pBody->body);
+
+	//toggleHitboxView();
 }
 
 
-void CollisionComponent::addBox(float mass, float additionTowidth, float additionToheight, float additionTodepth, 
-	float additionToX, float additionToY, float additionToZ)
-	
+void CollisionComponent::addBox(float mass, const btVector3 &additionToDimensions)
 {
-	float X = m_pTransform->GetPosition()[0] + additionToX;
-	float Y = m_pTransform->GetPosition()[1] + additionToY;
-	float Z = m_pTransform->GetPosition()[2] + additionToZ;
-	float width = m_pTransform->GetScale()[0] + additionTowidth;
-	float height = m_pTransform->GetScale()[1] + additionToheight;
-	float depth = m_pTransform->GetScale()[2] + additionTodepth;
+	float X = m_pTransform->GetPosition()[0];
+	float Y = m_pTransform->GetPosition()[1];
+	float Z = m_pTransform->GetPosition()[2];
+	float width = m_pTransform->GetScale()[0] + additionToDimensions.x();
+	float height = m_pTransform->GetScale()[1] + additionToDimensions.y();
+	float depth = m_pTransform->GetScale()[2] + additionToDimensions.z();
 
 
 	btTransform transform;
@@ -145,10 +133,13 @@ void CollisionComponent::addBox(float mass, float additionTowidth, float additio
 	}
 
 	btMotionState *motion = new btDefaultMotionState(transform);
+
+	float tempMass = (EntityManager::GetComponent<PhysicsComponent>(m_Entity)->GetID() == 0) ? 0 : mass;
+
 	btRigidBody::btRigidBodyConstructionInfo info(mass, motion, box, inertia);//note that we passed mass to not make it static
 	btRigidBody *body = new btRigidBody(info);
 	
-	m_pBody = new bulletObject(body, XYZ, XYZ);
+	m_pBody = new bulletObject(body, btVector3(1, 1, 1), btVector3(1, 1, 1));
 
 	entity = EntityManager::CreateEntity();
 	entity.Add<TransformComponent>()->Init(glm::vec3(X, Y, Z), glm::vec3(width, height, depth));
@@ -157,15 +148,19 @@ void CollisionComponent::addBox(float mass, float additionTowidth, float additio
 	DrawComponent *pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(TEXTURE_PATH + "green.tga", TextureType::RGB);
+
+	PhysicsComponent::AddBodyToWorld(m_pBody->body);
+
+	//toggleHitboxView();
 }
 
-void CollisionComponent::addSphere(float mass, float additionToRadius, float additionToX, float additionToY, float additionToZ)
+void CollisionComponent::addSphere(float mass, float additionToRadius)
 {
 	float f[3] = { m_pTransform->GetScale()[0], m_pTransform->GetScale()[1], m_pTransform->GetScale()[2] };
 	float radius = std::max(std::max(f[1],f[2]), f[3]) + additionToRadius;
-	float X = m_pTransform->GetPosition()[0] + additionToX;
-	float Y = m_pTransform->GetPosition()[1] + additionToY;
-	float Z = m_pTransform->GetPosition()[2] + additionToZ;
+	float X = m_pTransform->GetPosition()[0];
+	float Y = m_pTransform->GetPosition()[1];
+	float Z = m_pTransform->GetPosition()[2];
 
 	btTransform transform;
 	transform.setIdentity();
@@ -181,10 +176,13 @@ void CollisionComponent::addSphere(float mass, float additionToRadius, float add
 	}
 
 	btMotionState *motion = new btDefaultMotionState(transform);
+
+	float tempMass = (EntityManager::GetComponent<PhysicsComponent>(m_Entity)->GetID () == 0) ? 0 : mass;
+
 	btRigidBody::btRigidBodyConstructionInfo info(mass, motion, sphere, inertia);//note that we passed mass to not make it static
 	btRigidBody *body = new btRigidBody(info);
 
-	m_pBody = new bulletObject(body, XYZ, XYZ);
+	m_pBody = new bulletObject(body, btVector3(1, 1, 1), btVector3(1, 1, 1));
 
 	entity = EntityManager::CreateEntity();
 	entity.Add<TransformComponent>()->Init(glm::vec3(X, Y, Z), glm::vec3(radius, radius, radius));
@@ -193,14 +191,18 @@ void CollisionComponent::addSphere(float mass, float additionToRadius, float add
 	DrawComponent *pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(TEXTURE_PATH + "circle.tga", TextureType::RGBA);
+
+	PhysicsComponent::AddBodyToWorld(m_pBody->body);
+
+	//toggleHitboxView();
 }
 
 
-void CollisionComponent::addCylinder(float mass, float additionTodiameter, float additionToHeight, float additionToX, float additionToY, float additionToZ)
+void CollisionComponent::addCylinder(float mass, float additionTodiameter, float additionToHeight)
 {
-	float X = m_pTransform->GetPosition()[0] + additionToX;
-	float Y = m_pTransform->GetPosition()[1] + additionToY;
-	float Z = m_pTransform->GetPosition()[2] + additionToZ;
+	float X = m_pTransform->GetPosition()[0];
+	float Y = m_pTransform->GetPosition()[1];
+	float Z = m_pTransform->GetPosition()[2];
 	float diameter = m_pTransform->GetScale()[0] + additionTodiameter;
 	float height = m_pTransform->GetScale()[1] + additionToHeight;
 
@@ -217,8 +219,15 @@ void CollisionComponent::addCylinder(float mass, float additionTodiameter, float
 	}
 
 	btMotionState *motion = new btDefaultMotionState(transform);
+
+	float tempMass = (EntityManager::GetComponent<PhysicsComponent>(m_Entity)->GetID() == 0) ? 0 : mass;
+
 	btRigidBody::btRigidBodyConstructionInfo info(mass, motion, cylinder, inertia);
 	btRigidBody *body = new btRigidBody(info);
 
-	m_pBody = new bulletObject(body, XYZ, XYZ);
+	m_pBody = new bulletObject(body, btVector3(1, 1, 1), btVector3(1, 1, 1));
+
+	PhysicsComponent::AddBodyToWorld(m_pBody->body);
+
+	//toggleHitboxView();
 }

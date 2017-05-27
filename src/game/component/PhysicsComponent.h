@@ -1,9 +1,5 @@
 #pragma once
 
-//The code for the Bullet Physics was learned from the following Youtube series, and it shares some
-//part of the code with the code showed in those videos.
-//https://www.youtube.com/watch?v=T9R9RWLzBcs&list=PLj4I-yBchUboXrXmPh6iepqw2lbAlq7gt&index=3
-
 #include "Base.h"
 #include "IComponent.h"
 #include "CollisionComponent.h" 
@@ -29,19 +25,15 @@ public:
 	bool ImpulseLeft();
 	bool ImpulseRight();
 
-	void SetVelocity(glm::vec3 velocity) { m_Velocity = velocity; }
-	void IncrementVelocity(glm::vec3 velocity) { m_Velocity += velocity; }
 
+	static void AddBodyToWorld(btRigidBody *b) { s_pWorld->addRigidBody(b); }
+	static btDynamicsWorld * getWorld() { return s_pWorld; }
+	static void togglePause() { s_Pause = !s_Pause; }
 
-	void SetGravity(float, float, float);
-	//const glm::vec3 GetVelocity() const { return m_Velocity; }
 	glm::vec3  GetVelocity();
 
 private:
-	static float s_ImpulseSpeed;
 	static float s_ImpulseWaitTime;
-	bool m_IsGravityOn;
-	glm::vec3 m_Velocity;
 	float m_ImpulseWait;
 	MovableComponent* m_pMover;
 	CollisionComponent * m_pColission;
@@ -51,13 +43,13 @@ private:
 	static btCollisionConfiguration * s_pCollisionConfig; //stuff to do with collisions
 	static btBroadphaseInterface * s_pBroadphase; //way to store data, like in a grid
 	static btConstraintSolver * s_pSolver; //How much force is applied and all that
-	static std::vector<int> s_WorldCollisionComponentID;
 
 	void updatePlane(bulletObject *);
 	void updateSphere(bulletObject *, CollisionComponent *);
 	void updateBox(bulletObject *, CollisionComponent *);
 	void updateCylinder(bulletObject *);
 
-	void setRotationAxis(btRigidBody *, RotationAndMovementFlags);
-	void setMovementAxis(btRigidBody *, RotationAndMovementFlags);
+	bool m_LeftMovement;
+	bool m_RightMovement;
+	static bool s_Pause;
 };

@@ -80,12 +80,15 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		SoundComponent *pSound = entity.Add<SoundComponent>();
 		pSound->LoadSound("wingsFlap", SOUND_PATH + "wingSound.wav", !IS_LOOP);
 		CollisionComponent * pCol = entity.Add<CollisionComponent>();
-		pCol->addSphere(1);
-		//pCol->addBox(1);
-		pCol->setBounciness(0.5);
-		pCol->setMovement(XY);
+		//pCol->addSphere(1);
+		pCol->addBox(1);
+		pCol->setBounciness(0.3);
+		pCol->setRotation(btVector3(0, 0, 1));
+		pCol->setMovement(btVector3(1, 1, 0));
+		pCol->setGravity(btVector3(0.0, -5.0, 0.0));
 	}
 
+	
 	entity = EntityManager::CreateEntity();
 	entity.Add<TransformComponent>()->Init(glm::vec3(0.5f, 1.f, 0.f),
 		glm::vec3(.2f, .2f, .2f));
@@ -96,7 +99,8 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<PhysicsComponent>();
 	pCol = entity.Add<CollisionComponent>();
 	pCol->addBox(1.0f);
-	pCol->setMovement(XY);
+	pCol->setRotation(btVector3(0, 0, 1));
+	pCol->setMovement(btVector3(1, 1, 0));
 
 
 	entity = EntityManager::CreateEntity();
@@ -109,7 +113,8 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<PhysicsComponent>();
 	pCol = entity.Add<CollisionComponent>();
 	pCol->addBox(5.0f);
-	pCol->setMovement(XY);
+	pCol->setRotation(btVector3(0, 0, 1));
+	pCol->setMovement(btVector3(1, 1, 0));
 
 	entity = EntityManager::CreateEntity();
 	entity.Add<TransformComponent>()->Init(glm::vec3(-1.f, 1.8f, 0.f),
@@ -121,8 +126,9 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<PhysicsComponent>();
 	pCol = entity.Add<CollisionComponent>();
 	pCol->addSphere(1.0f);
-	pCol->setMovement(XY);
-
+	pCol->setRotation(btVector3(0, 0, 1));
+	pCol->setMovement(btVector3(1, 1, 0));
+	
 
 
 
@@ -155,9 +161,6 @@ void TetradGame::AddSystems()
 
 	m_pSoundSystem = new SoundSystem;
 	m_pSystems.push_back(m_pSoundSystem);
-
-	m_pCollisionSystem = new CollisionSystem;
-	m_pSystems.push_back(m_pCollisionSystem);
 
 	// Create the system observer
 	m_pSystemObserver = EntityManager::CreateEntity().Add<ObserverComponent>();

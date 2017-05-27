@@ -8,26 +8,15 @@ class MovableComponent;
 class DrawComponent;
 class TransformComponent;
 
-enum RotationAndMovementFlags
-{
-	X,
-	Y,
-	Z,
-	XY,
-	XZ,
-	YZ,
-	XYZ,
-	NONE
-};
-
 struct bulletObject
 {
 	bool hit; //true if object is hit, false otherwise
 	btRigidBody *body;
-	RotationAndMovementFlags rotationFlags;
-	RotationAndMovementFlags movementFlags;
-	bulletObject(btRigidBody *b, RotationAndMovementFlags rot, RotationAndMovementFlags mov) : 
-		body(b), hit(false), rotationFlags(rot), movementFlags(mov) {}
+	btVector3 rotationFlags;
+	btVector3 movementFlags;
+	btVector3 gravity;
+	bulletObject(btRigidBody *b, btVector3 &rot, btVector3 &mov): 
+		body(b), hit(false), rotationFlags(rot), movementFlags(mov), gravity(btVector3(0.0,-10.0, 0.0)) {}
 };
 
 
@@ -79,27 +68,22 @@ public:
 
 	void Refresh();
 
-	void Tick(deltaTime_t dt);
-
 	void toggleHitboxView();
 	bulletObject *getBodyStructure() {return m_pBody;}
 	void updateHitboxPosition(glm::vec3 vec);
 	void updateHitboxAngle(glm::quat q);
 
-	void addPlane(float additionToX = .0, float additionToY = .0, float additionToZ = .0); //This adds an infinite plane body
+	void addPlane(); 
 
-	void addBox(float mass, float additionTowidth = .0, float additionToheight = .0, float additionTodepth = .0,
-		float additionToX = .0, float additionToY = .0, float additionToZ = .0);
+	void addBox(float mass, const btVector3 &additionToDimensions = btVector3(0, 0, 0));
 
-	void addSphere(float mass, float additionToRadius = 0, float additionToX = 0, 
-		float additionToY = 0, float additionToZ = 0);
-		
+	void addSphere(float mass, float additionToRadius = 0);
 
-	void addCylinder(float mass, float additionTodiameter = 0, float additionToHeight = 0,
-		float additionToX = 0, float additionToY = 0, float additionToZ = 0);
+	void addCylinder(float mass, float additionToDiameter = 0, float additionToHeight = 0);
 
-	void setRotation(RotationAndMovementFlags rotFlags) { m_pBody->rotationFlags = rotFlags; }
-	void setMovement(RotationAndMovementFlags movFlags) { m_pBody->movementFlags = movFlags; }
+	void setRotation(btVector3 &rotFlags) { m_pBody->rotationFlags = rotFlags; }
+	void setMovement(btVector3 &movFlags) { m_pBody->movementFlags = movFlags; }
+	void setGravity(btVector3 &g) { m_pBody->gravity = g; }
 	void setBounciness(float bounce) { m_pBody->body->setRestitution(bounce); }
 	
 

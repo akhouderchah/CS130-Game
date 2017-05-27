@@ -1,34 +1,31 @@
 #include "PhysicsComponent.h"
 #include "MovableComponent.h"
 
-float PhysicsComponent::s_ImpulseSpeed = 2.85f;
 float PhysicsComponent::s_ImpulseWaitTime = 0.0f;
 
-btDynamicsWorld * PhysicsComponent::s_pWorld = nullptr;
-btDispatcher * PhysicsComponent::s_pDispatcher = nullptr;
-btCollisionConfiguration * PhysicsComponent::s_pCollisionConfig = nullptr;
-btBroadphaseInterface * PhysicsComponent::s_pBroadphase = nullptr;
-btConstraintSolver * PhysicsComponent::s_pSolver = nullptr;
-std::vector<int> PhysicsComponent::s_WorldCollisionComponentID;
+btBroadphaseInterface * PhysicsComponent::s_pBroadphase = new btDbvtBroadphase();
+btCollisionConfiguration * PhysicsComponent::s_pCollisionConfig = new btDefaultCollisionConfiguration();
+btDispatcher * PhysicsComponent::s_pDispatcher = new btCollisionDispatcher(s_pCollisionConfig);
+btConstraintSolver * PhysicsComponent::s_pSolver = new btSequentialImpulseConstraintSolver;
+btDynamicsWorld * PhysicsComponent::s_pWorld = new btDiscreteDynamicsWorld(s_pDispatcher, s_pBroadphase, s_pSolver, s_pCollisionConfig);
+
+bool PhysicsComponent::s_Pause = false;
 
 
 PhysicsComponent::PhysicsComponent(Entity entity) :
-	IComponent(entity), m_IsGravityOn(true), m_Velocity(0,0,0),
-	m_ImpulseWait(0.f), m_pMover(nullptr),
+	IComponent(entity), m_ImpulseWait(0.f), m_pMover(nullptr),
 	m_pColission(nullptr)
 {
-	//Initializing the world
-	s_pBroadphase = new btDbvtBroadphase();
-	s_pCollisionConfig = new btDefaultCollisionConfiguration();
-	s_pDispatcher = new btCollisionDispatcher(s_pCollisionConfig);
-	s_pSolver = new btSequentialImpulseConstraintSolver;
-	s_pWorld = new btDiscreteDynamicsWorld(s_pDispatcher, s_pBroadphase, s_pSolver, s_pCollisionConfig);
-	
-	s_pWorld->setGravity(btVector3(0, -10, 0)); //Sets the gravity in the world
+
+	m_LeftMovement = false;
+	m_RightMovement = false;
+	s_Pause = false;
 }
 
 PhysicsComponent::~PhysicsComponent()
 {
+	//NOTE: I am not sure if I need to delete static pointers, but these are the ones that might need deletion
+
 	//delete s_pDispatcher;
 	//delete s_pCollisionConfig;
 	//delete s_pSolver;
@@ -48,20 +45,32 @@ void PhysicsComponent::Tick(deltaTime_t dt)
 	{
 		bulletObject * pBody = m_pColission->getBodyStructure();
 
-		//check to see if current body has already been added to the world
-		if (std::find(s_WorldCollisionComponentID.begin(), s_WorldCollisionComponentID.end(), m_pColission->GetID()) == s_WorldCollisionComponentID.end())
+		pBody->body->setLinearFactor(pBody->movementFlags);
+		pBody->body->setAngularFactor(pBody->rotationFlags);
+		pBody->body->setGravity(pBody->gravity);
+
+		if (m_LeftMovement)
 		{
-			if (pBody != nullptr)
-			{
-				s_pWorld->addRigidBody(pBody->body);
-				s_WorldCollisionComponentID.push_back(m_pColission->GetID());
-			}
+			pBody->body->activate();
+			pBody->body->setLinearVelocity(btVector3(-0.5, pBody->body->getLinearVelocity().y(), pBody->body->getLinearVelocity().z()));
 		}
 
+		if (m_RightMovement)
+		{
+			pBody->body->activate();
+			pBody->body->setLinearVelocity(btVector3(0.5, pBody->body->getLinearVelocity().y(), pBody->body->getLinearVelocity().z()));
+		}
 
 		pBody->hit = false;
-
-		s_pWorld->stepSimulation(dt); //FPS for the physics calculations in seconds
+		if (s_Pause)
+		{
+			s_pWorld->stepSimulation(0);
+		}
+		else
+		{
+			s_pWorld->stepSimulation(dt);
+		}
+		
 
 		if (pBody->body->getCollisionShape()->getShapeType() == STATIC_PLANE_PROXYTYPE)
 		{
@@ -89,8 +98,9 @@ bool PhysicsComponent::Impulse()
 
 	if (m_pColission != nullptr && m_pColission->GetID() != 0)
 	{
+		btVector3 btVelocity = m_pColission->getBodyStructure()->body->getLinearVelocity();
 		m_pColission->getBodyStructure()->body->activate();
-		m_pColission->getBodyStructure()->body->setLinearVelocity(btVector3(0.0, 5.0, 0.0));
+		m_pColission->getBodyStructure()->body->setLinearVelocity(btVector3(btVelocity.x(), 4.0, btVelocity.z()));
 	}
 	
 	return true;
@@ -102,31 +112,24 @@ bool PhysicsComponent::ImpulseLeft()
 	{
 		return false;
 	}
-
 	m_ImpulseWait = s_ImpulseWaitTime;
 
-	if (m_pColission != nullptr && m_pColission->GetID() != 0)
-	{
-		m_pColission->getBodyStructure()->body->activate();
-		m_pColission->getBodyStructure()->body->setLinearVelocity(btVector3(-2.0, 0.0, 0.0));
-	}
+	m_LeftMovement = !m_LeftMovement;
+
 	return true;
 }
 
 bool PhysicsComponent::ImpulseRight()
 {
+
 	if (m_ImpulseWait > 0.f)
 	{
 		return false;
 	}
-
 	m_ImpulseWait = s_ImpulseWaitTime;
 
-	if (m_pColission != nullptr && m_pColission->GetID() != 0)
-	{
-		m_pColission->getBodyStructure()->body->activate();
-		m_pColission->getBodyStructure()->body->setLinearVelocity(btVector3(2.0, 0.0, 0.0));
-	}
+	m_RightMovement = !m_RightMovement;
+
 	return true;
 }
 
@@ -149,9 +152,6 @@ void PhysicsComponent::updateBox(bulletObject *obj, CollisionComponent *col)
 
 	if (box->getCollisionShape()->getShapeType() == BOX_SHAPE_PROXYTYPE)
 	{
-		setRotationAxis(box, obj->rotationFlags);
-		setMovementAxis(box, obj->movementFlags);
-
 		btTransform transform;
 		box->getMotionState()->getWorldTransform(transform);
 
@@ -183,8 +183,6 @@ void PhysicsComponent::updateSphere(bulletObject *obj, CollisionComponent *col)
 
 	if (sphere->getCollisionShape()->getShapeType() == SPHERE_SHAPE_PROXYTYPE)
 	{
-		setRotationAxis(sphere, obj->rotationFlags);
-		setMovementAxis(sphere, obj->movementFlags);
 		
 		btTransform transform;
 		sphere->getMotionState()->getWorldTransform(transform);
@@ -217,9 +215,6 @@ void PhysicsComponent::updateCylinder(bulletObject *obj)
 
 	if (cylinder->getCollisionShape()->getShapeType() == CYLINDER_SHAPE_PROXYTYPE)
 	{
-		setRotationAxis(cylinder, obj->rotationFlags);
-		setMovementAxis(cylinder, obj->movementFlags);
-
 		btTransform transform;
 		cylinder->getMotionState()->getWorldTransform(transform);
 
@@ -246,11 +241,6 @@ void PhysicsComponent::updateCylinder(bulletObject *obj)
 		//col->updateHitboxAngle(quatArray);
 	}
 }
- 
-void PhysicsComponent::SetGravity(float x, float y, float z)
-{
-	s_pWorld->setGravity(btVector3(x, y,  z));
-}
 
 glm::vec3 PhysicsComponent::GetVelocity()
 {
@@ -262,78 +252,5 @@ glm::vec3 PhysicsComponent::GetVelocity()
 	else
 	{
 		return glm::vec3(0, 0, 0);
-	}
-}
-
-void PhysicsComponent::setRotationAxis(btRigidBody *body, RotationAndMovementFlags rotationFlags)
-{
-	if (rotationFlags == NONE)
-	{
-		body->setAngularFactor(btVector3(0, 0, 0));
-	}
-	else if (rotationFlags == X)
-	{
-		body->setAngularFactor(btVector3(1, 0, 0));
-	}
-	else if (rotationFlags == Y)
-	{
-		body->setAngularFactor(btVector3(0, 1, 0));
-	}
-	else if (rotationFlags == Z)
-	{
-		body->setAngularFactor(btVector3(0, 0, 1));
-	}
-	else if (rotationFlags == XY)
-	{
-		body->setAngularFactor(btVector3(1, 1, 0));
-	}
-	else if (rotationFlags == XZ)
-	{
-		body->setAngularFactor(btVector3(1, 0, 1));
-	}
-	else if (rotationFlags == YZ)
-	{
-		body->setAngularFactor(btVector3(0, 1, 1));
-	}
-	else if (rotationFlags == XYZ)
-	{
-		body->setAngularFactor(btVector3(1, 1, 1));
-	}
-}
-
-void PhysicsComponent::setMovementAxis(btRigidBody *body, RotationAndMovementFlags rotationFlags)
-{
-
-	if (rotationFlags == NONE)
-	{
-		body->setLinearFactor(btVector3(0, 0, 0));
-	}
-	else if (rotationFlags == X)
-	{
-		body->setLinearFactor(btVector3(1, 0, 0));
-	}
-	else if (rotationFlags == Y)
-	{
-		body->setLinearFactor(btVector3(0, 1, 0));
-	}
-	else if (rotationFlags == Z)
-	{
-		body->setLinearFactor(btVector3(0, 0, 1));
-	}
-	else if (rotationFlags == XY)
-	{
-		body->setLinearFactor(btVector3(1, 1, 0));
-	}
-	else if (rotationFlags == XZ)
-	{
-		body->setLinearFactor(btVector3(1, 0, 1));
-	}
-	else if (rotationFlags == YZ)
-	{
-		body->setLinearFactor(btVector3(0, 1, 1));
-	}
-	else if (rotationFlags == XYZ)
-	{
-		body->setLinearFactor(btVector3(1, 1, 1));
 	}
 }
