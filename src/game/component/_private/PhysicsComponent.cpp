@@ -16,7 +16,6 @@ PhysicsComponent::PhysicsComponent(Entity entity) :
 	IComponent(entity), m_ImpulseWait(0.f), m_pMover(nullptr),
 	m_pColission(nullptr)
 {
-
 	m_LeftMovement = false;
 	m_RightMovement = false;
 	s_Pause = false;
@@ -71,7 +70,6 @@ void PhysicsComponent::Tick(deltaTime_t dt)
 			s_pWorld->stepSimulation(dt);
 		}
 		
-
 		if (pBody->body->getCollisionShape()->getShapeType() == STATIC_PLANE_PROXYTYPE)
 		{
 			updatePlane(pBody);
@@ -103,33 +101,6 @@ bool PhysicsComponent::Impulse()
 		m_pColission->getBodyStructure()->body->setLinearVelocity(btVector3(btVelocity.x(), 4.0, btVelocity.z()));
 	}
 	
-	return true;
-}
-
-bool PhysicsComponent::ImpulseLeft()
-{
-	if (m_ImpulseWait > 0.f)
-	{
-		return false;
-	}
-	m_ImpulseWait = s_ImpulseWaitTime;
-
-	m_LeftMovement = !m_LeftMovement;
-
-	return true;
-}
-
-bool PhysicsComponent::ImpulseRight()
-{
-
-	if (m_ImpulseWait > 0.f)
-	{
-		return false;
-	}
-	m_ImpulseWait = s_ImpulseWaitTime;
-
-	m_RightMovement = !m_RightMovement;
-
 	return true;
 }
 
@@ -217,8 +188,6 @@ void PhysicsComponent::updateCylinder(bulletObject *obj)
 	{
 		btTransform transform;
 		cylinder->getMotionState()->getWorldTransform(transform);
-
-		//Note that this actually puts cylinder on Y axis, so if you need to rotate, do it here.
 
 		btVector3 vec = transform.getOrigin();
 		btQuaternion ori = transform.getRotation();

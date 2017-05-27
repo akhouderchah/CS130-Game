@@ -22,9 +22,8 @@ public:
 
 	void Tick(deltaTime_t dt);
 	bool Impulse();  // Returns true only if the impulse was successful
-	bool ImpulseLeft();
-	bool ImpulseRight();
-
+	void ImpulseLeft() { m_LeftMovement = !m_LeftMovement; }
+	void ImpulseRight() { m_RightMovement = !m_RightMovement; }
 
 	static void AddBodyToWorld(btRigidBody *b) { s_pWorld->addRigidBody(b); }
 	static btDynamicsWorld * getWorld() { return s_pWorld; }

@@ -11,7 +11,7 @@ CollisionComponent::CollisionComponent(Entity entity) :
 	IComponent(entity), m_pMover(nullptr), m_pDraw(nullptr),
 	m_pTransform(nullptr)
 {
-	isCollisionViewEnabled = true;
+	m_IsCollisionViewEnabled = true;
 }
 
 CollisionComponent::~CollisionComponent()
@@ -39,20 +39,20 @@ void CollisionComponent::Refresh()
 
 void CollisionComponent::toggleHitboxView()
 {
-	MovableComponent * pMove = EntityManager::GetComponent<MovableComponent>(entity);
+	MovableComponent * pMove = EntityManager::GetComponent<MovableComponent>(m_HitboxEntity);
 	
 	if (pMove)
 	{
 		glm::vec3 vec;
-		if (isCollisionViewEnabled == true)
+		if (m_IsCollisionViewEnabled == true)
 		{
 			vec = { 100, 100, 100 };
-			isCollisionViewEnabled = false;
+			m_IsCollisionViewEnabled = false;
 		}
 		else
 		{
 			vec = { -100, -100, -100 };
-			isCollisionViewEnabled = true;
+			m_IsCollisionViewEnabled = true;
 		}
 		pMove->Move(vec);
 	}
@@ -60,14 +60,14 @@ void CollisionComponent::toggleHitboxView()
 
 void CollisionComponent::updateHitboxPosition(glm::vec3 vec)
 {
-	MovableComponent * move = EntityManager::GetComponent<MovableComponent>(entity);
+	MovableComponent * move = EntityManager::GetComponent<MovableComponent>(m_HitboxEntity);
 	move->Move(vec);
 }
 
 
 void CollisionComponent::updateHitboxAngle(glm::quat q)
 {
-	MovableComponent * move = EntityManager::GetComponent<MovableComponent>(entity);
+	MovableComponent * move = EntityManager::GetComponent<MovableComponent>(m_HitboxEntity);
 	move->SetOrientation(q);
 }
 
@@ -90,17 +90,17 @@ void CollisionComponent::addPlane()
 	btRigidBody::btRigidBodyConstructionInfo info(0.0, motion, plane);
 	btRigidBody *body = new btRigidBody(info);
 
-	body->setRestitution(1); //Bounciness of the object
+	body->setRestitution(1);
 
 	m_pBody = new bulletObject(body, btVector3(0,0,0), btVector3(0, 0, 0));
 	
 
-	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(X, Y, Z), 
+	m_HitboxEntity = EntityManager::CreateEntity();
+	m_HitboxEntity.Add<TransformComponent>()->Init(glm::vec3(X, Y, Z), 
 		glm::vec3(m_pTransform->GetScale()[0], 0.01f, m_pTransform->GetScale()[2]));
-	entity.Add<MovableComponent>();
-	entity.Add<MaterialComponent>()->SetOpacity(0.5f);
-	DrawComponent *pDraw = entity.Add<DrawComponent>();
+	m_HitboxEntity.Add<MovableComponent>();
+	m_HitboxEntity.Add<MaterialComponent>()->SetOpacity(0.5f);
+	DrawComponent *pDraw = m_HitboxEntity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(TEXTURE_PATH + "green.tga", TextureType::RGB);
 
@@ -118,7 +118,6 @@ void CollisionComponent::addBox(float mass, const btVector3 &additionToDimension
 	float width = m_pTransform->GetScale()[0] + additionToDimensions.x();
 	float height = m_pTransform->GetScale()[1] + additionToDimensions.y();
 	float depth = m_pTransform->GetScale()[2] + additionToDimensions.z();
-
 
 	btTransform transform;
 	transform.setIdentity();
@@ -138,14 +137,16 @@ void CollisionComponent::addBox(float mass, const btVector3 &additionToDimension
 
 	btRigidBody::btRigidBodyConstructionInfo info(mass, motion, box, inertia);//note that we passed mass to not make it static
 	btRigidBody *body = new btRigidBody(info);
+
+	body->setRestitution(0);
 	
 	m_pBody = new bulletObject(body, btVector3(1, 1, 1), btVector3(1, 1, 1));
 
-	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(X, Y, Z), glm::vec3(width, height, depth));
-	entity.Add<MovableComponent>();
-	entity.Add<MaterialComponent>()->SetOpacity(0.5f);
-	DrawComponent *pDraw = entity.Add<DrawComponent>();
+	m_HitboxEntity = EntityManager::CreateEntity();
+	m_HitboxEntity.Add<TransformComponent>()->Init(glm::vec3(X, Y, Z), glm::vec3(width, height, depth));
+	m_HitboxEntity.Add<MovableComponent>();
+	m_HitboxEntity.Add<MaterialComponent>()->SetOpacity(0.5f);
+	DrawComponent *pDraw = m_HitboxEntity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(TEXTURE_PATH + "green.tga", TextureType::RGB);
 
@@ -182,13 +183,15 @@ void CollisionComponent::addSphere(float mass, float additionToRadius)
 	btRigidBody::btRigidBodyConstructionInfo info(mass, motion, sphere, inertia);//note that we passed mass to not make it static
 	btRigidBody *body = new btRigidBody(info);
 
+	body->setRestitution(0);
+
 	m_pBody = new bulletObject(body, btVector3(1, 1, 1), btVector3(1, 1, 1));
 
-	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(X, Y, Z), glm::vec3(radius, radius, radius));
-	entity.Add<MovableComponent>();
-	entity.Add<MaterialComponent>()->SetOpacity(0.5f);
-	DrawComponent *pDraw = entity.Add<DrawComponent>();
+	m_HitboxEntity = EntityManager::CreateEntity();
+	m_HitboxEntity.Add<TransformComponent>()->Init(glm::vec3(X, Y, Z), glm::vec3(radius, radius, radius));
+	m_HitboxEntity.Add<MovableComponent>();
+	m_HitboxEntity.Add<MaterialComponent>()->SetOpacity(0.5f);
+	DrawComponent *pDraw = m_HitboxEntity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(TEXTURE_PATH + "circle.tga", TextureType::RGBA);
 
@@ -224,6 +227,8 @@ void CollisionComponent::addCylinder(float mass, float additionTodiameter, float
 
 	btRigidBody::btRigidBodyConstructionInfo info(mass, motion, cylinder, inertia);
 	btRigidBody *body = new btRigidBody(info);
+
+	body->setRestitution(0);
 
 	m_pBody = new bulletObject(body, btVector3(1, 1, 1), btVector3(1, 1, 1));
 

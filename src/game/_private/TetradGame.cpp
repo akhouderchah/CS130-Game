@@ -39,7 +39,8 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 
 	// Create floor
 	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(0, -1.5f, 0.0f), glm::vec3(2.5f, 0.2f, 100)); //Set to 100 so we wont fall off of Z coordinate
+	entity.Add<TransformComponent>()->Init(glm::vec3(0, -1.5f, 0.0f), 
+		glm::vec3(2.5f, 0.2f, 100)); //Set to 100 so we wont fall off of Z coordinate
 	entity.Add<MovableComponent>();
 	entity.Add<PhysicsComponent>();
 	pDraw = entity.Add<DrawComponent>();
@@ -48,7 +49,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<MaterialComponent>()->SetScrollRate(-0.75f);
 	CollisionComponent * pCol = entity.Add<CollisionComponent>();
 	//pCol->addPlane();
-	pCol->addBox(0);
+	pCol->addBox(0, btVector3(0.0, -0.18, 0.0));
 	pCol->setBounciness(1.0);
 
 	// Create camera
@@ -80,7 +81,6 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		SoundComponent *pSound = entity.Add<SoundComponent>();
 		pSound->LoadSound("wingsFlap", SOUND_PATH + "wingSound.wav", !IS_LOOP);
 		CollisionComponent * pCol = entity.Add<CollisionComponent>();
-		//pCol->addSphere(1);
 		pCol->addBox(1);
 		pCol->setBounciness(0.3);
 		pCol->setRotation(btVector3(0, 0, 1));
@@ -112,7 +112,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	pDraw->SetTexture(TEXTURE_PATH + "Black.tga", TextureType::RGBA);
 	entity.Add<PhysicsComponent>();
 	pCol = entity.Add<CollisionComponent>();
-	pCol->addBox(5.0f);
+	pCol->addBox(10.0f);
 	pCol->setRotation(btVector3(0, 0, 1));
 	pCol->setMovement(btVector3(1, 1, 0));
 
@@ -130,10 +130,6 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	pCol->setMovement(btVector3(1, 1, 0));
 	
 
-
-
-
-
 	// Create fade screen entity
 	entity = EntityManager::CreateEntity();
 	entity.Add<TransformComponent>()->Init(glm::vec3(0, 0, 1));
@@ -142,6 +138,11 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	pDraw->SetTexture(PAUSE_BACKGROUND_PATH, TextureType::RGBA);
 	entity.Add<MaterialComponent>()->SetOpacity(0.f);
 	Action_PauseGame::SetFadeScreen(entity);
+
+	entity = EntityManager::CreateEntity();
+	ObserverComponent *pObserver = entity.Add<ObserverComponent>();
+	pObserver->Subscribe(*m_pInputSystem);
+	pObserver->AddEvent(EGameEvent(EGE_TOGGLE_HITBOX_VIEW), new Action_ToggleHitboxView());
 
 	m_Timer.Start();
 
