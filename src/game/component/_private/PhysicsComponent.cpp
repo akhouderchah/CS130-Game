@@ -4,24 +4,19 @@
 #include "EntityManager.h"
 #include "MaterialComponent.h"
 #include <algorithm> 
+#include "PhysicsSystem.h"
 
 
 float PhysicsComponent::s_ImpulseWaitTime = 0.0f;
-
-btBroadphaseInterface * PhysicsComponent::s_pBroadphase = new btDbvtBroadphase();
-btCollisionConfiguration * PhysicsComponent::s_pCollisionConfig = new btDefaultCollisionConfiguration();
-btDispatcher * PhysicsComponent::s_pDispatcher = new btCollisionDispatcher(s_pCollisionConfig);
-btConstraintSolver * PhysicsComponent::s_pSolver = new btSequentialImpulseConstraintSolver;
-btDynamicsWorld * PhysicsComponent::s_pWorld = new btDiscreteDynamicsWorld(s_pDispatcher, s_pBroadphase, s_pSolver, s_pCollisionConfig);
-
 bool PhysicsComponent::s_Pause = false;
+
 
 
 PhysicsComponent::PhysicsComponent(Entity entity) :
 	IComponent(entity), m_ImpulseWait(0.f), m_pMover(nullptr), 
 	m_pDraw(nullptr), m_pTransform(nullptr)
-	
 {
+
 	m_LeftMovement = false;
 	m_RightMovement = false;
 	s_Pause = false;
@@ -32,30 +27,6 @@ PhysicsComponent::PhysicsComponent(Entity entity) :
 }
 
 
-PhysicsComponent::~PhysicsComponent()
-{
-
-	if (m_pBody != nullptr)
-	{
-		s_pWorld->removeCollisionObject(m_pBody->body);
-		btMotionState *motionState = m_pBody->body->getMotionState();
-		btCollisionShape *shape = m_pBody->body->getCollisionShape();
-
-		delete m_pBody->body;
-		delete shape;
-		delete motionState;
-		delete m_pBody;
-	}
-
-
-	//NOTE: I am not sure if I need to delete static pointers, but these are the ones that might need deletion
-
-	delete s_pDispatcher;
-	delete s_pCollisionConfig;
-	delete s_pSolver;
-	delete s_pBroadphase;
-	delete s_pWorld;
-}
 
 void PhysicsComponent::Refresh()
 {
@@ -64,51 +35,7 @@ void PhysicsComponent::Refresh()
 	m_pTransform = EntityManager::GetComponent<TransformComponent>(m_Entity);
 }
 
-void PhysicsComponent::Tick(deltaTime_t dt)
-{
-	if (m_pBody != nullptr)
-	{
-		m_pBody->body->setLinearFactor(m_pBody->movementFlags);
-		m_pBody->body->setAngularFactor(m_pBody->rotationFlags);
-		m_pBody->body->setGravity(m_pBody->gravity);
 
-		if (m_LeftMovement)
-		{
-			m_pBody->body->activate();
-			m_pBody->body->setLinearVelocity(btVector3(-0.5, m_pBody->body->getLinearVelocity().y(), m_pBody->body->getLinearVelocity().z()));
-		}
-
-		if (m_RightMovement)
-		{
-			m_pBody->body->activate();
-			m_pBody->body->setLinearVelocity(btVector3(0.5, m_pBody->body->getLinearVelocity().y(), m_pBody->body->getLinearVelocity().z()));
-		}
-
-		m_pBody->hit = false;
-
-		if (s_Pause)
-		{
-			s_pWorld->stepSimulation(0);
-		}
-		else
-		{
-			s_pWorld->stepSimulation(dt);
-		}
-		
-		if (m_pBody->body->getCollisionShape()->getShapeType() == STATIC_PLANE_PROXYTYPE)
-		{
-			updatePlane(m_pBody);
-		}
-		else if (m_pBody->body->getCollisionShape()->getShapeType() == BOX_SHAPE_PROXYTYPE)
-		{
-			updateBox(m_pBody);
-		}
-		else if (m_pBody->body->getCollisionShape()->getShapeType() == SPHERE_SHAPE_PROXYTYPE)
-		{
-			updateSphere(m_pBody);
-		}
-	}
-}
 
 bool PhysicsComponent::Impulse()
 {
@@ -125,116 +52,10 @@ bool PhysicsComponent::Impulse()
 		m_pBody->body->activate();
 		m_pBody->body->setLinearVelocity(btVector3(btVelocity.x(), 4.0, btVelocity.z()));
 	}
-	
 	return true;
 }
 
-void PhysicsComponent::updatePlane(bulletObject *obj)
-{
-	btRigidBody *plane = obj->body;
 
-	if (plane->getCollisionShape()->getShapeType() == STATIC_PLANE_PROXYTYPE)
-	{
-		btTransform transform;
-		plane->getMotionState()->getWorldTransform(transform);
-
-		btVector3 vec = transform.getOrigin();
-	}
-}
-
-void PhysicsComponent::updateBox(bulletObject *obj)
-{
-	btRigidBody *box = obj->body;
-
-	if (box->getCollisionShape()->getShapeType() == BOX_SHAPE_PROXYTYPE)
-	{
-		btTransform transform;
-		box->getMotionState()->getWorldTransform(transform);
-
-		btVector3 vec = transform.getOrigin();
-		btQuaternion ori = transform.getRotation();
-
-		glm::vec3 moveVec = EntityManager::GetComponent<TransformComponent>(m_pMover->GetEntity())->GetPosition();
-		glm::quat quatArray;
-		for (int i = 0; i < 3; i++)
-		{
-			moveVec[i] = vec[i] - moveVec[i];
-		}
-
-		for (int i = 0; i < 4; i++)
-		{
-			quatArray[i] = ori[i];
-		}
-
-		m_pMover->Move(moveVec);
-		m_pMover->SetOrientation(quatArray);
-		updateHitboxPosition(moveVec);
-		updateHitboxAngle(quatArray);
-	}
-}
-
-void PhysicsComponent::updateSphere(bulletObject *obj)
-{
-	btRigidBody *sphere = obj->body;
-
-	if (sphere->getCollisionShape()->getShapeType() == SPHERE_SHAPE_PROXYTYPE)
-	{
-		
-		btTransform transform;
-		sphere->getMotionState()->getWorldTransform(transform);
-
-		btVector3 vec = transform.getOrigin();
-		btQuaternion ori = transform.getRotation();
-
-		glm::vec3 moveVec = EntityManager::GetComponent<TransformComponent>(m_pMover->GetEntity())->GetPosition();
-		glm::quat quatArray;
-		for (int i = 0; i < 3; i++)
-		{
-			moveVec[i] = vec[i] - moveVec[i];
-		}
-
-		for (int i = 0; i < 4; i++)
-		{
-			quatArray[i] = ori[i];
-		}
-
-		m_pMover->Move(moveVec);
-		m_pMover->SetOrientation(quatArray);
-		updateHitboxPosition(moveVec);
-		updateHitboxAngle(quatArray);
-	}
-}
-
-void PhysicsComponent::updateCylinder(bulletObject *obj)
-{
-	btRigidBody *cylinder = obj->body;
-
-	if (cylinder->getCollisionShape()->getShapeType() == CYLINDER_SHAPE_PROXYTYPE)
-	{
-		btTransform transform;
-		cylinder->getMotionState()->getWorldTransform(transform);
-
-		btVector3 vec = transform.getOrigin();
-		btQuaternion ori = transform.getRotation();
-
-		glm::vec3 moveVec = EntityManager::GetComponent<TransformComponent>(m_pMover->GetEntity())->GetPosition();
-		glm::quat quatArray;
-		for (int i = 0; i < 3; i++)
-		{
-			moveVec[i] = vec[i] - moveVec[i];
-		}
-
-		for (int i = 0; i < 4; i++)
-		{
-			quatArray[i] = ori[i];
-		}
-
-		m_pMover->Move(moveVec);
-		m_pMover->SetOrientation(quatArray);
-		//col->updateHitboxPosition(moveVec);
-		//col->updateHitboxAngle(quatArray);
-	}
-}
 
 glm::vec3 PhysicsComponent::GetVelocity()
 {
@@ -248,6 +69,8 @@ glm::vec3 PhysicsComponent::GetVelocity()
 		return glm::vec3(0, 0, 0);
 	}
 }
+
+
 
 void PhysicsComponent::addPlane()
 {
@@ -271,7 +94,6 @@ void PhysicsComponent::addPlane()
 
 	m_pBody = new bulletObject(body, btVector3(0, 0, 0), btVector3(0, 0, 0));
 
-
 	m_HitboxEntity = EntityManager::CreateEntity();
 	m_HitboxEntity.Add<TransformComponent>()->Init(glm::vec3(X, Y, Z),
 		glm::vec3(m_pTransform->GetScale()[0], 0.01f, m_pTransform->GetScale()[2]));
@@ -281,10 +103,11 @@ void PhysicsComponent::addPlane()
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(TEXTURE_PATH + "green.tga", TextureType::RGB);
 
-	PhysicsComponent::AddBodyToWorld(m_pBody->body);
+	PhysicsSystem::GetWorld()->addRigidBody(m_pBody->body);
 
-	//toggleHitboxView();
+	toggleHitboxView();
 }
+
 
 
 void PhysicsComponent::addBox(float mass, const btVector3 &additionToDimensions)
@@ -325,10 +148,12 @@ void PhysicsComponent::addBox(float mass, const btVector3 &additionToDimensions)
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(TEXTURE_PATH + "green.tga", TextureType::RGB);
 
-	PhysicsComponent::AddBodyToWorld(m_pBody->body);
+	PhysicsSystem::GetWorld()->addRigidBody(m_pBody->body);
 
-	//toggleHitboxView();
+	toggleHitboxView();
 }
+
+
 
 void PhysicsComponent::addSphere(float mass, float additionToRadius)
 {
@@ -368,10 +193,11 @@ void PhysicsComponent::addSphere(float mass, float additionToRadius)
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(TEXTURE_PATH + "circle.tga", TextureType::RGBA);
 
-	PhysicsComponent::AddBodyToWorld(m_pBody->body);
+	PhysicsSystem::GetWorld()->addRigidBody(m_pBody->body);
 
-	//toggleHitboxView();
+	toggleHitboxView();
 }
+
 
 
 void PhysicsComponent::addCylinder(float mass, float additionTodiameter, float additionToHeight)
@@ -403,10 +229,12 @@ void PhysicsComponent::addCylinder(float mass, float additionTodiameter, float a
 
 	m_pBody = new bulletObject(body, btVector3(1, 1, 1), btVector3(1, 1, 1));
 
-	PhysicsComponent::AddBodyToWorld(m_pBody->body);
+	PhysicsSystem::GetWorld()->addRigidBody(m_pBody->body);
 
-	//toggleHitboxView();
+	toggleHitboxView();
 }
+
+
 
 void PhysicsComponent::toggleHitboxView()
 {
@@ -428,6 +256,8 @@ void PhysicsComponent::toggleHitboxView()
 		pMove->Move(vec);
 	}
 }
+
+
 
 void PhysicsComponent::updateHitboxPosition(glm::vec3 vec)
 {
