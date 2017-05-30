@@ -1,5 +1,5 @@
 #include "Action_ToggleHitboxView.h"
-#include "CollisionComponent.h"
+#include "PhysicsComponent.h"
 
 Action_ToggleHitboxView::Action_ToggleHitboxView()
 {
@@ -11,11 +11,11 @@ Action_ToggleHitboxView::~Action_ToggleHitboxView()
 
 bool Action_ToggleHitboxView::operator()()
 {
-	ConstVector<CollisionComponent*> pCol = EntityManager::GetAll<CollisionComponent>();
+	ConstVector<PhysicsComponent*> pPhysics = EntityManager::GetAll<PhysicsComponent>();
 
-	for (unsigned int i = 1; i < pCol.size(); i++)
+	for (unsigned int i = 1; i < pPhysics.size(); i++)
 	{
-		pCol[i]->toggleHitboxView();
+		pPhysics[i]->toggleHitboxView();
 	}
 
 	return false;

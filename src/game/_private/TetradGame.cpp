@@ -5,7 +5,6 @@
 #include "EventSystem.h"
 #include "ObserverComponent.h"
 #include "PhysicsSystem.h"
-#include "CollisionComponent.h"
 
 TetradGame::TetradGame() :
 	m_pDrawSystem(nullptr), m_pSystemObserver(nullptr),
@@ -42,15 +41,14 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<TransformComponent>()->Init(glm::vec3(0, -1.5f, 0.0f), 
 		glm::vec3(2.5f, 0.2f, 100)); //Set to 100 so we wont fall off of Z coordinate
 	entity.Add<MovableComponent>();
-	entity.Add<PhysicsComponent>();
 	pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(FLOOR_PATH, TextureType::RGBA);
 	entity.Add<MaterialComponent>()->SetScrollRate(-0.75f);
-	CollisionComponent * pCol = entity.Add<CollisionComponent>();
-	//pCol->addPlane();
-	pCol->addBox(0, btVector3(0.0, -0.18, 0.0));
-	pCol->setBounciness(1.0);
+	PhysicsComponent * pPhysics = entity.Add<PhysicsComponent>();
+	//pPhysics->addPlane();
+	pPhysics->addBox(0, btVector3(0.0, -0.18, 0.0));
+	pPhysics->setBounciness(1.0);
 
 	// Create camera
 	entity = EntityManager::CreateEntity();
@@ -72,7 +70,6 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		pDraw = entity.Add<DrawComponent>();
 		pDraw->SetGeometry(ShapeType::PLANE);
 		pDraw->SetTexture(TEXTURE_PATH + "bird.tga", TextureType::RGBA);
-		entity.Add<PhysicsComponent>();
 		ObserverComponent *pObserver = entity.Add<ObserverComponent>();
 		pObserver->Subscribe(*m_pInputSystem);
 		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP), new Action_Jump(entity));
@@ -80,12 +77,12 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_RIGHT), new Action_Left_Right(entity, RIGHT));
 		SoundComponent *pSound = entity.Add<SoundComponent>();
 		pSound->LoadSound("wingsFlap", SOUND_PATH + "wingSound.wav", !IS_LOOP);
-		CollisionComponent * pCol = entity.Add<CollisionComponent>();
-		pCol->addBox(1);
-		pCol->setBounciness(0.3);
-		pCol->setRotation(btVector3(0, 0, 1));
-		pCol->setMovement(btVector3(1, 1, 0));
-		pCol->setGravity(btVector3(0.0, -5.0, 0.0));
+		PhysicsComponent * pPhysics = entity.Add<PhysicsComponent>();
+		pPhysics->addBox(1);
+		pPhysics->setBounciness(0.3);
+		pPhysics->setRotation(btVector3(0, 0, 1));
+		pPhysics->setMovement(btVector3(1, 1, 0));
+		pPhysics->setGravity(btVector3(0.0, -5.0, 0.0));
 	}
 
 	
@@ -96,11 +93,10 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(TEXTURE_PATH + "bird.tga", TextureType::RGBA);
-	entity.Add<PhysicsComponent>();
-	pCol = entity.Add<CollisionComponent>();
-	pCol->addBox(1.0f);
-	pCol->setRotation(btVector3(0, 0, 1));
-	pCol->setMovement(btVector3(1, 1, 0));
+	pPhysics = entity.Add<PhysicsComponent>();
+	pPhysics->addBox(1.0f);
+	pPhysics->setRotation(btVector3(0, 0, 1));
+	pPhysics->setMovement(btVector3(1, 1, 0));
 
 
 	entity = EntityManager::CreateEntity();
@@ -110,11 +106,10 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(TEXTURE_PATH + "Black.tga", TextureType::RGBA);
-	entity.Add<PhysicsComponent>();
-	pCol = entity.Add<CollisionComponent>();
-	pCol->addBox(10.0f);
-	pCol->setRotation(btVector3(0, 0, 1));
-	pCol->setMovement(btVector3(1, 1, 0));
+	pPhysics = entity.Add<PhysicsComponent>();
+	pPhysics->addBox(10.0f);
+	pPhysics->setRotation(btVector3(0, 0, 1));
+	pPhysics->setMovement(btVector3(1, 1, 0));
 
 	entity = EntityManager::CreateEntity();
 	entity.Add<TransformComponent>()->Init(glm::vec3(-1.f, 1.8f, 0.f),
@@ -123,11 +118,10 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(TEXTURE_PATH + "bird.tga", TextureType::RGBA);
-	entity.Add<PhysicsComponent>();
-	pCol = entity.Add<CollisionComponent>();
-	pCol->addSphere(1.0f);
-	pCol->setRotation(btVector3(0, 0, 1));
-	pCol->setMovement(btVector3(1, 1, 0));
+	pPhysics = entity.Add<PhysicsComponent>();
+	pPhysics->addSphere(1.0f);
+	pPhysics->setRotation(btVector3(0, 0, 1));
+	pPhysics->setMovement(btVector3(1, 1, 0));
 	
 
 	// Create fade screen entity
