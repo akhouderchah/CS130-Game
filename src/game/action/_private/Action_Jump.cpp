@@ -2,6 +2,8 @@
 #include "PhysicsComponent.h"
 #include "SoundComponent.h"
 
+
+
 Action_Jump::Action_Jump(Entity entity) :
 	m_Entity(entity)
 {
@@ -17,8 +19,10 @@ bool Action_Jump::operator()()
 	SoundComponent* pSnd = m_Entity.GetAs<SoundComponent>();
 	if(pPhys)
 	{
+
 		pPhys->Impulse();
 		pSnd->PlaySound("wingsFlap");
+
 	}
 	return false;
 }
