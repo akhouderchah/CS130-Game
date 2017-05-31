@@ -9,6 +9,15 @@ add_definitions(
 	-DGLEW_STATIC
 	-D_CRT_SECURE_NO_WARNINGS
 	)
+	
+#bullet physics
+set(BULLET_VERSION 2.87)
+
+include_directories(bullet/src)
+add_subdirectory(bullet/src/LinearMath)
+add_subdirectory(bullet/src/BulletCollision)
+add_subdirectory(bullet/src/BulletDynamics)
+
 
 # GLFW
 add_subdirectory(glfw)
