@@ -73,8 +73,8 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		ObserverComponent *pObserver = entity.Add<ObserverComponent>();
 		pObserver->Subscribe(*m_pInputSystem);
 		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP), new Action_Jump(entity));
-		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_LEFT), new Action_Left_Right(entity, LEFT));
-		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_RIGHT), new Action_Left_Right(entity, RIGHT));
+		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_LEFT), new Action_Left_Right(entity, left));
+		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_RIGHT), new Action_Left_Right(entity, right));
 		SoundComponent *pSound = entity.Add<SoundComponent>();
 		pSound->LoadSound("wingsFlap", SOUND_PATH + "wingSound.wav", !IS_LOOP);
 		PhysicsComponent * pPhysics = entity.Add<PhysicsComponent>();
@@ -133,10 +133,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<MaterialComponent>()->SetOpacity(0.f);
 	Action_PauseGame::SetFadeScreen(entity);
 
-	entity = EntityManager::CreateEntity();
-	ObserverComponent *pObserver = entity.Add<ObserverComponent>();
-	pObserver->Subscribe(*m_pInputSystem);
-	pObserver->AddEvent(EGameEvent(EGE_TOGGLE_HITBOX_VIEW), new Action_ToggleHitboxView());
+	m_pSystemObserver->AddEvent(EGameEvent(EGE_TOGGLE_HITBOX_VIEW), new Action_ToggleHitboxView());
 
 	m_Timer.Start();
 

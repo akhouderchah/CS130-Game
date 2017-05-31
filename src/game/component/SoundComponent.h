@@ -6,7 +6,6 @@
 
 
 class TransformComponent;
-class CollisionComponent;
 
 /**
  * @brief Component that allows an entity to play sounds

@@ -118,7 +118,7 @@ void KeyCallback(GLFWwindow* pWindow, int key, int scancode, int action, int mod
 	if (action == GLFW_RELEASE)
 	{
 
-		if (EventSystem::s_InputMapper.GetEvent(key) == 3 || EventSystem::s_InputMapper.GetEvent(key) == 4 )
+		if (EventSystem::s_InputMapper.GetEvent(key) == EGE_PLAYER1_LEFT || EventSystem::s_InputMapper.GetEvent(key) == EGE_PLAYER1_RIGHT)
 		{
 			event.event = EventSystem::s_InputMapper.GetEvent(key);
 

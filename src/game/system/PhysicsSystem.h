@@ -29,12 +29,13 @@ public:
 
 	virtual void Tick(deltaTime_t dt);
 
+
 	static btDynamicsWorld * GetWorld() { return s_pWorld; }
 
 private:
 	ConstVector<PhysicsComponent*> m_pPhysicsComponents;
 
-	static btBroadphaseInterface * s_pBroadphase;;
+	static btBroadphaseInterface * s_pBroadphase;
 	static btCollisionConfiguration * s_pCollisionConfig;
 	static btDispatcher * s_pDispatcher;
 	static btConstraintSolver * s_pSolver;
@@ -45,3 +46,5 @@ private:
 	void updateBox(bulletObject *, Entity );
 	void updateCylinder(bulletObject *, Entity );
 };
+
+

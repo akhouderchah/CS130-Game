@@ -57,7 +57,7 @@ bool PhysicsComponent::Impulse()
 
 
 
-glm::vec3 PhysicsComponent::GetVelocity()
+glm::vec3 PhysicsComponent::GetVelocity() const
 {
 	if (m_pBody != nullptr)
 	{

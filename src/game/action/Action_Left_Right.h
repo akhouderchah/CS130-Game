@@ -6,14 +6,13 @@
 
 
 /**
- * @brief Action to cause the provided entity to jump.
+ * @brief Action to cause the provided entity to move left or right depending on passed on parameter.
  *
  * Obviously relies on the entity containing a PhysicsComponent. Lacking this,
  * the Action will not do anything (@todo perhaps log the event?)
  */
 
-#define LEFT 0
-#define RIGHT 1
+enum MovementDirection {left, right};
 
 
 class Action_Left_Right : public IAction
