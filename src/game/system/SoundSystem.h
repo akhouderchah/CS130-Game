@@ -23,4 +23,3 @@ private:
 	ALCdevice *m_pDevice;
 	ConstVector<SoundComponent*> m_pSoundComponent;
 };
-

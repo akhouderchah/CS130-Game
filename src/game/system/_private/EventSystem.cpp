@@ -115,5 +115,17 @@ void KeyCallback(GLFWwindow* pWindow, int key, int scancode, int action, int mod
 		event.state = EGS_STARTED;
 		EventSystem::s_pInputSystem->Inform(event);
 	}
+	if (action == GLFW_RELEASE)
+	{
+
+		if (EventSystem::s_InputMapper.GetEvent(key) == EGE_PLAYER1_LEFT || EventSystem::s_InputMapper.GetEvent(key) == EGE_PLAYER1_RIGHT)
+		{
+			event.event = EventSystem::s_InputMapper.GetEvent(key);
+
+			// @TODO we need to store the game mode and use it to set this
+			event.state = EGS_STARTED;
+			EventSystem::s_pInputSystem->Inform(event);
+		}
+	}
 }
 
