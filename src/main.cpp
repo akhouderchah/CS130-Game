@@ -1,7 +1,6 @@
 #include "Platform.h"
 #include "EntityManager.h"
 #include "TetradGame.h"
-
 #include <iostream>
 
 

@@ -39,6 +39,13 @@ void MovableComponent::SetOrientation(const vec3& radAngles)
 	m_pTransformComp->m_Orientation = quat(radAngles);
 }
 
+void MovableComponent::SetOrientation(glm::quat& quatVec)
+{
+	DEBUG_ASSERT(m_pTransformComp);
+	m_pTransformComp->MarkDirty();
+	m_pTransformComp->m_Orientation = quatVec;
+}
+
 void MovableComponent::Rotate(float rotationRads, const vec3& rotationAxis)
 {
 	DEBUG_ASSERT(m_pTransformComp);

@@ -2,6 +2,8 @@
 
 #include "Action_PauseGame.h"
 #include "Action_Jump.h"
+#include "Action_ToggleHitboxView.h"
+#include "Action_Left_Right.h"
 #include "EventQueue.h"
 #include "ISystem.h"
 #include "InputMapper.h"

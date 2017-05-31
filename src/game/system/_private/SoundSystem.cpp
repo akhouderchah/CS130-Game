@@ -65,4 +65,3 @@ void SoundSystem::Tick(deltaTime_t)
 	float listenerOri[6] = { facingDir[0], facingDir[1], facingDir[2], upDir[0], upDir[1], upDir[2] };
 	alListenerfv(AL_ORIENTATION, listenerOri);
 }
-

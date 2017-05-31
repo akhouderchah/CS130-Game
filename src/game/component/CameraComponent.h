@@ -37,7 +37,9 @@ public:
 	const glm::mat4& GetCameraMatrix() const;
 
 	void SetCurrentCamera(CameraComponent* pCamera) { s_pCurrentCamera = pCamera; };
+
 	static CameraComponent* GetCurrentCamera() { return s_pCurrentCamera; };
+
 
 	void Refresh();
 

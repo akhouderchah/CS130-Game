@@ -38,12 +38,17 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 
 	// Create floor
 	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(0, -1.05f, 1), glm::vec3(1.5f, 0.1f, 1));
+	entity.Add<TransformComponent>()->Init(glm::vec3(0, -1.5f, 0.0f), 
+		glm::vec3(2.5f, 0.2f, 100)); //Set to 100 so we wont fall off of Z coordinate
 	entity.Add<MovableComponent>();
 	pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(FLOOR_PATH, TextureType::RGBA);
 	entity.Add<MaterialComponent>()->SetScrollRate(-0.75f);
+	PhysicsComponent * pPhysics = entity.Add<PhysicsComponent>();
+	//pPhysics->addPlane();
+	pPhysics->addBox(0, btVector3(0.0, -0.18, 0.0));
+	pPhysics->setBounciness(1.0);
 
 	// Create camera
 	entity = EntityManager::CreateEntity();
@@ -56,22 +61,68 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	pSound->PlaySound("backgroundMusic");
 
 	// Create jumping boxes
-	for(int i = 0; i < 2; ++i)
+	for(int i = 0; i < 1; ++i)
 	{
 		entity = EntityManager::CreateEntity();
-		entity.Add<TransformComponent>()->Init(glm::vec3(i-1, 0.f, 1.f),
+		entity.Add<TransformComponent>()->Init(glm::vec3(0.f, 1.f, 0.f),
 			glm::vec3(.2f, .2f, .2f));
 		entity.Add<MovableComponent>();
 		pDraw = entity.Add<DrawComponent>();
 		pDraw->SetGeometry(ShapeType::PLANE);
 		pDraw->SetTexture(TEXTURE_PATH + "bird.tga", TextureType::RGBA);
-		entity.Add<PhysicsComponent>();
 		ObserverComponent *pObserver = entity.Add<ObserverComponent>();
 		pObserver->Subscribe(*m_pInputSystem);
-		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP+i), new Action_Jump(entity));
+		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_JUMP), new Action_Jump(entity));
+		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_LEFT), new Action_Left_Right(entity, left));
+		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_RIGHT), new Action_Left_Right(entity, right));
 		SoundComponent *pSound = entity.Add<SoundComponent>();
 		pSound->LoadSound("wingsFlap", SOUND_PATH + "wingSound.wav", !IS_LOOP);
+		PhysicsComponent * pPhysics = entity.Add<PhysicsComponent>();
+		pPhysics->addBox(1);
+		pPhysics->setBounciness(0.3);
+		pPhysics->setRotation(btVector3(0, 0, 1));
+		pPhysics->setMovement(btVector3(1, 1, 0));
+		pPhysics->setGravity(btVector3(0.0, -5.0, 0.0));
 	}
+
+	
+	entity = EntityManager::CreateEntity();
+	entity.Add<TransformComponent>()->Init(glm::vec3(0.5f, 1.f, 0.f),
+		glm::vec3(.2f, .2f, .2f));
+	entity.Add<MovableComponent>();
+	pDraw = entity.Add<DrawComponent>();
+	pDraw->SetGeometry(ShapeType::PLANE);
+	pDraw->SetTexture(TEXTURE_PATH + "bird.tga", TextureType::RGBA);
+	pPhysics = entity.Add<PhysicsComponent>();
+	pPhysics->addBox(1.0f);
+	pPhysics->setRotation(btVector3(0, 0, 1));
+	pPhysics->setMovement(btVector3(1, 1, 0));
+
+
+	entity = EntityManager::CreateEntity();
+	entity.Add<TransformComponent>()->Init(glm::vec3(-1.f, 1.f, 0.f),
+		glm::vec3(.5f, .5f, .5f));
+	entity.Add<MovableComponent>();
+	pDraw = entity.Add<DrawComponent>();
+	pDraw->SetGeometry(ShapeType::PLANE);
+	pDraw->SetTexture(TEXTURE_PATH + "Black.tga", TextureType::RGBA);
+	pPhysics = entity.Add<PhysicsComponent>();
+	pPhysics->addBox(10.0f);
+	pPhysics->setRotation(btVector3(0, 0, 1));
+	pPhysics->setMovement(btVector3(1, 1, 0));
+
+	entity = EntityManager::CreateEntity();
+	entity.Add<TransformComponent>()->Init(glm::vec3(-1.f, 1.8f, 0.f),
+		glm::vec3(.2f, .2f, .2f));
+	entity.Add<MovableComponent>();
+	pDraw = entity.Add<DrawComponent>();
+	pDraw->SetGeometry(ShapeType::PLANE);
+	pDraw->SetTexture(TEXTURE_PATH + "bird.tga", TextureType::RGBA);
+	pPhysics = entity.Add<PhysicsComponent>();
+	pPhysics->addSphere(1.0f);
+	pPhysics->setRotation(btVector3(0, 0, 1));
+	pPhysics->setMovement(btVector3(1, 1, 0));
+	
 
 	// Create fade screen entity
 	entity = EntityManager::CreateEntity();
@@ -82,6 +133,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	entity.Add<MaterialComponent>()->SetOpacity(0.f);
 	Action_PauseGame::SetFadeScreen(entity);
 
+	m_pSystemObserver->AddEvent(EGameEvent(EGE_TOGGLE_HITBOX_VIEW), new Action_ToggleHitboxView());
 
 	m_Timer.Start();
 
