@@ -7,14 +7,13 @@
 
 struct bulletObject
 {
-	bool inPhysicsWorld;
 	bool hit;
 	btRigidBody *body;
 	btVector3 rotationFlags;
 	btVector3 movementFlags;
 	btVector3 gravity;
-	bulletObject(btRigidBody *b, btVector3 &rot, btVector3 &mov) :
-		inPhysicsWorld(false), body(b), hit(false), rotationFlags(rot), movementFlags(mov), gravity(btVector3(0.0, -10.0, 0.0)) {}
+	bulletObject(btRigidBody *b, const btVector3 &rot, const btVector3 &mov, const btVector3 &grav) :
+		body(b), hit(false), rotationFlags(rot), movementFlags(mov), gravity(grav) {}
 };
 
 class MovableComponent;
