@@ -155,7 +155,7 @@ void PhysicsComponent::addBox(float mass, const btVector3 &additionToDimensions)
 void PhysicsComponent::addSphere(float mass, float additionToRadius)
 {
 	float f[3] = { m_pTransform->GetScale()[0], m_pTransform->GetScale()[1], m_pTransform->GetScale()[2] };
-	float radius = std::max(std::max(f[1], f[2]), f[3]) + additionToRadius;
+	float radius = std::max(std::max(f[0], f[1]), f[2]) + additionToRadius;
 	float X = m_pTransform->GetPosition()[0];
 	float Y = m_pTransform->GetPosition()[1];
 	float Z = m_pTransform->GetPosition()[2];
