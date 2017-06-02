@@ -76,7 +76,7 @@ public:
 	*
 	* Interface: btVector &rotFlags(No default value)
 	*/
-	void setRotation(btVector3 &rotFlags) { m_pBody->rotationFlags = rotFlags; }
+	void setRotation(const btVector3 &rotFlags) { m_pBody->rotationFlags = rotFlags; }
 
 	/**
 	* @brief Allows or restricts movement on a given axis.
@@ -85,7 +85,7 @@ public:
 	*
 	* Interface: btVector &movFlags(No default value)
 	*/
-	void setMovement(btVector3 &movFlags) { m_pBody->movementFlags = movFlags; }
+	void setMovement(const btVector3 &movFlags) { m_pBody->movementFlags = movFlags; }
 
 	/**
 	*
@@ -93,7 +93,7 @@ public:
 	*
 	* Interface: btVector3 &g(No default value)
 	*/
-	void setGravity(btVector3 &g) { m_pBody->gravity = g; }
+	void setGravity(const btVector3 &g) { m_pBody->gravity = g; }
 
 	/**
 	* @brief Allows to set the bounce property of the given object. By default, bounciness is set to  1 for plane and to 0 for everything else
