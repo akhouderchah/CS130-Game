@@ -30,16 +30,16 @@ public:
 	virtual void Tick(deltaTime_t dt);
 
 
-	btDynamicsWorld * GetWorld() { return m_pWorld; }
+	static btDynamicsWorld * GetWorld() { return m_pWorld; }
 
 private:
 	ConstVector<PhysicsComponent*> m_pPhysicsComponents;
 
-	btBroadphaseInterface * m_pBroadphase;
-	btCollisionConfiguration * m_pCollisionConfig;
-	btDispatcher * m_pDispatcher;
-	btConstraintSolver * m_pSolver;
-	btDynamicsWorld * m_pWorld;
+	static btBroadphaseInterface * m_pBroadphase;
+	static btCollisionConfiguration * m_pCollisionConfig;
+	static btDispatcher * m_pDispatcher;
+	static btConstraintSolver * m_pSolver;
+	static btDynamicsWorld * m_pWorld;
 
 	static bool s_IsWorldInitialized;
 

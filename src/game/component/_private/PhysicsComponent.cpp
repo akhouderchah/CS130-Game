@@ -89,7 +89,7 @@ void PhysicsComponent::addPlane()
 
 	body->setRestitution(1);
 
-	m_pBody = new bulletObject(body, btVector3(0, 0, 0), btVector3(0, 0, 0));
+	m_pBody = new bulletObject(body, btVector3(0, 0, 0), btVector3(0, 0, 0), btVector3(0.0, -10.0, 0.0));
 
 	m_HitboxEntity = EntityManager::CreateEntity();
 	m_HitboxEntity.Add<TransformComponent>()->Init(glm::vec3(X, Y, Z),
@@ -101,6 +101,8 @@ void PhysicsComponent::addPlane()
 	pDraw->SetTexture(TEXTURE_PATH + "green.tga", TextureType::RGB);
 
 	toggleHitboxView();
+
+	PhysicsSystem::GetWorld()->addRigidBody(m_pBody->body);
 }
 
 
@@ -133,7 +135,7 @@ void PhysicsComponent::addBox(float mass, const btVector3 &additionToDimensions)
 
 	body->setRestitution(0);
 
-	m_pBody = new bulletObject(body, btVector3(1, 1, 1), btVector3(1, 1, 1));
+	m_pBody = new bulletObject(body, btVector3(0, 0, 0), btVector3(0, 0, 0), btVector3(0.0, -10.0, 0.0));
 
 	m_HitboxEntity = EntityManager::CreateEntity();
 	m_HitboxEntity.Add<TransformComponent>()->Init(glm::vec3(X, Y, Z), glm::vec3(width, height, depth));
@@ -144,6 +146,8 @@ void PhysicsComponent::addBox(float mass, const btVector3 &additionToDimensions)
 	pDraw->SetTexture(TEXTURE_PATH + "green.tga", TextureType::RGB);
 
 	toggleHitboxView();
+
+	PhysicsSystem::GetWorld()->addRigidBody(m_pBody->body);
 }
 
 
@@ -176,7 +180,7 @@ void PhysicsComponent::addSphere(float mass, float additionToRadius)
 
 	body->setRestitution(0);
 
-	m_pBody = new bulletObject(body, btVector3(1, 1, 1), btVector3(1, 1, 1));
+	m_pBody = new bulletObject(body, btVector3(0, 0, 0), btVector3(0, 0, 0), btVector3(0.0, -10.0, 0.0));
 
 	m_HitboxEntity = EntityManager::CreateEntity();
 	m_HitboxEntity.Add<TransformComponent>()->Init(glm::vec3(X, Y, Z), glm::vec3(radius, radius, radius));
@@ -187,6 +191,8 @@ void PhysicsComponent::addSphere(float mass, float additionToRadius)
 	pDraw->SetTexture(TEXTURE_PATH + "circle.tga", TextureType::RGBA);
 
 	toggleHitboxView();
+
+	PhysicsSystem::GetWorld()->addRigidBody(m_pBody->body);
 }
 
 
@@ -218,9 +224,11 @@ void PhysicsComponent::addCylinder(float mass, float additionTodiameter, float a
 
 	body->setRestitution(0);
 
-	m_pBody = new bulletObject(body, btVector3(1, 1, 1), btVector3(1, 1, 1));
+	m_pBody = new bulletObject(body, btVector3(0, 0, 0), btVector3(0, 0, 0), btVector3(0.0, -10.0, 0.0));
 
 	toggleHitboxView();
+
+	PhysicsSystem::GetWorld()->addRigidBody(m_pBody->body);
 }
 
 

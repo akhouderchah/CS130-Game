@@ -5,6 +5,12 @@
 
 bool PhysicsSystem::s_IsWorldInitialized = false;
 
+btBroadphaseInterface *PhysicsSystem::m_pBroadphase = nullptr;
+btCollisionConfiguration *PhysicsSystem::m_pCollisionConfig = nullptr;
+btDispatcher *PhysicsSystem::m_pDispatcher = nullptr;
+btConstraintSolver *PhysicsSystem::m_pSolver = nullptr;
+btDynamicsWorld *PhysicsSystem::m_pWorld = nullptr;
+
 PhysicsSystem::PhysicsSystem() :
 	m_pPhysicsComponents(EntityManager::GetAll<PhysicsComponent>())
 {
@@ -59,12 +65,6 @@ void PhysicsSystem::Tick(deltaTime_t dt)
 	for(size_t i = 1; i < m_pPhysicsComponents.size(); ++i)
 	{
 		bulletObject *bodyStructure = m_pPhysicsComponents[i]->getBodyStructure();
-
-		if (bodyStructure->inPhysicsWorld == false)
-		{
-			m_pWorld->addRigidBody(bodyStructure->body);
-			bodyStructure->inPhysicsWorld = true;
-		}
 
 		bodyStructure->hit = false;
 		bodyStructure->body->setLinearFactor(bodyStructure->movementFlags);
