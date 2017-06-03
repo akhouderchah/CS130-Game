@@ -151,9 +151,9 @@ set(ALL_LIBS
 	${OPENAL_LIBRARY}	
 	glfw
 	GLEW
-	LinearMath
-	BulletCollision
 	BulletDynamics
+	BulletCollision
+	LinearMath
 	)
 
 set(ALL_LIBS_EDITOR
