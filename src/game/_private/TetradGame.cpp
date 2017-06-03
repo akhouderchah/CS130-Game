@@ -82,7 +82,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		pPhysics->setBounciness(0.3);
 		pPhysics->setRotation(btVector3(0, 0, 1));
 		pPhysics->setMovement(btVector3(1, 1, 0));
-		pPhysics->setGravity(btVector3(0.0, -5.0, 0.0));
+		//pPhysics->setGravity(btVector3(0.0, -5.0, 0.0));
 	}
 
 	
@@ -122,6 +122,21 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	pPhysics->addSphere(1.0f);
 	pPhysics->setRotation(btVector3(0, 0, 1));
 	pPhysics->setMovement(btVector3(1, 1, 0));
+
+
+	entity = EntityManager::CreateEntity();
+	entity.Add<TransformComponent>()->Init(glm::vec3(-2.2f, -1.f, 0.f),
+		glm::vec3(.1f, 5.5f, .5f));
+	entity.Add<MovableComponent>();
+	pDraw = entity.Add<DrawComponent>();
+	pDraw->SetGeometry(ShapeType::PLANE);
+	pDraw->SetTexture(TEXTURE_PATH + "Black.tga", TextureType::RGBA);
+	pPhysics = entity.Add<PhysicsComponent>();
+	pPhysics->addBox(0.0f);
+	pPhysics->setRotation(btVector3(0, 0, 1));
+	pPhysics->setMovement(btVector3(1, 1, 0));
+
+
 	
 
 	// Create fade screen entity
