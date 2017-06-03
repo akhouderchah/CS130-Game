@@ -13,7 +13,7 @@ struct bulletObject
 	btVector3 movementFlags;
 	btVector3 gravity;
 	bulletObject(btRigidBody *b, const btVector3 &rot, const btVector3 &mov, const btVector3 &grav) :
-		body(b), hit(false), rotationFlags(rot), movementFlags(mov), gravity(grav) {}
+		hit(false), body(b), rotationFlags(rot), movementFlags(mov), gravity(grav) {}
 };
 
 class MovableComponent;
@@ -22,10 +22,9 @@ class TransformComponent;
 
 /**
 * @brief Component to give physical simulation capabilities.
-* 
+*
 * Requires addition of rigid body in order to function properly
-*/  
-
+*/
 class PhysicsComponent : public IComponent
 {
 public:
@@ -33,7 +32,7 @@ public:
 
 	void Refresh();
 
-	bool Impulse(); 
+	bool Impulse();
 	void ImpulseLeft() { m_LeftMovement = !m_LeftMovement; }
 	void ImpulseRight() { m_RightMovement = !m_RightMovement; }
 

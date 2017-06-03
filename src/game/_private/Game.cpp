@@ -71,13 +71,13 @@ bool Game::Initialize(const GameAttributes& attributes)
 
 void Game::Shutdown()
 {
-	EntityManager::Shutdown();
-
 	for(size_t i = m_pSystems.size(); i > 0;)
 	{
 		m_pSystems[--i]->Shutdown();
 		delete m_pSystems[i];
 	}
+
+	EntityManager::Shutdown();
 
 	glfwTerminate();
 }
