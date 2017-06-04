@@ -14,7 +14,7 @@ GameAttributes::GameAttributes(int32_t width, int32_t height, std::string title,
 }
 
 Game::Game() :
-	m_pWindow(nullptr)
+	m_pWindow(nullptr),m_State(EGS_STARTED)
 {
 }
 
@@ -50,7 +50,7 @@ bool Game::Initialize(const GameAttributes& attributes)
 	glfwSetKeyCallback(m_pWindow,KeyCallback);
 
 	ISystem::SetWindow(m_pWindow);
-
+	ISystem::InitState(&m_State);
 	// Initialize systems
 	EntityManager::Initialize();
 	AddSystems();
@@ -84,14 +84,20 @@ void Game::Shutdown()
 
 void Game::Run()
 {
-	deltaTime_t deltaTime;
-	while(!glfwWindowShouldClose(m_pWindow))
+	
+	deltaTime_t deltaTime;//
+	/*if (GetGameState()==EGS_PAUSED)
+	{
+		m_Timer.Pause();
+	}Pause the m_Timer clock?
+*/	while(!glfwWindowShouldClose(m_pWindow))
 	{
 		deltaTime = m_Timer.Tick();
 
 		for(size_t i = 0; i < m_pSystems.size(); ++i)
 		{
 			m_pSystems[i]->Tick(deltaTime);
+			
 		}
 	}
 }
@@ -136,4 +142,17 @@ bool Game::CreatePrimaryWindow(const GameAttributes& attributes)
 
 	return true;
 }
-
+/*
+bool Game::SetGameState(EGameState State)
+{
+	if (m_GameState!=State)
+	{
+		m_GameState=State;
+		return true;
+	}
+	return false;
+}
+EGameState Game::GetGameState()
+{
+	return m_GameState;
+}*/

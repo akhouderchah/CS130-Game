@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core\_private\Base.cpp">
+      <Filter>Core\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core\_private\ErrorSystem.cpp">
+      <Filter>Core\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core\_private\EventQueue.cpp">
+      <Filter>Core\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core\_private\LogSystem.cpp">
+      <Filter>Core\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core\_private\Package.cpp">
+      <Filter>Core\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core\_private\PackageFormat.cpp">
+      <Filter>Core\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core\_private\Platform.cpp">
+      <Filter>Core\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core\_private\Rand.cpp">
+      <Filter>Core\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core\_private\ShaderProgram.cpp">
+      <Filter>Core\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core\_private\Types.cpp">
+      <Filter>Core\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\engine\_private\ComponentManager.cpp">
+      <Filter>Engine\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\engine\_private\EntityManager.cpp">
+      <Filter>Engine\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\engine\_private\ISystem.cpp">
+      <Filter>Engine\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\engine\_private\ResourceManager.cpp">
+      <Filter>Engine\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\engine\_private\Timer.cpp">
+      <Filter>Engine\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\_private\Game.cpp">
+      <Filter>Game\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\_private\InputMapper.cpp">
+      <Filter>Game\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\_private\TetradGame.cpp">
+      <Filter>Game\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\action\_private\Action_Jump.cpp">
+      <Filter>Game\action\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\action\_private\Action_PauseGame.cpp">
+      <Filter>Game\action\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\component\_private\CameraComponent.cpp">
+      <Filter>Game\component\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\component\_private\DrawComponent.cpp">
+      <Filter>Game\component\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\component\_private\MaterialComponent.cpp">
+      <Filter>Game\component\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\component\_private\MovableComponent.cpp">
+      <Filter>Game\component\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\component\_private\ObserverComponent.cpp">
+      <Filter>Game\component\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\component\_private\PhysicsComponent.cpp">
+      <Filter>Game\component\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\component\_private\SoundComponent.cpp">
+      <Filter>Game\component\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\component\_private\TransformComponent.cpp">
+      <Filter>Game\component\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\system\_private\DrawSystem.cpp">
+      <Filter>Game\system\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\system\_private\EventSystem.cpp">
+      <Filter>Game\system\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\system\_private\PhysicsSystem.cpp">
+      <Filter>Game\system\_private</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\system\_private\SoundSystem.cpp">
+      <Filter>Game\system\_private</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\Constants.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\Game.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\InputConstants.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\InputMapper.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\Paths.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\TetradGame.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\action\Action_Jump.h">
+      <Filter>Game\action</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\action\Action_PauseGame.h">
+      <Filter>Game\action</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\component\CameraComponent.h">
+      <Filter>Game\component</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\component\DrawComponent.h">
+      <Filter>Game\component</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\component\MaterialComponent.h">
+      <Filter>Game\component</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\component\MovableComponent.h">
+      <Filter>Game\component</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\component\ObserverComponent.h">
+      <Filter>Game\component</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\component\PhysicsComponent.h">
+      <Filter>Game\component</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\component\SoundComponent.h">
+      <Filter>Game\component</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\component\TransformComponent.h">
+      <Filter>Game\component</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\system\DrawSystem.h">
+      <Filter>Game\system</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\system\EventSystem.h">
+      <Filter>Game\system</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\system\PhysicsSystem.h">
+      <Filter>Game\system</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\game\system\SoundSystem.h">
+      <Filter>Game\system</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\engine\ComponentManager.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\engine\EntityManager.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\engine\IAction.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\engine\IComponent.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\engine\IComponentManager.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\engine\ISystem.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\engine\ResourceManager.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\engine\Timer.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\engine\_inc\ObjList.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core\Base.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core\ConstVector.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core\ErrorSystem.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core\EventQueue.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core\LogSystem.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core\Package.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core\PackageFormat.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core\Platform.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core\Rand.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core\ShaderProgram.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\core\Types.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Game\system\_private">
+      <UniqueIdentifier>{41B65849-1541-3FD6-B279-6FFB3AA13736}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\_private">
+      <UniqueIdentifier>{9489A956-5094-3C7E-B592-776B5C5D134C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\action\_private">
+      <UniqueIdentifier>{10653F5F-E261-3473-B20A-EFD93B0D36A4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\_private">
+      <UniqueIdentifier>{4C9BEB15-0C9A-3720-83EA-6EB635603612}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\component\_private">
+      <UniqueIdentifier>{2FD8F380-BF70-3D9E-8638-9A0BAC5E7D04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{310C5BE5-50C5-3825-8E6F-0BC02C4F3D38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{B589EB9F-535F-3B31-AABE-C7FB76FA2284}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{D7D31CE6-C162-311D-89A8-F63C4C9B408E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{DB9C4AEC-36E4-3F80-A6B5-C2601775F75C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\_private">
+      <UniqueIdentifier>{B8181AEB-5B90-3D67-AA33-D7593388A722}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\action">
+      <UniqueIdentifier>{2228C371-878C-31C3-A55B-0FA01AD5A9EE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\component">
+      <UniqueIdentifier>{60D378CA-C8FD-30EE-8F2B-E4884A307962}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\system">
+      <UniqueIdentifier>{60F474CC-874B-3686-AC57-698B34B36589}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

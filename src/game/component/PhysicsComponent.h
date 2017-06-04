@@ -2,7 +2,7 @@
 
 #include "Base.h"
 #include "IComponent.h"
-
+#include "InputConstants.h"
 class MovableComponent;
 
 /**
@@ -17,7 +17,7 @@ public:
 
 	void Refresh();
 
-	void Tick(deltaTime_t dt);
+	void Tick(deltaTime_t dt,EGameState State);
 	bool Impulse();  // Returns true only if the impulse was successful
 
 	void SetVelocity(glm::vec3 velocity){ m_Velocity = velocity; }

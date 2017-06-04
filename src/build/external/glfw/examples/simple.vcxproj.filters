@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\glfw\examples\simple.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\glfw\deps\glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\glfw\deps\glad\glad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\glfw\examples\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\glfw\examples\glfw.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{310C5BE5-50C5-3825-8E6F-0BC02C4F3D38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{EC280852-C5C6-3670-8007-C77B72C89E33}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

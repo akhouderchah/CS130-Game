@@ -63,10 +63,10 @@ public:
 	 * the object (but can be implemented more efficiently if needed).
 	 */
 	virtual void Reset();
-
+	
 protected:
 	bool CreatePrimaryWindow(const GameAttributes& attributes);
-
+	
 	/**
 	 * @brief Overloaded by children to add all systems to m_pSystems
 	 */
@@ -76,7 +76,7 @@ protected:
 	Random m_Random;
 	Timer m_Timer;
 	GLFWwindow* m_pWindow;
-
+	EGameState m_State;
 	std::vector<ISystem*> m_pSystems;
 };
 

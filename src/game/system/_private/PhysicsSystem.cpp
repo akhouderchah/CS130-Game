@@ -18,7 +18,7 @@ void PhysicsSystem::Tick(deltaTime_t dt)
 {
 	for(size_t i = 1; i < m_pPhysicsComponents.size(); ++i)
 	{
-		m_pPhysicsComponents[i]->Tick(dt);
+		m_pPhysicsComponents[i]->Tick(dt, GetGameState());
 	}
 }
 

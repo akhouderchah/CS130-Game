@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\glew\src\glew.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\external\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{310C5BE5-50C5-3825-8E6F-0BC02C4F3D38}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,565 @@
+The system is: Windows - 10.0.14393 - AMD64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler:  
+Build flags: 
+Id flags:  
+
+The output was:
+0
+Microsoft (R) Build Engine version 12.0.21005.1
+[Microsoft .NET Framework, version 4.0.30319.42000]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 2017/5/22 10:20:45.
+Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\3.8.1\CompilerIdC\CompilerIdC.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "Debug\".
+  Creating directory "Debug\CompilerIdC.tlog\".
+InitializeBuildStatus:
+  Creating "Debug\CompilerIdC.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /nologo /W0 /WX- /Od /Oy- /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:queue CMakeCCompilerId.c
+  CMakeCCompilerId.c
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:".\CompilerIdC.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\CompilerIdC.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\CompilerIdC.lib" /MACHINE:X86 /SAFESEH Debug\CMakeCCompilerId.obj
+  CompilerIdC.vcxproj -> E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\3.8.1\CompilerIdC\.\CompilerIdC.exe
+PostBuildEvent:
+  for %%i in (cl.exe) do @echo CMAKE_C_COMPILER=%%~$PATH:i
+  :VCEnd
+  CMAKE_C_COMPILER=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\cl.exe
+FinalizeBuildStatus:
+  Deleting file "Debug\CompilerIdC.tlog\unsuccessfulbuild".
+  Touching "Debug\CompilerIdC.tlog\CompilerIdC.lastbuildstate".
+Done Building Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\3.8.1\CompilerIdC\CompilerIdC.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.56
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.vcxproj"
+
+The C compiler identification is MSVC, found in "E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/3.8.1/CompilerIdC/CompilerIdC.exe"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler:  
+Build flags: 
+Id flags:  
+
+The output was:
+0
+Microsoft (R) Build Engine version 12.0.21005.1
+[Microsoft .NET Framework, version 4.0.30319.42000]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 2017/5/22 10:20:46.
+Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\3.8.1\CompilerIdCXX\CompilerIdCXX.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "Debug\".
+  Creating directory "Debug\CompilerIdCXX.tlog\".
+InitializeBuildStatus:
+  Creating "Debug\CompilerIdCXX.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /nologo /W0 /WX- /Od /Oy- /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:queue CMakeCXXCompilerId.cpp
+  CMakeCXXCompilerId.cpp
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:".\CompilerIdCXX.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\CompilerIdCXX.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\CompilerIdCXX.lib" /MACHINE:X86 /SAFESEH Debug\CMakeCXXCompilerId.obj
+  CompilerIdCXX.vcxproj -> E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\3.8.1\CompilerIdCXX\.\CompilerIdCXX.exe
+PostBuildEvent:
+  for %%i in (cl.exe) do @echo CMAKE_CXX_COMPILER=%%~$PATH:i
+  :VCEnd
+  CMAKE_CXX_COMPILER=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\cl.exe
+FinalizeBuildStatus:
+  Deleting file "Debug\CompilerIdCXX.tlog\unsuccessfulbuild".
+  Touching "Debug\CompilerIdCXX.tlog\CompilerIdCXX.lastbuildstate".
+Done Building Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\3.8.1\CompilerIdCXX\CompilerIdCXX.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.53
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.vcxproj"
+
+The CXX compiler identification is MSVC, found in "E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/3.8.1/CompilerIdCXX/CompilerIdCXX.exe"
+
+Determining if the C compiler works passed with the following output:
+Change Dir: E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/12.0/bin/MSBuild.exe" "cmTC_dc597.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=12.0"
+Microsoft (R) Build Engine version 12.0.21005.1
+[Microsoft .NET Framework, version 4.0.30319.42000]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 2017/5/22 10:20:47.
+Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\cmTC_dc597.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_dc597.dir\Debug\".
+  Creating directory "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_dc597.dir\Debug\cmTC_dc597.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_dc597.dir\Debug\cmTC_dc597.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTC_dc597.dir\Debug\\" /Fd"cmTC_dc597.dir\Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:queue "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\testCCompiler.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 18.00.21005.1 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTC_dc597.dir\Debug\\" /Fd"cmTC_dc597.dir\Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:queue "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\testCCompiler.c"
+  testCCompiler.c
+  
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\cmTC_dc597.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp/Debug/cmTC_dc597.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp/Debug/cmTC_dc597.lib" /MACHINE:X86 /SAFESEH   /machine:X86 cmTC_dc597.dir\Debug\testCCompiler.obj
+  cmTC_dc597.vcxproj -> E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\cmTC_dc597.exe
+FinalizeBuildStatus:
+  Deleting file "cmTC_dc597.dir\Debug\cmTC_dc597.tlog\unsuccessfulbuild".
+  Touching "cmTC_dc597.dir\Debug\cmTC_dc597.tlog\cmTC_dc597.lastbuildstate".
+Done Building Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\cmTC_dc597.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.62
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/12.0/bin/MSBuild.exe" "cmTC_696bb.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=12.0"
+Microsoft (R) Build Engine version 12.0.21005.1
+[Microsoft .NET Framework, version 4.0.30319.42000]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 2017/5/22 10:20:48.
+Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\cmTC_696bb.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_696bb.dir\Debug\".
+  Creating directory "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_696bb.dir\Debug\cmTC_696bb.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_696bb.dir\Debug\cmTC_696bb.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTC_696bb.dir\Debug\\" /Fd"cmTC_696bb.dir\Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:queue "C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeCCompilerABI.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 18.00.21005.1 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTC_696bb.dir\Debug\\" /Fd"cmTC_696bb.dir\Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:queue "C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeCCompilerABI.c"
+  CMakeCCompilerABI.c
+  
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\cmTC_696bb.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp/Debug/cmTC_696bb.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp/Debug/cmTC_696bb.lib" /MACHINE:X86 /SAFESEH   /machine:X86 cmTC_696bb.dir\Debug\CMakeCCompilerABI.obj
+  cmTC_696bb.vcxproj -> E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\cmTC_696bb.exe
+FinalizeBuildStatus:
+  Deleting file "cmTC_696bb.dir\Debug\cmTC_696bb.tlog\unsuccessfulbuild".
+  Touching "cmTC_696bb.dir\Debug\cmTC_696bb.tlog\cmTC_696bb.lastbuildstate".
+Done Building Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\cmTC_696bb.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.62
+
+
+Determining if the CXX compiler works passed with the following output:
+Change Dir: E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/12.0/bin/MSBuild.exe" "cmTC_e6a1d.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=12.0"
+Microsoft (R) Build Engine version 12.0.21005.1
+[Microsoft .NET Framework, version 4.0.30319.42000]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 2017/5/22 10:20:48.
+Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\cmTC_e6a1d.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_e6a1d.dir\Debug\".
+  Creating directory "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_e6a1d.dir\Debug\cmTC_e6a1d.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_e6a1d.dir\Debug\cmTC_e6a1d.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"cmTC_e6a1d.dir\Debug\\" /Fd"cmTC_e6a1d.dir\Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:queue "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\testCXXCompiler.cxx"
+  Microsoft (R) C/C++ Optimizing Compiler Version 18.00.21005.1 for x86
+  testCXXCompiler.cxx
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"cmTC_e6a1d.dir\Debug\\" /Fd"cmTC_e6a1d.dir\Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:queue "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\testCXXCompiler.cxx"
+  
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\cmTC_e6a1d.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp/Debug/cmTC_e6a1d.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp/Debug/cmTC_e6a1d.lib" /MACHINE:X86 /SAFESEH   /machine:X86 cmTC_e6a1d.dir\Debug\testCXXCompiler.obj
+  cmTC_e6a1d.vcxproj -> E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\cmTC_e6a1d.exe
+FinalizeBuildStatus:
+  Deleting file "cmTC_e6a1d.dir\Debug\cmTC_e6a1d.tlog\unsuccessfulbuild".
+  Touching "cmTC_e6a1d.dir\Debug\cmTC_e6a1d.tlog\cmTC_e6a1d.lastbuildstate".
+Done Building Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\cmTC_e6a1d.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.81
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/12.0/bin/MSBuild.exe" "cmTC_44935.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=12.0"
+Microsoft (R) Build Engine version 12.0.21005.1
+[Microsoft .NET Framework, version 4.0.30319.42000]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 2017/5/22 10:20:49.
+Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\cmTC_44935.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_44935.dir\Debug\".
+  Creating directory "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_44935.dir\Debug\cmTC_44935.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_44935.dir\Debug\cmTC_44935.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"cmTC_44935.dir\Debug\\" /Fd"cmTC_44935.dir\Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:queue "C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeCXXCompilerABI.cpp"
+  Microsoft (R) C/C++ Optimizing Compiler Version 18.00.21005.1 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"cmTC_44935.dir\Debug\\" /Fd"cmTC_44935.dir\Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:queue "C:\Program Files\cmake-3.8.1-win64-x64\share\cmake-3.8\Modules\CMakeCXXCompilerABI.cpp"
+  CMakeCXXCompilerABI.cpp
+  
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\cmTC_44935.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp/Debug/cmTC_44935.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp/Debug/cmTC_44935.lib" /MACHINE:X86 /SAFESEH   /machine:X86 cmTC_44935.dir\Debug\CMakeCXXCompilerABI.obj
+  cmTC_44935.vcxproj -> E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\cmTC_44935.exe
+FinalizeBuildStatus:
+  Deleting file "cmTC_44935.dir\Debug\cmTC_44935.tlog\unsuccessfulbuild".
+  Touching "cmTC_44935.dir\Debug\cmTC_44935.tlog\cmTC_44935.lastbuildstate".
+Done Building Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\cmTC_44935.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.62
+
+
+
+
+Detecting CXX [] compiler features compiled with the following output:
+Change Dir: E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/12.0/bin/MSBuild.exe" "cmTC_3355d.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=12.0"
+Microsoft (R) Build Engine version 12.0.21005.1
+[Microsoft .NET Framework, version 4.0.30319.42000]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 2017/5/22 10:20:50.
+Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\cmTC_3355d.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_3355d.dir\Debug\".
+  Creating directory "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_3355d.dir\Debug\cmTC_3355d.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_3355d.dir\Debug\cmTC_3355d.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"cmTC_3355d.dir\Debug\\" /Fd"cmTC_3355d.dir\Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:queue "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\feature_tests.cxx"
+  Microsoft (R) C/C++ Optimizing Compiler Version 18.00.21005.1 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"cmTC_3355d.dir\Debug\\" /Fd"cmTC_3355d.dir\Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:queue "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\feature_tests.cxx"
+  
+  feature_tests.cxx
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\cmTC_3355d.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp/Debug/cmTC_3355d.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp/Debug/cmTC_3355d.lib" /MACHINE:X86 /SAFESEH   /machine:X86 cmTC_3355d.dir\Debug\feature_tests.obj
+  cmTC_3355d.vcxproj -> E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\cmTC_3355d.exe
+FinalizeBuildStatus:
+  Deleting file "cmTC_3355d.dir\Debug\cmTC_3355d.tlog\unsuccessfulbuild".
+  Touching "cmTC_3355d.dir\Debug\cmTC_3355d.tlog\cmTC_3355d.lastbuildstate".
+Done Building Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\cmTC_3355d.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.62
+
+
+    Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:0cxx_alignas
+    Feature record: CXX_FEATURE:0cxx_alignof
+    Feature record: CXX_FEATURE:0cxx_attributes
+    Feature record: CXX_FEATURE:0cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:0cxx_binary_literals
+    Feature record: CXX_FEATURE:0cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:0cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:0cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:0cxx_deleted_functions
+    Feature record: CXX_FEATURE:0cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:0cxx_func_identifier
+    Feature record: CXX_FEATURE:0cxx_generalized_initializers
+    Feature record: CXX_FEATURE:0cxx_generic_lambdas
+    Feature record: CXX_FEATURE:0cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:0cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:0cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:0cxx_noexcept
+    Feature record: CXX_FEATURE:0cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:0cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:0cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:0cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:0cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:0cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:0cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:0cxx_user_literals
+    Feature record: CXX_FEATURE:0cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+Determining if the include file sys/types.h exists passed with the following output:
+Change Dir: E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/12.0/bin/MSBuild.exe" "cmTC_35bcc.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=12.0"
+Microsoft (R) Build Engine version 12.0.21005.1
+[Microsoft .NET Framework, version 4.0.30319.42000]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 2017/5/22 10:20:51.
+Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\cmTC_35bcc.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_35bcc.dir\Debug\".
+  Creating directory "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_35bcc.dir\Debug\cmTC_35bcc.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_35bcc.dir\Debug\cmTC_35bcc.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTC_35bcc.dir\Debug\\" /Fd"cmTC_35bcc.dir\Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:queue "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 18.00.21005.1 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTC_35bcc.dir\Debug\\" /Fd"cmTC_35bcc.dir\Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:queue "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+  CheckIncludeFile.c
+  
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\cmTC_35bcc.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp/Debug/cmTC_35bcc.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp/Debug/cmTC_35bcc.lib" /MACHINE:X86 /SAFESEH   /machine:X86 cmTC_35bcc.dir\Debug\CheckIncludeFile.obj
+  cmTC_35bcc.vcxproj -> E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\cmTC_35bcc.exe
+FinalizeBuildStatus:
+  Deleting file "cmTC_35bcc.dir\Debug\cmTC_35bcc.tlog\unsuccessfulbuild".
+  Touching "cmTC_35bcc.dir\Debug\cmTC_35bcc.tlog\cmTC_35bcc.lastbuildstate".
+Done Building Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\cmTC_35bcc.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.62
+
+
+Determining if the include file stdint.h exists passed with the following output:
+Change Dir: E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/12.0/bin/MSBuild.exe" "cmTC_9bb94.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=12.0"
+Microsoft (R) Build Engine version 12.0.21005.1
+[Microsoft .NET Framework, version 4.0.30319.42000]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 2017/5/22 10:20:52.
+Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\cmTC_9bb94.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_9bb94.dir\Debug\".
+  Creating directory "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_9bb94.dir\Debug\cmTC_9bb94.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_9bb94.dir\Debug\cmTC_9bb94.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTC_9bb94.dir\Debug\\" /Fd"cmTC_9bb94.dir\Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:queue "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 18.00.21005.1 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTC_9bb94.dir\Debug\\" /Fd"cmTC_9bb94.dir\Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:queue "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+  CheckIncludeFile.c
+  
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\cmTC_9bb94.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp/Debug/cmTC_9bb94.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp/Debug/cmTC_9bb94.lib" /MACHINE:X86 /SAFESEH   /machine:X86 cmTC_9bb94.dir\Debug\CheckIncludeFile.obj
+  cmTC_9bb94.vcxproj -> E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\cmTC_9bb94.exe
+FinalizeBuildStatus:
+  Deleting file "cmTC_9bb94.dir\Debug\cmTC_9bb94.tlog\unsuccessfulbuild".
+  Touching "cmTC_9bb94.dir\Debug\cmTC_9bb94.tlog\cmTC_9bb94.lastbuildstate".
+Done Building Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\cmTC_9bb94.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.64
+
+
+Determining if the include file stddef.h exists passed with the following output:
+Change Dir: E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/12.0/bin/MSBuild.exe" "cmTC_ce54e.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=12.0"
+Microsoft (R) Build Engine version 12.0.21005.1
+[Microsoft .NET Framework, version 4.0.30319.42000]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 2017/5/22 10:20:53.
+Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\cmTC_ce54e.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_ce54e.dir\Debug\".
+  Creating directory "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_ce54e.dir\Debug\cmTC_ce54e.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_ce54e.dir\Debug\cmTC_ce54e.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTC_ce54e.dir\Debug\\" /Fd"cmTC_ce54e.dir\Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:queue "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 18.00.21005.1 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTC_ce54e.dir\Debug\\" /Fd"cmTC_ce54e.dir\Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:queue "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+  CheckIncludeFile.c
+  
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\cmTC_ce54e.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp/Debug/cmTC_ce54e.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp/Debug/cmTC_ce54e.lib" /MACHINE:X86 /SAFESEH   /machine:X86 cmTC_ce54e.dir\Debug\CheckIncludeFile.obj
+  cmTC_ce54e.vcxproj -> E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\cmTC_ce54e.exe
+FinalizeBuildStatus:
+  Deleting file "cmTC_ce54e.dir\Debug\cmTC_ce54e.tlog\unsuccessfulbuild".
+  Touching "cmTC_ce54e.dir\Debug\cmTC_ce54e.tlog\cmTC_ce54e.lastbuildstate".
+Done Building Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\cmTC_ce54e.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.62
+
+
+Determining size of unsigned short passed with the following output:
+Change Dir: E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/12.0/bin/MSBuild.exe" "cmTC_31a3c.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=12.0"
+Microsoft (R) Build Engine version 12.0.21005.1
+[Microsoft .NET Framework, version 4.0.30319.42000]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 2017/5/22 10:20:54.
+Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\cmTC_31a3c.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_31a3c.dir\Debug\".
+  Creating directory "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_31a3c.dir\Debug\cmTC_31a3c.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_31a3c.dir\Debug\cmTC_31a3c.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTC_31a3c.dir\Debug\\" /Fd"cmTC_31a3c.dir\Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:queue "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CheckTypeSize\CMAKE_SIZEOF_UNSIGNED_SHORT.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 18.00.21005.1 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTC_31a3c.dir\Debug\\" /Fd"cmTC_31a3c.dir\Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:queue "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CheckTypeSize\CMAKE_SIZEOF_UNSIGNED_SHORT.c"
+  CMAKE_SIZEOF_UNSIGNED_SHORT.c
+  
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\cmTC_31a3c.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp/Debug/cmTC_31a3c.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp/Debug/cmTC_31a3c.lib" /MACHINE:X86 /SAFESEH   /machine:X86 cmTC_31a3c.dir\Debug\CMAKE_SIZEOF_UNSIGNED_SHORT.obj
+  cmTC_31a3c.vcxproj -> E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\cmTC_31a3c.exe
+FinalizeBuildStatus:
+  Deleting file "cmTC_31a3c.dir\Debug\cmTC_31a3c.tlog\unsuccessfulbuild".
+  Touching "cmTC_31a3c.dir\Debug\cmTC_31a3c.tlog\cmTC_31a3c.lastbuildstate".
+Done Building Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\cmTC_31a3c.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.62
+
+
+Determining if the system is big endian passed with the following output:
+Change Dir: E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/12.0/bin/MSBuild.exe" "cmTC_736a8.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=12.0"
+Microsoft (R) Build Engine version 12.0.21005.1
+[Microsoft .NET Framework, version 4.0.30319.42000]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 2017/5/22 10:20:54.
+Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\cmTC_736a8.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_736a8.dir\Debug\".
+  Creating directory "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_736a8.dir\Debug\cmTC_736a8.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_736a8.dir\Debug\cmTC_736a8.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTC_736a8.dir\Debug\\" /Fd"cmTC_736a8.dir\Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:queue "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\TestEndianess.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 18.00.21005.1 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"cmTC_736a8.dir\Debug\\" /Fd"cmTC_736a8.dir\Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:queue "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\TestEndianess.c"
+  TestEndianess.c
+  
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\cmTC_736a8.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp/Debug/cmTC_736a8.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/Study@UCLA/2017/Spring/CS130/CS130-Game/src/build/CMakeFiles/CMakeTmp/Debug/cmTC_736a8.lib" /MACHINE:X86 /SAFESEH   /machine:X86 cmTC_736a8.dir\Debug\TestEndianess.obj
+  cmTC_736a8.vcxproj -> E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\Debug\cmTC_736a8.exe
+FinalizeBuildStatus:
+  Deleting file "cmTC_736a8.dir\Debug\cmTC_736a8.tlog\unsuccessfulbuild".
+  Touching "cmTC_736a8.dir\Debug\cmTC_736a8.tlog\cmTC_736a8.lastbuildstate".
+Done Building Project "E:\Study@UCLA\2017\Spring\CS130\CS130-Game\src\build\CMakeFiles\CMakeTmp\cmTC_736a8.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.81
+
+TestEndianess.c:
+/* A 16 bit integer is required. */
+typedef unsigned short cmakeint16;
+
+/* On a little endian machine, these 16bit ints will give "THIS IS LITTLE ENDIAN."
+   On a big endian machine the characters will be exchanged pairwise. */
+const cmakeint16 info_little[] =  {0x4854, 0x5349, 0x4920, 0x2053, 0x494c, 0x5454, 0x454c, 0x4520, 0x444e, 0x4149, 0x2e4e, 0x0000};
+
+/* on a big endian machine, these 16bit ints will give "THIS IS BIG ENDIAN."
+   On a little endian machine the characters will be exchanged pairwise. */
+const cmakeint16 info_big[] =     {0x5448, 0x4953, 0x2049, 0x5320, 0x4249, 0x4720, 0x454e, 0x4449, 0x414e, 0x2e2e, 0x0000};
+
+#ifdef __CLASSIC_C__
+int main(argc, argv) int argc; char *argv[];
+#else
+int main(int argc, char *argv[])
+#endif
+{
+  int require = 0;
+  require += info_little[argc];
+  require += info_big[argc];
+  (void)argv;
+  return require;
+}
+
+

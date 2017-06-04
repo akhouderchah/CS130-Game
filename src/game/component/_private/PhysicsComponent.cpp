@@ -18,15 +18,18 @@ void PhysicsComponent::Refresh()
 	m_pMover = EntityManager::GetComponent<MovableComponent>(m_Entity);
 }
 
-void PhysicsComponent::Tick(deltaTime_t dt)
+void PhysicsComponent::Tick(deltaTime_t dt,EGameState State)
 {
-	m_ImpulseWait -= dt;
-
-	if(m_Velocity[1] >= -s_TerminalSpeed)
+	if (State == EGS_STARTED)
 	{
-		m_Velocity[1] += m_IsGravityOn * s_Gravity * dt;
+		m_ImpulseWait -= dt;
+
+		if (m_Velocity[1] >= -s_TerminalSpeed)
+		{
+			m_Velocity[1] += m_IsGravityOn * s_Gravity * dt;
+		}
+		m_pMover->Move(m_Velocity * dt);
 	}
-	m_pMover->Move(m_Velocity * dt);
 }
 
 bool PhysicsComponent::Impulse()

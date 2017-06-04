@@ -75,9 +75,13 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 
 	// Create fade screen entity
 	entity = EntityManager::CreateEntity();
+	entity.Add<TransformComponent>()->Init(glm::vec3(0,0.f,1.f),glm::vec3(.2f,.2f,.2f));
+	entity.Add<MovableComponent>();
+	
 	entity.Add<TransformComponent>()->Init(glm::vec3(0, 0, 1));
 	pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
+		
 	pDraw->SetTexture(PAUSE_BACKGROUND_PATH, TextureType::RGBA);
 	entity.Add<MaterialComponent>()->SetOpacity(0.f);
 	Action_PauseGame::SetFadeScreen(entity);
