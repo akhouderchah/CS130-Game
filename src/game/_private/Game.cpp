@@ -85,13 +85,23 @@ void Game::Shutdown()
 void Game::Run()
 {
 	deltaTime_t deltaTime;
+
+	double previousTime = glfwGetTime();
+
 	while(!glfwWindowShouldClose(m_pWindow))
 	{
 		deltaTime = m_Timer.Tick();
 
+		previousTime = glfwGetTime();
+
 		for(size_t i = 0; i < m_pSystems.size(); ++i)
 		{
 			m_pSystems[i]->Tick(deltaTime);
+		}
+
+		while (glfwGetTime() - previousTime < (1.f / 120.f))
+		{
+			;;
 		}
 	}
 }

@@ -82,7 +82,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		SoundComponent *pSound = entity.Add<SoundComponent>();
 		pSound->LoadSound("wingsFlap", SOUND_PATH + "wingSound.wav", !IS_LOOP);
 		PhysicsComponent * pPhysics = entity.Add<PhysicsComponent>();
-		pPhysics->addBox(1);
+		pPhysics->addBox(1.f);
 		pPhysics->setBounciness(0.3);
 		pPhysics->setRotation(btVector3(0, 0, 1));
 		pPhysics->setMovement(btVector3(1, 1, 0));
@@ -103,7 +103,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		pPhysics->addBox(1.0f);
 		pPhysics->setRotation(btVector3(0, 0, 1));
 		pPhysics->setMovement(btVector3(1, 1, 0));
-
+		pPhysics->setGravity(btVector3(0.f, -5.f, 0.f));
 
 		entity = EntityManager::CreateEntity();
 		entity.Add<TransformComponent>()->Init(glm::vec3(1.3f, -2.2f + i*0.5, 0.f),
@@ -116,6 +116,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		pPhysics->addBox(1.0f);
 		pPhysics->setRotation(btVector3(0, 0, 1));
 		pPhysics->setMovement(btVector3(1, 1, 0));
+		pPhysics->setGravity(btVector3(0.f, -5.f, 0.f));
 
 		entity = EntityManager::CreateEntity();
 		entity.Add<TransformComponent>()->Init(glm::vec3(1.6f, -2.2f + i*0.5, 0.f),
@@ -128,7 +129,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		pPhysics->addBox(1.0f);
 		pPhysics->setRotation(btVector3(0, 0, 1));
 		pPhysics->setMovement(btVector3(1, 1, 0));
-
+		pPhysics->setGravity(btVector3(0.f, -5.f, 0.f));
 
 		entity = EntityManager::CreateEntity();
 		entity.Add<TransformComponent>()->Init(glm::vec3(1.1f, -1.95f + i*0.5, 0.f),
@@ -141,7 +142,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		pPhysics->addBox(1.0f);
 		pPhysics->setRotation(btVector3(0, 0, 1));
 		pPhysics->setMovement(btVector3(1, 1, 0));
-
+		pPhysics->setGravity(btVector3(0.f, -5.f, 0.f));
 
 		entity = EntityManager::CreateEntity();
 		entity.Add<TransformComponent>()->Init(glm::vec3(1.5f, -1.95f + i*0.5, 0.f),
@@ -154,6 +155,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		pPhysics->addBox(1.0f);
 		pPhysics->setRotation(btVector3(0, 0, 1));
 		pPhysics->setMovement(btVector3(1, 1, 0));
+		pPhysics->setGravity(btVector3(0.f, -5.f, 0.f));
 	}
 
 	//Box
@@ -165,7 +167,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(TEXTURE_PATH + "box.tga", TextureType::RGBA);
 	PhysicsComponent *pPhysics = entity.Add<PhysicsComponent>();
-	pPhysics->addBox(10.0f);
+	pPhysics->addBox(5.0f);
 	pPhysics->setRotation(btVector3(0, 0, 1));
 	pPhysics->setMovement(btVector3(1, 1, 0));
 
