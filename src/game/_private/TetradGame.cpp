@@ -15,7 +15,7 @@ TetradGame::TetradGame() :
 bool TetradGame::Initialize(const GameAttributes& attributes)
 {
 	// Game class contains important initializing functionality
-	if(!Game::Initialize(attributes))
+	if (!Game::Initialize(attributes))
 	{
 		ERROR("Failed to initialize engine systems!\n", EEB_CONTINUE);
 		return false;
@@ -29,30 +29,34 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	// Only leaving the code like this in case we want to do something different
 	// after the midterm demo
 	Entity entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(0, 0, 1), glm::vec3(1.5f, 1.15f, 1));
+	entity.Add<TransformComponent>()->Init(glm::vec3(0, 0, 1), glm::vec3(3.f, 2.3f, 1));
 	entity.Add<MovableComponent>();
 	DrawComponent *pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(BACKGROUND_PATH, TextureType::RGB);
 	entity.Add<MaterialComponent>()->SetScrollRate(-0.2f);
 
-	// Create floor
-	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(0, -1.5f, 0.0f), 
-		glm::vec3(2.5f, 0.2f, 100)); //Set to 100 so we wont fall off of Z coordinate
-	entity.Add<MovableComponent>();
-	pDraw = entity.Add<DrawComponent>();
-	pDraw->SetGeometry(ShapeType::PLANE);
-	pDraw->SetTexture(FLOOR_PATH, TextureType::RGBA);
-	entity.Add<MaterialComponent>()->SetScrollRate(-0.75f);
-	PhysicsComponent * pPhysics = entity.Add<PhysicsComponent>();
-	//pPhysics->addPlane();
-	pPhysics->addBox(0, btVector3(0.0, -0.18, 0.0));
-	pPhysics->setBounciness(1.0);
+	for (int i = 0; i < 20; i++)
+	{
+		// Create floor
+		entity = EntityManager::CreateEntity();
+		entity.Add<TransformComponent>()->Init(glm::vec3(-3.5 + 0.4*i, -2.6f, 0.0f),
+			glm::vec3(0.2f, 0.2f, 100)); //Set to 100 so we wont fall off of Z coordinate
+		entity.Add<MovableComponent>();
+		pDraw = entity.Add<DrawComponent>();
+		pDraw->SetGeometry(ShapeType::PLANE);
+		pDraw->SetTexture(TEXTURE_PATH + "platform_ground.tga", TextureType::RGBA);
+		//entity.Add<MaterialComponent>()->SetScrollRate(-0.75f);
+		PhysicsComponent * pPhysics = entity.Add<PhysicsComponent>();
+		//pPhysics->addPlane();
+		pPhysics->addBox(0);
+		pPhysics->setBounciness(1.0);
+	}
+
 
 	// Create camera
 	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(0, 0, 3));
+	entity.Add<TransformComponent>()->Init(glm::vec3(0, 0, 5));
 	entity.Add<MovableComponent>();
 	CameraComponent *pCamera = entity.Add<CameraComponent>();
 	pCamera->SetCurrentCamera(pCamera);
@@ -61,11 +65,11 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	pSound->PlaySound("backgroundMusic");
 
 	// Create jumping boxes
-	for(int i = 0; i < 1; ++i)
+	for (int i = 0; i < 1; ++i)
 	{
 		entity = EntityManager::CreateEntity();
 		entity.Add<TransformComponent>()->Init(glm::vec3(0.f, 1.f, 0.f),
-			glm::vec3(.2f, .2f, .2f));
+			glm::vec3(.2f, .15f, .2f));
 		entity.Add<MovableComponent>();
 		pDraw = entity.Add<DrawComponent>();
 		pDraw->SetGeometry(ShapeType::PLANE);
@@ -82,47 +86,124 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		pPhysics->setBounciness(0.3);
 		pPhysics->setRotation(btVector3(0, 0, 1));
 		pPhysics->setMovement(btVector3(1, 1, 0));
-		pPhysics->setGravity(btVector3(0.0, -5.0, 0.0));
+		pPhysics->setGravity(btVector3(0.f, -5.f, 0.f));
 	}
 
-	
-	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(0.5f, 1.f, 0.f),
-		glm::vec3(.2f, .2f, .2f));
-	entity.Add<MovableComponent>();
-	pDraw = entity.Add<DrawComponent>();
-	pDraw->SetGeometry(ShapeType::PLANE);
-	pDraw->SetTexture(TEXTURE_PATH + "bird.tga", TextureType::RGBA);
-	pPhysics = entity.Add<PhysicsComponent>();
-	pPhysics->addBox(1.0f);
-	pPhysics->setRotation(btVector3(0, 0, 1));
-	pPhysics->setMovement(btVector3(1, 1, 0));
+	//stacked bricks
+	for (int i = 0; i < 5; i++)
+	{
+		entity = EntityManager::CreateEntity();
+		entity.Add<TransformComponent>()->Init(glm::vec3(1.f, -2.2f + i*0.5, 0.f),
+			glm::vec3(.05f, .2f, .2f));
+		entity.Add<MovableComponent>();
+		pDraw = entity.Add<DrawComponent>();
+		pDraw->SetGeometry(ShapeType::PLANE);
+		pDraw->SetTexture(TEXTURE_PATH + "brick_v.tga", TextureType::RGBA);
+		PhysicsComponent *pPhysics = entity.Add<PhysicsComponent>();
+		pPhysics->addBox(1.0f);
+		pPhysics->setRotation(btVector3(0, 0, 1));
+		pPhysics->setMovement(btVector3(1, 1, 0));
 
 
+		entity = EntityManager::CreateEntity();
+		entity.Add<TransformComponent>()->Init(glm::vec3(1.3f, -2.2f + i*0.5, 0.f),
+			glm::vec3(.05f, .2f, .2f));
+		entity.Add<MovableComponent>();
+		pDraw = entity.Add<DrawComponent>();
+		pDraw->SetGeometry(ShapeType::PLANE);
+		pDraw->SetTexture(TEXTURE_PATH + "brick_v.tga", TextureType::RGBA);
+		pPhysics = entity.Add<PhysicsComponent>();
+		pPhysics->addBox(1.0f);
+		pPhysics->setRotation(btVector3(0, 0, 1));
+		pPhysics->setMovement(btVector3(1, 1, 0));
+
+		entity = EntityManager::CreateEntity();
+		entity.Add<TransformComponent>()->Init(glm::vec3(1.6f, -2.2f + i*0.5, 0.f),
+			glm::vec3(.05f, .2f, .2f));
+		entity.Add<MovableComponent>();
+		pDraw = entity.Add<DrawComponent>();
+		pDraw->SetGeometry(ShapeType::PLANE);
+		pDraw->SetTexture(TEXTURE_PATH + "brick_v.tga", TextureType::RGBA);
+		pPhysics = entity.Add<PhysicsComponent>();
+		pPhysics->addBox(1.0f);
+		pPhysics->setRotation(btVector3(0, 0, 1));
+		pPhysics->setMovement(btVector3(1, 1, 0));
+
+
+		entity = EntityManager::CreateEntity();
+		entity.Add<TransformComponent>()->Init(glm::vec3(1.1f, -1.95f + i*0.5, 0.f),
+			glm::vec3(.2f, .05f, .2f));
+		entity.Add<MovableComponent>();
+		pDraw = entity.Add<DrawComponent>();
+		pDraw->SetGeometry(ShapeType::PLANE);
+		pDraw->SetTexture(TEXTURE_PATH + "brick_h.tga", TextureType::RGBA);
+		pPhysics = entity.Add<PhysicsComponent>();
+		pPhysics->addBox(1.0f);
+		pPhysics->setRotation(btVector3(0, 0, 1));
+		pPhysics->setMovement(btVector3(1, 1, 0));
+
+
+		entity = EntityManager::CreateEntity();
+		entity.Add<TransformComponent>()->Init(glm::vec3(1.5f, -1.95f + i*0.5, 0.f),
+			glm::vec3(.2f, .05f, .2f));
+		entity.Add<MovableComponent>();
+		pDraw = entity.Add<DrawComponent>();
+		pDraw->SetGeometry(ShapeType::PLANE);
+		pDraw->SetTexture(TEXTURE_PATH + "brick_h.tga", TextureType::RGBA);
+		pPhysics = entity.Add<PhysicsComponent>();
+		pPhysics->addBox(1.0f);
+		pPhysics->setRotation(btVector3(0, 0, 1));
+		pPhysics->setMovement(btVector3(1, 1, 0));
+	}
+
+	//Box
 	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(-1.f, 1.f, 0.f),
+	entity.Add<TransformComponent>()->Init(glm::vec3(-2.f, 1.f, 0.f),
 		glm::vec3(.5f, .5f, .5f));
 	entity.Add<MovableComponent>();
 	pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
-	pDraw->SetTexture(TEXTURE_PATH + "Black.tga", TextureType::RGBA);
-	pPhysics = entity.Add<PhysicsComponent>();
+	pDraw->SetTexture(TEXTURE_PATH + "box.tga", TextureType::RGBA);
+	PhysicsComponent *pPhysics = entity.Add<PhysicsComponent>();
 	pPhysics->addBox(10.0f);
 	pPhysics->setRotation(btVector3(0, 0, 1));
 	pPhysics->setMovement(btVector3(1, 1, 0));
 
+
+	//Rolling object
 	entity = EntityManager::CreateEntity();
-	entity.Add<TransformComponent>()->Init(glm::vec3(-1.f, 1.8f, 0.f),
+	entity.Add<TransformComponent>()->Init(glm::vec3(-2.f, 1.8f, 0.f),
 		glm::vec3(.2f, .2f, .2f));
 	entity.Add<MovableComponent>();
 	pDraw = entity.Add<DrawComponent>();
 	pDraw->SetGeometry(ShapeType::PLANE);
-	pDraw->SetTexture(TEXTURE_PATH + "bird.tga", TextureType::RGBA);
+	pDraw->SetTexture(TEXTURE_PATH + "planet.tga", TextureType::RGBA);
 	pPhysics = entity.Add<PhysicsComponent>();
 	pPhysics->addSphere(1.0f);
 	pPhysics->setRotation(btVector3(0, 0, 1));
 	pPhysics->setMovement(btVector3(1, 1, 0));
-	
+
+
+	//Left barrier(Preventing objects from going out of camera view)
+	entity = EntityManager::CreateEntity();
+	entity.Add<TransformComponent>()->Init(glm::vec3(-3.7f, -1.f, 0.f),
+		glm::vec3(.1f, 5.5f, .5f));
+	entity.Add<MovableComponent>();
+	pPhysics = entity.Add<PhysicsComponent>();
+	pPhysics->addBox(0.0f);
+	pPhysics->setRotation(btVector3(0, 0, 1));
+	pPhysics->setMovement(btVector3(1, 1, 0));
+
+	//Right barrier(Preventing objects from going out of camera view)
+	entity = EntityManager::CreateEntity();
+	entity.Add<TransformComponent>()->Init(glm::vec3(3.7f, -1.f, 0.f),
+		glm::vec3(.1f, 5.5f, .5f));
+	entity.Add<MovableComponent>();
+	pPhysics = entity.Add<PhysicsComponent>();
+	pPhysics->addBox(0.0f);
+	pPhysics->setRotation(btVector3(0, 0, 1));
+	pPhysics->setMovement(btVector3(1, 1, 0));
+
 
 	// Create fade screen entity
 	entity = EntityManager::CreateEntity();
