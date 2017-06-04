@@ -54,7 +54,6 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	}
 		
 	
-
 	// Create camera
 	entity = EntityManager::CreateEntity();
 	entity.Add<TransformComponent>()->Init(glm::vec3(0, 0, 5));
@@ -88,9 +87,8 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		pPhysics->setRotation(btVector3(0, 0, 1));
 		pPhysics->setMovement(btVector3(1, 1, 0));
 	}
-	////////////////////////////////////////////////////////////////////////////
 	
-
+	//stacked bricks
 	for (int i = 0; i < 5; i++)
 	{
 		entity = EntityManager::CreateEntity();
@@ -156,7 +154,6 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		pPhysics->setRotation(btVector3(0, 0, 1));
 		pPhysics->setMovement(btVector3(1, 1, 0));
 	}
-	////////////////////////////////////////////////////////////////////////////
 
 	//Box
 	entity = EntityManager::CreateEntity();
