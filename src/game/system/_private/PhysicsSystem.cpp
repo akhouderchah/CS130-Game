@@ -83,7 +83,7 @@ void PhysicsSystem::Tick(deltaTime_t dt)
 			bodyStructure->body->setLinearVelocity(btVector3(0.5, bodyStructure->body->getLinearVelocity().y(), bodyStructure->body->getLinearVelocity().z()));
 		}
 
-		m_pWorld->stepSimulation(dt);
+		m_pWorld->stepSimulation(1.f / 25000.f);
 
 
 		if (bodyStructure->body->getCollisionShape()->getShapeType() == STATIC_PLANE_PROXYTYPE)
@@ -121,6 +121,8 @@ void PhysicsSystem::updatePlane(bulletObject *obj)
 void PhysicsSystem::updateBox(bulletObject *obj, Entity currentPhysicsEntity)
 {
 	btRigidBody *box = obj->body;
+
+	box->setGravity(btVector3(0.0, -5.0, 0.0));
 
 	if (box->getCollisionShape()->getShapeType() == BOX_SHAPE_PROXYTYPE)
 	{
