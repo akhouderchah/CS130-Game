@@ -28,6 +28,12 @@ public:
 	void LoadSound(std::string, std::string, bool);
 	std::vector<ALuint> & getSource();
 
+	std::vector<ALuint *> &GetPlaySoundQueue() { return m_PlaySoundQueue; }
+
+	std::vector<ALuint *> &GetPauseSoundQueue() { return m_PauseSoundQueue; }
+
+	std::vector<ALuint *> &GetStopSoundQueue() { return m_StopSoundQueue; }
+
 private:
 	std::vector<SoundFileData> s_SoundFileData;
 	std::unordered_map<std::string, int> s_SourceToNameConnection;
@@ -44,5 +50,9 @@ private:
 	ALfloat m_ListenerOri[6];
 
 	TransformComponent *m_pTransformComp;
+
+	std::vector<ALuint *> m_PlaySoundQueue;
+	std::vector<ALuint *> m_PauseSoundQueue;
+	std::vector<ALuint *> m_StopSoundQueue;
 };
 
