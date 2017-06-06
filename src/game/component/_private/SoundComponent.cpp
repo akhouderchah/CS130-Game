@@ -87,7 +87,7 @@ void SoundComponent::PlaySound(std::string name)
 	}
 	else
 	{
-		alSourcePlay(m_Sources[iter->second]);
+		m_PlaySoundQueue.push_back(&m_Sources[iter->second]);
 	}
 }
 
@@ -101,7 +101,7 @@ void SoundComponent::PauseSound(std::string name)
 	}
 	else
 	{
-		alSourcePause(m_Sources[iter->second]);
+		m_PauseSoundQueue.push_back(&m_Sources[iter->second]);
 	}
 }
 
@@ -115,7 +115,7 @@ void SoundComponent::StopSound(std::string name)
 	}
 	else
 	{
-		alSourceStop(m_Sources[iter->second]);
+		m_StopSoundQueue.push_back(&m_Sources[iter->second]);
 	}
 }
 

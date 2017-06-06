@@ -2,6 +2,8 @@
 #include "glm/vec3.hpp"
 #include <glm/gtc/type_ptr.hpp>
 #include "PhysicsComponent.h"
+#include <al.h>
+#include <alc.h>
 
 SoundSystem::SoundSystem() :
 	m_pSoundComponent(EntityManager::GetAll<SoundComponent>())
@@ -35,9 +37,33 @@ void SoundSystem::Shutdown()
 
 void SoundSystem::Tick(deltaTime_t)
 {
+
 	//Updates sound location and velocity based on its TransformComponent position and PhysicsComponent speed
+	//Also plays/pauses/stops any sound from the queue that is provided by the SoundComponent
 	for (size_t i = 1; i < m_pSoundComponent.size(); ++i)
 	{
+		std::vector<ALuint *> &PlaySoundQueue = m_pSoundComponent[i]->GetPlaySoundQueue();
+		std::vector<ALuint *> &PauseSoundQueue = m_pSoundComponent[i]->GetPauseSoundQueue();
+		std::vector<ALuint *> &StopSoundQueue = m_pSoundComponent[i]->GetStopSoundQueue();
+
+		while(PlaySoundQueue.size() > 0)
+		{
+			alSourcePlay(*PlaySoundQueue.back());
+			PlaySoundQueue.pop_back();
+		}
+
+		while(PauseSoundQueue.size() > 0)
+		{
+			alSourcePause(*PauseSoundQueue.back());
+			PauseSoundQueue.pop_back();
+		}
+
+		while(StopSoundQueue.size() > 0)
+		{
+			alSourceStop(*StopSoundQueue.back());
+			StopSoundQueue.pop_back();
+		}
+
 		TransformComponent *pTransform = EntityManager::GetComponent<TransformComponent>(m_pSoundComponent[i]->GetEntity());
 		PhysicsComponent *pPhysics= EntityManager::GetComponent<PhysicsComponent>(m_pSoundComponent[i]->GetEntity());
 
