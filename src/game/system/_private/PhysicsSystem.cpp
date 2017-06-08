@@ -62,43 +62,49 @@ void PhysicsSystem::Shutdown()
 
 void PhysicsSystem::Tick(deltaTime_t dt)
 {
-	for(size_t i = 1; i < m_pPhysicsComponents.size(); ++i)
+	if (GetGameState() == EGS_STARTED)
+		
 	{
-		bulletObject *bodyStructure = m_pPhysicsComponents[i]->getBodyStructure();
-
-		bodyStructure->hit = false;
-		bodyStructure->body->setLinearFactor(bodyStructure->movementFlags);
-		bodyStructure->body->setAngularFactor(bodyStructure->rotationFlags);
-		bodyStructure->body->setGravity(bodyStructure->gravity);
-
-		if (m_pPhysicsComponents[i]->GetLeftMovement())
+		
+		for (size_t i = 1; i < m_pPhysicsComponents.size(); ++i)
 		{
-			bodyStructure->body->activate();
-			bodyStructure->body->setLinearVelocity(btVector3(-0.5, bodyStructure->body->getLinearVelocity().y(), bodyStructure->body->getLinearVelocity().z()));
-		}
+			bulletObject *bodyStructure = m_pPhysicsComponents[i]->getBodyStructure();
 
-		if (m_pPhysicsComponents[i]->GetRightMovement())
-		{
-			bodyStructure->body->activate();
-			bodyStructure->body->setLinearVelocity(btVector3(0.5, bodyStructure->body->getLinearVelocity().y(), bodyStructure->body->getLinearVelocity().z()));
-		}
+			bodyStructure->hit = false;
+			bodyStructure->body->setLinearFactor(bodyStructure->movementFlags);
+			bodyStructure->body->setAngularFactor(bodyStructure->rotationFlags);
+			bodyStructure->body->setGravity(bodyStructure->gravity);
 
-		m_pWorld->stepSimulation( dt / 10.f);
+			if (m_pPhysicsComponents[i]->GetLeftMovement())
+			{
+				bodyStructure->body->activate();
+				bodyStructure->body->setLinearVelocity(btVector3(-0.5, bodyStructure->body->getLinearVelocity().y(), bodyStructure->body->getLinearVelocity().z()));
+			}
+
+			if (m_pPhysicsComponents[i]->GetRightMovement())
+			{
+				bodyStructure->body->activate();
+				bodyStructure->body->setLinearVelocity(btVector3(0.5, bodyStructure->body->getLinearVelocity().y(), bodyStructure->body->getLinearVelocity().z()));
+			}
+
+			m_pWorld->stepSimulation(dt / 10.f);
 
 
-		if (bodyStructure->body->getCollisionShape()->getShapeType() == STATIC_PLANE_PROXYTYPE)
-		{
-			updatePlane(bodyStructure);
-		}
-		else if (bodyStructure->body->getCollisionShape()->getShapeType() == BOX_SHAPE_PROXYTYPE)
-		{
-			updateBox(bodyStructure, m_pPhysicsComponents[i]->GetEntity());
-		}
-		else if (bodyStructure->body->getCollisionShape()->getShapeType() == SPHERE_SHAPE_PROXYTYPE)
-		{
-			updateSphere(bodyStructure, m_pPhysicsComponents[i]->GetEntity());
+			if (bodyStructure->body->getCollisionShape()->getShapeType() == STATIC_PLANE_PROXYTYPE)
+			{
+				updatePlane(bodyStructure);
+			}
+			else if (bodyStructure->body->getCollisionShape()->getShapeType() == BOX_SHAPE_PROXYTYPE)
+			{
+				updateBox(bodyStructure, m_pPhysicsComponents[i]->GetEntity());
+			}
+			else if (bodyStructure->body->getCollisionShape()->getShapeType() == SPHERE_SHAPE_PROXYTYPE)
+			{
+				updateSphere(bodyStructure, m_pPhysicsComponents[i]->GetEntity());
+			}
 		}
 	}
+	
 }
 
 

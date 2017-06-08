@@ -14,7 +14,7 @@ GameAttributes::GameAttributes(int32_t width, int32_t height, std::string title,
 }
 
 Game::Game() :
-	m_pWindow(nullptr)
+	m_pWindow(nullptr), m_State(EGS_STARTED)
 {
 }
 
@@ -50,7 +50,7 @@ bool Game::Initialize(const GameAttributes& attributes)
 	glfwSetKeyCallback(m_pWindow,KeyCallback);
 
 	ISystem::SetWindow(m_pWindow);
-
+	ISystem::InitState(&m_State);
 	// Initialize systems
 	EntityManager::Initialize();
 	AddSystems();

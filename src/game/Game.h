@@ -76,7 +76,7 @@ protected:
 	Random m_Random;
 	Timer m_Timer;
 	GLFWwindow* m_pWindow;
-
+	EGameState m_State;
 	std::vector<ISystem*> m_pSystems;
 };
 
