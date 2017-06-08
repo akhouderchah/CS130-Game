@@ -81,6 +81,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 		pObserver->AddEvent(EGameEvent(EGE_PLAYER1_RIGHT), new Action_Left_Right(entity, right));
 		SoundComponent *pSound = entity.Add<SoundComponent>();
 		pSound->LoadSound("wingsFlap", SOUND_PATH + "wingSound.wav", !IS_LOOP);
+
 		PhysicsComponent * pPhysics = entity.Add<PhysicsComponent>();
 		pPhysics->addBox(1.f);
 		pPhysics->setBounciness(0.3);
@@ -214,6 +215,9 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(PAUSE_BACKGROUND_PATH, TextureType::RGBA);
 	entity.Add<MaterialComponent>()->SetOpacity(0.f);
+	pSound = entity.Add<SoundComponent>();
+	pSound->LoadSound("pause", SOUND_PATH + "/Footsteps.wav", !IS_LOOP);
+	//pSound->PlaySound("pause");
 	Action_PauseGame::SetFadeScreen(entity);
 
 	m_pSystemObserver->AddEvent(EGameEvent(EGE_TOGGLE_HITBOX_VIEW), new Action_ToggleHitboxView());

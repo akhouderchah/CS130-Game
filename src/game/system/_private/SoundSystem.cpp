@@ -37,7 +37,6 @@ void SoundSystem::Shutdown()
 
 void SoundSystem::Tick(deltaTime_t)
 {
-
 	//Updates sound location and velocity based on its TransformComponent position and PhysicsComponent speed
 	//Also plays/pauses/stops any sound from the queue that is provided by the SoundComponent
 	for (size_t i = 1; i < m_pSoundComponent.size(); ++i)
@@ -46,15 +45,15 @@ void SoundSystem::Tick(deltaTime_t)
 		std::vector<ALuint *> &PauseSoundQueue = m_pSoundComponent[i]->GetPauseSoundQueue();
 		std::vector<ALuint *> &StopSoundQueue = m_pSoundComponent[i]->GetStopSoundQueue();
 
-		while(PlaySoundQueue.size() > 0)
+		while(PlaySoundQueue.size() > 0 && GetGameState()==EGS_STARTED)
 		{
 			alSourcePlay(*PlaySoundQueue.back());
 			PlaySoundQueue.pop_back();
 		}
 
-		while(PauseSoundQueue.size() > 0)
+		while(PauseSoundQueue.size() > 0 && GetGameState()==EGS_PAUSED)
 		{
-			alSourcePause(*PauseSoundQueue.back());
+			alSourcePlay(*PauseSoundQueue.back());
 			PauseSoundQueue.pop_back();
 		}
 

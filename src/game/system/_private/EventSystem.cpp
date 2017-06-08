@@ -35,6 +35,7 @@ void EventSystem::Tick(deltaTime_t dt)
 	Event event = m_EventQueue.Consume();
 	while(event.event != EGE_END)
 	{
+		SetGameState(event.state);
 		for(size_t i = 0; i < m_pObservers.size(); ++i)
 		{
 			m_pObservers[i]->Notify(event);
@@ -109,10 +110,18 @@ void KeyCallback(GLFWwindow* pWindow, int key, int scancode, int action, int mod
 	RELEASE_ASSERT(EventSystem::s_pInputSystem);
 	if(action == GLFW_PRESS)
 	{
+		
 		event.event = EventSystem::s_InputMapper.GetEvent(key);
+		if (event.event == EGE_PAUSE)
+		{
+			event.state = EGS_PAUSED;//when press the pause key the state return to EGS_STARTED
 
+		}
+
+		else
+			event.state = EGS_STARTED;//unless press the pause key the game stays in pause state;
 		// @TODO we need to store the game mode and use it to set this
-		event.state = EGS_STARTED;
+		
 		EventSystem::s_pInputSystem->Inform(event);
 	}
 	if (action == GLFW_RELEASE)
@@ -123,7 +132,7 @@ void KeyCallback(GLFWwindow* pWindow, int key, int scancode, int action, int mod
 			event.event = EventSystem::s_InputMapper.GetEvent(key);
 
 			// @TODO we need to store the game mode and use it to set this
-			event.state = EGS_STARTED;
+			event.state = EGS_STARTED;//unless press the pause key the game stays in pause state;
 			EventSystem::s_pInputSystem->Inform(event);
 		}
 	}
