@@ -215,9 +215,9 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(PAUSE_BACKGROUND_PATH, TextureType::RGBA);
 	entity.Add<MaterialComponent>()->SetOpacity(0.f);
-	pSound = entity.Add<SoundComponent>();
-	pSound->LoadSound("pause", SOUND_PATH + "/Footsteps.wav", !IS_LOOP);
-	//pSound->PlaySound("pause");
+	//pSound = entity.Add<SoundComponent>();
+	//pSound->LoadSound("pause", SOUND_PATH + "/Footsteps.wav", !IS_LOOP);
+	
 	Action_PauseGame::SetFadeScreen(entity);
 
 	m_pSystemObserver->AddEvent(EGameEvent(EGE_TOGGLE_HITBOX_VIEW), new Action_ToggleHitboxView());

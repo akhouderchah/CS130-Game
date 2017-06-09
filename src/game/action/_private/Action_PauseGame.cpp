@@ -13,11 +13,11 @@ bool Action_PauseGame::operator()()
 	//glfwSetWindowShouldClose(m_pWindow, GL_TRUE);
 
 	MaterialComponent *fader = EntityManager::GetComponent<MaterialComponent>(s_FadeEntity);
-	SoundComponent *pSnd = s_FadeEntity.GetAs<SoundComponent>();
+	//SoundComponent *pSnd = s_FadeEntity.GetAs<SoundComponent>();
 	if(s_bFadeOut)
 	{
 		fader->FadeOut(.25f);
-		pSnd->PauseSound("pause");
+		//pSnd->PauseSound("pause");
 	}
 	else
 	{
