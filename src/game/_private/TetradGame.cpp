@@ -35,7 +35,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	pDraw->SetGeometry(ShapeType::PLANE);
 	pDraw->SetTexture(BACKGROUND_PATH, TextureType::RGB);
 	entity.Add<MaterialComponent>()->SetScrollRate(-0.2f);
-
+	
 	for (int i = 0; i < 20; i++)
 	{
 		// Create floor
@@ -63,7 +63,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	SoundComponent *pSound = entity.Add<SoundComponent>();
 	pSound->LoadSound("backgroundMusic", SOUND_PATH + "backgroundMusic.wav", IS_LOOP);
 	pSound->PlaySound("backgroundMusic");
-
+	const Entity BACKGROUNDENTITY = entity;
 	// Create jumping boxes
 	for (int i = 0; i < 1; ++i)
 	{
@@ -219,7 +219,7 @@ bool TetradGame::Initialize(const GameAttributes& attributes)
 	//pSound->LoadSound("pause", SOUND_PATH + "/Footsteps.wav", !IS_LOOP);
 	
 	Action_PauseGame::SetFadeScreen(entity);
-
+	Action_PauseGame::SetBackGround(BACKGROUNDENTITY);
 	m_pSystemObserver->AddEvent(EGameEvent(EGE_TOGGLE_HITBOX_VIEW), new Action_ToggleHitboxView());
 
 	m_Timer.Start();

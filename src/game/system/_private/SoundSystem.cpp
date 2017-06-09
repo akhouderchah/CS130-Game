@@ -53,7 +53,7 @@ void SoundSystem::Tick(deltaTime_t)
 		
 		while(PauseSoundQueue.size() > 0)
 		{
-			alSourcePlay(*PauseSoundQueue.back());
+			alSourcePause(*PauseSoundQueue.back());
 			PauseSoundQueue.pop_back();
 		}
 
