@@ -53,14 +53,14 @@ void MaterialComponent::Refresh()
 {
 }
 
-void MaterialComponent::Tick(deltaTime_t dt)
+void MaterialComponent::Tick(deltaTime_t dt, EGameState gameState)
 {
 	if(m_T != 0.f)
 	{
 	    m_T *= !(IncrementOpacity(dt/m_T));
 	}
 
-	if(m_ScrollRate != 0.f)
+	if(gameState != EGS_PAUSED && m_ScrollRate != 0.f)
 	{
 		m_Time += m_ScrollRate * dt;
 	}

@@ -174,9 +174,11 @@ void DrawSystem::Tick(deltaTime_t dt)
 	//pMove->SetOrientation(glm::vec3(4*sin(scale), 0, 0));
 
 	// Update all materials
+	EGameState gameState = GetGameState();
+
 	for(size_t i = 1; i < m_pMaterialComponents.size(); ++i)
 	{
-		m_pMaterialComponents[i]->Tick(dt);
+		m_pMaterialComponents[i]->Tick(dt, gameState);
 	}
 
 	static glm::mat4 MVP;
