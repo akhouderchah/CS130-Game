@@ -28,12 +28,22 @@ std::map<GLchar, Character> Characters;
 DrawSystem::DrawSystem() :
 	m_pDrawComponents(EntityManager::GetAll<DrawComponent>()),
 	m_pMaterialComponents(EntityManager::GetAll<MaterialComponent>()),
-	m_pCurrentCamera(nullptr)
+	m_pCurrentCamera(nullptr), isPaused(0)
 {
 }
 
 DrawSystem::~DrawSystem()
 {
+}
+
+void DrawSystem::setPause()
+{
+	isPaused = 1;
+}
+
+void DrawSystem::unPause()
+{
+	isPaused = 0;
 }
 
 bool DrawSystem::Initialize()
@@ -263,6 +273,68 @@ void DrawSystem::Tick(deltaTime_t dt)
 		glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
 
 		x += (ch.Advance >> 6) * scale;
+	}
+
+	if (isPaused == 1) {
+		text = "Pause";
+		x = 0.f, y = 0.f;
+
+		scale = 0.2f;
+
+		projection = cameraMat * glm::translate(glm::vec3(-1.5, 0, 0));
+		scalingMatrix = glm::scale(glm::vec3(0.08f, 0.08f, 0.01f));
+		projection *= scalingMatrix;
+		glUniformMatrix4fv(m_WorldLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+		for (c = text.begin(); c != text.end(); c++)
+		{
+			Character ch = Characters[*c];
+
+			GLfloat xpos = x + ch.Bearing.x * scale;
+			GLfloat ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
+
+			GLfloat w = ch.Size.x * scale;
+			GLfloat h = ch.Size.y * scale;
+
+
+
+			glUniform1f(m_AlphaLoc, 0.5f);
+			glUniform1f(m_TimeLoc, 0.f);
+
+
+			DrawComponent::Vertex vertices[] = {
+				{ glm::vec3(xpos, ypos + h, 0.f), glm::vec2(0.0, 0.0) },
+				{ glm::vec3(xpos, ypos, 0.f), glm::vec2(0.0, 1.0) },
+				{ glm::vec3(xpos + w, ypos, 0.f), glm::vec2(1.0, 1.0) },
+				{ glm::vec3(xpos + w, ypos + h, 0.f), glm::vec2(1.0, 0.0) }
+			};
+
+			unsigned int indices[] = { 2, 1, 0,
+				0, 3, 2 };
+
+
+			glBindBuffer(GL_ARRAY_BUFFER, VBO);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+			glEnableVertexAttribArray(0);
+			glEnableVertexAttribArray(1);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE,
+				sizeof(DrawComponent::Vertex), 0);
+			glVertexAttribPointer(1, 2, GL_FLOAT, GL_TRUE,
+				sizeof(DrawComponent::Vertex),
+				(const GLvoid*)sizeof(glm::vec3));
+
+
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, ch.TextureID);
+
+			glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
+
+			x += (ch.Advance >> 6) * scale;
+		}
 	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);
