@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IComponent.h"
+#include "InputConstants.h"
 
 class DrawComponent;
 
@@ -52,7 +53,7 @@ public:
 private:
 	friend class DrawSystem;
 	friend class DrawComponent;
-	void Tick(deltaTime_t dt);
+	void Tick(deltaTime_t dt, EGameState gameState);
 
 private:
 	deltaTime_t m_T;

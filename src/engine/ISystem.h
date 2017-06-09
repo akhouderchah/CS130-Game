@@ -16,14 +16,11 @@ public:
 	virtual void Shutdown() = 0;
 
 	virtual void Tick(deltaTime_t dt) = 0;
-	bool SetGameState(EGameState State) {
+	void SetGameState(EGameState State) {
 		if (State != *s_pState)
-		{
 			*s_pState = EGS_PAUSED;
-			return true;
-		}
-		*s_pState = EGS_STARTED;
-		return false;
+		else
+			*s_pState = EGS_STARTED;
 	};
 	EGameState GetGameState() { return *s_pState; };
 	/**
