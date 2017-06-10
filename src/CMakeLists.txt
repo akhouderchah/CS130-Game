@@ -137,6 +137,9 @@ include_directories(
 		${PROJECT_SOURCE_DIR}/external/glm/
 		${PROJECT_SOURCE_DIR}/external/bullet/src
 		${PROJECT_SOURCE_DIR}/external/stb/
+		${PROJECT_SOURCE_DIR}/external/FreeType/include/freetype2/freetype
+		${PROJECT_SOURCE_DIR}/external/FreeType/include
+		${PROJECT_SOURCE_DIR}/external/FreeType/include/freetype2
 		${PROJECT_SOURCE_DIR}/core
 		${PROJECT_SOURCE_DIR}/engine/_inc
 		${PROJECT_SOURCE_DIR}/engine
@@ -154,6 +157,7 @@ set(ALL_LIBS
 	BulletDynamics
 	BulletCollision
 	LinearMath
+	${CMAKE_SOURCE_DIR}/external/FreeType/lib/libfreetype.lib
 	)
 
 set(ALL_LIBS_EDITOR

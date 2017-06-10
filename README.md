@@ -7,6 +7,7 @@ A 3D engine based on the Entity System architecture. The ES itself is designed t
 1. Run CMake, specify the location of the "src" folder, and indicate that the build should be placed inside a subfolder of the "bin" directory (e.g. ~/CS130-Game/bin/debug)
 1. Run "configure", uncheck all of the GLFW_* options, and then run "generate".
 1. For Visual Studio, after opening the .sln file, one last step is to right-click on the "tetrad-game" project and select "Set as StartUp Project".
+1. Ensure that 'src/external/FreeType/bin/zlib.dll' and 'src/external/FreeType/bin/freetype-6.dll' are located wherever your PATH environment variable is pointing to.
 
 #### Building Documentation
 1. Ensure that your system has doxygen installed, and run CMake (if you have an existing CMake build, simply follow the same process as described in the "Recompiling with new files" section; no need to use the CMake gui directly after the first time)

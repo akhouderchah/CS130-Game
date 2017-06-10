@@ -32,6 +32,8 @@ public:
 	virtual void Shutdown();
 
 	virtual void Tick(deltaTime_t dt);
+	void setPause();
+	void unPause();
 
 private:
 	ConstVector<DrawComponent*> m_pDrawComponents;
@@ -42,5 +44,6 @@ private:
 	GLuint m_TextureLoc;
 	GLuint m_AlphaLoc;
 	GLuint m_TimeLoc;
+	int isPaused;
 };
 
