@@ -157,6 +157,7 @@ set(ALL_LIBS
 	BulletDynamics
 	BulletCollision
 	LinearMath
+	${CMAKE_SOURCE_DIR}/external/FreeType/lib/libfreetype.lib
 	)
 
 set(ALL_LIBS_EDITOR
